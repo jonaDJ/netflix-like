@@ -3,8 +3,12 @@ import videojs from "video.js";
 import { useEffect, useRef } from "react";
 
 const VideoPlayer = ({ src }: { src: string }) => {
-  const videoRef = useRef(null);
-
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  /**
+   * This component uses video.js for video playback.
+   * Consider updating to a newer version or exploring alternative libraries
+   * for potential improvements and bug fixes.
+   */
   useEffect(() => {
     if (videoRef.current) {
       videojs(videoRef.current, {
@@ -12,14 +16,21 @@ const VideoPlayer = ({ src }: { src: string }) => {
         autoplay: true,
         responsive: true,
         fluid: true,
+        playbackRates: [0.5, 1, 1.5, 2],
       });
     }
   }, []);
 
   return (
-    <video ref={videoRef} className="video-js w-full max-w-4xl">
-      <source src={src} type="video/mp4" />
-    </video>
+    <div className="relative w-full max-w-4xl mx-auto">
+      <video
+        ref={videoRef}
+        className="video-js vjs-big-play-centered w-full h-full rounded-lg overflow-hidden"
+      >
+        <source src={src} type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+    </div>
   );
 };
 

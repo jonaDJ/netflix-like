@@ -1,15 +1,29 @@
 import Image from "next/image";
 import Link from "next/link";
-import movies from "../movies.json";
 
-export default function Home() {
+interface MovieProps {
+  id: number;
+  slug: string;
+  title: string;
+  poster: string;
+}
+
+async function getMovies() {
+  const res = await fetch("http://localhost:5000/api/movies");
+  if (!res) throw new Error("Failed to fetch movies");
+
+  return res.json();
+}
+
+export default async function Home() {
+  const movies = await getMovies();
   return (
     <div className="p-4">
       <div className="text-3xl text-center font-bold mb-6">
         MOVIES CATEGORIES
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 p-4 gap-4">
-        {movies.map((movie) => (
+        {movies.map((movie: MovieProps, index: number) => (
           <Link
             key={movie.id}
             href={`/watch/${movie.slug}`}
@@ -20,6 +34,7 @@ export default function Home() {
               alt={movie.title}
               width={300}
               height={200}
+              priority={index < 5}
               className="w-full h-auto rounded-lg object-cover sm:h-[100px] md:h-[300px] lg:h-[150px] xl:h-[300px]"
             />
             <h3 className="text-lg font-semibold mt-2">{movie.title}</h3>
