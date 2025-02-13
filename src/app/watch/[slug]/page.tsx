@@ -3,14 +3,7 @@
 import { useParams, notFound } from "next/navigation";
 import VideoPlayer from "@/components/VideoPlayer";
 import { useEffect, useState } from "react";
-
-interface MovieProps {
-  id: number;
-  title: string;
-  slug: string;
-  poster: string;
-  videoUrl?: string;
-}
+import { MovieProps } from "@/lib/types";
 
 const WatchPage = () => {
   const { slug } = useParams();

@@ -1,46 +1,49 @@
-import Image from "next/image";
-import Link from "next/link";
+"use client";
 
-interface MovieProps {
-  id: number;
-  slug: string;
-  title: string;
-  poster: string;
-}
+import HeroSection from "@/components/HeroSection";
+import ScrollSection from "@/components/ScrollSection";
+import { MovieProps } from "@/lib/types";
+import { useEffect, useState } from "react";
 
-async function getMovies() {
-  const res = await fetch("http://localhost:5000/api/movies");
-  if (!res) throw new Error("Failed to fetch movies");
+const Home = () => {
+  const [movies, setMovies] = useState<MovieProps[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  return res.json();
-}
+  useEffect(() => {
+    const fetchMovies = async () => {
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/movies`
+        );
+        if (!res.ok) throw new Error("Failed to fetch movies");
+        const data = await res.json();
+        setMovies(data);
+      } catch (error) {
+        console.log(error);
+        setError("Error fetching movies.");
+      } finally {
+        setLoading(false);
+      }
+    };
 
-export default async function Home() {
-  const movies = await getMovies();
+    fetchMovies();
+  }, []);
+
+  if (loading) return <div className="text-center mt-10">Loading...</div>;
+  if (error)
+    return <div className="text-center mt-10 text-red-500">{error}</div>;
+
+  const featuredMovie = movies[0];
+
   return (
-    <div className="p-4">
-      <div className="text-3xl text-center font-bold mb-6">
-        MOVIES CATEGORIES
-      </div>
-      <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 p-4 gap-4">
-        {movies.map((movie: MovieProps, index: number) => (
-          <Link
-            key={movie.id}
-            href={`/watch/${movie.slug}`}
-            className="cursor-pointer"
-          >
-            <Image
-              src={movie.poster}
-              alt={movie.title}
-              width={300}
-              height={200}
-              priority={index < 5}
-              className="w-full h-auto rounded-lg object-cover sm:h-[100px] md:h-[300px] lg:h-[150px] xl:h-[300px]"
-            />
-            <h3 className="text-lg font-semibold mt-2">{movie.title}</h3>
-          </Link>
-        ))}
-      </div>
+    <div className="p-0">
+      {featuredMovie && <HeroSection movie={featuredMovie} />}
+      {movies.length > 0 && (
+        <ScrollSection movies={movies} title="Popular Movies" />
+      )}
     </div>
   );
-}
+};
+
+export default Home;

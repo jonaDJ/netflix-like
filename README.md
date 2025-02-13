@@ -1,36 +1,98 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Streaming platform(Netflix-like)
 
-## Getting Started
+## Overview
 
-First, run the development server:
+This is a Netflix-like streaming platform (currently without login/auth) built using **Next.js** on the frontend and **Express.js** on the backend. The application allows users to browse movies, view details, and stream video content—all while providing a modern, responsive UI.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Project Goals
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Responsive Design:** Build a fully responsive user interface with a Netflix-inspired look and feel.
+- **Feature-rich UI:** Implement features such as a carousel for featured movies, movie grids, hover effects, and smooth transitions.
+- **Robust Streaming:** Stream video content using a custom VideoPlayer built with Video.js.
+- **Modular Architecture:** Keep frontend and backend concerns separated for better maintainability and scalability.
+- **Extensibility:** Prepare the codebase for future expansion (search, filtering, user ratings, etc.).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Tech Stack
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Frontend:** Next.js, React, TypeScript, Tailwind CSS, Video.js
+- **Backend:** Express.js, Node.js
+- **Data Storage:** JSON file (`backend/data/movies.json`)- mainly focus on UI.
+- **Testing:** Jest, React Testing Library, Supertest (for backend testing)
 
-## Learn More
+## Project Structure
 
-To learn more about Next.js, take a look at the following resources:
+streaming-platform/
+├── backend/ # Express backend project
+│ ├── data/
+│ │ └── movies.json
+│ ├── routes/
+│ │ └── movies.js
+│ ├── server.js
+│ ├── package.json
+│ └── node_modules/
+├── public/ # Static assets for Next.js
+│ └── images/ # (Optional) organize images here
+├── src/ # Next.js frontend source code
+│ ├── app/
+│ │ ├── page.tsx # Homepage
+│ │ └── watch/
+│ │ └── [slug]/
+│ │ └── page.tsx # Movie watch page
+│ ├── components/
+│ │ └── VideoPlayer.tsx
+│ ├── styles/ # Global styles and Tailwind configs
+│ │ └── globals.css
+│ └── lib/ # Shared utilities (e.g., API helper functions)
+│ └── api.ts
+├── .env.local # Environment variables for Next.js
+├── package.json # Next.js app package.json
+└── node_modules/
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Setup Instructions
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Prerequisites
 
-## Deploy on Vercel
+- **Node.js** (version 14 or above)
+- **npm** or **yarn**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Backend Setup
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Open a terminal and navigate to the `backend/` directory:
+   ```bash
+   cd backend
+   ```
+2. Install the dependencies:
+   ```bash
+   npm install
+   ```
+3. Start the Express server:
+   ```bash
+   npm start
+   ```
+4. The API is available at: http://localhost:5000/api/movies
+
+### Frontend Setup
+
+1. From the project root, install the dependencies:
+   ```bash
+   npm install
+   ```
+2. Create a .env.local file in the root directory and add your environment variables
+   ```bash
+   NEXT_PUBLIC_API_URL=http://localhost:5000/api
+   ```
+3. Run the Next.js development server:
+   ```bash
+   npm run dev
+   ```
+4. The application will be available at: http://localhost:3000
+
+## Additional Information
+
+**Styling:** This project uses Tailwind CSS for styling. Global styles are located in src/styles/globals.css.
+**Video Streaming:** Video playback is powered by Video.js in the src/components/VideoPlayer.tsx component.
+**API:** All movie data is served from the Express backend via the /api/movies endpoints.
+
+## License
+
+This project is licensed under the MIT License.
