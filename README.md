@@ -19,35 +19,6 @@ This is a Netflix-like streaming platform (currently without login/auth) built u
 - **Data Storage:** JSON file (`backend/data/movies.json`)- mainly focus on UI.
 - **Testing:** Jest, React Testing Library, Supertest (for backend testing)
 
-## Project Structure
-
-streaming-platform/
-├── backend/ # Express backend project
-│ ├── data/
-│ │ └── movies.json
-│ ├── routes/
-│ │ └── movies.js
-│ ├── server.js
-│ ├── package.json
-│ └── node_modules/
-├── public/ # Static assets for Next.js
-│ └── images/ # (Optional) organize images here
-├── src/ # Next.js frontend source code
-│ ├── app/
-│ │ ├── page.tsx # Homepage
-│ │ └── watch/
-│ │ └── [slug]/
-│ │ └── page.tsx # Movie watch page
-│ ├── components/
-│ │ └── VideoPlayer.tsx
-│ ├── styles/ # Global styles and Tailwind configs
-│ │ └── globals.css
-│ └── lib/ # Shared utilities (e.g., API helper functions)
-│ └── api.ts
-├── .env.local # Environment variables for Next.js
-├── package.json # Next.js app package.json
-└── node_modules/
-
 ## Setup Instructions
 
 ### Prerequisites
