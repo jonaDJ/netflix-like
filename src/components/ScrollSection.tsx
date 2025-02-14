@@ -43,7 +43,7 @@ const ScrollSection: React.FC<ScrollSectionProps> = ({ movies, title }) => {
   };
 
   return (
-    <section className="p-4">
+    <section className="p-10">
       <h2 className="text-2xl font-semibold mb-4">{title}</h2>
       <div className="relative flex items-center">
         {!isAtStart && (
@@ -69,25 +69,23 @@ const ScrollSection: React.FC<ScrollSectionProps> = ({ movies, title }) => {
         )}
         <div
           ref={scrollRef}
-          className="flex space-x-4 overflow-x-auto scroll-smooth hide-scrollbar"
+          className="flex w-full gap-4 overflow-x-auto scroll-smooth hide-scrollbar px-2 sm:px-4"
         >
           {movies.map((movie) => (
             <Link key={movie.id} href={`/watch/${movie.slug}`}>
-              <div className="flex-shrink-0 w-40 md:w-48 cursor-pointer">
-                <div className="relative h-60 md:h-72">
-                  <Image
-                    src={movie.poster}
-                    alt={movie.title}
-                    fill
-                    priority
-                    sizes="(max-width: 768px) 40vw, (max-width: 1200px) 20vw, 15vw"
-                    className="rounded-lg object-cover"
-                  />
-                </div>
+              <div className="flex-shrink-0 w-[45vw] sm:w-[30vw] md:w-[20vw] lg:w-[15vw] aspect-[5/3] relative cursor-pointer">
+                <Image
+                  src={movie.poster}
+                  alt={movie.title}
+                  fill
+                  priority
+                  className="rounded-lg object-cover"
+                />
               </div>
             </Link>
           ))}
         </div>
+
         {!isAtEnd && (
           <button
             onClick={scrollRightFunc}

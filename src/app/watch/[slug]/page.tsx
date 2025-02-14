@@ -31,8 +31,8 @@ const WatchPage = () => {
   if (!movie) return notFound();
 
   return (
-    <div className="flex flex-col items-center min-h-screen">
-      <h1 className="text-3xl font-bold mt-4">{movie.title}</h1>
+    <div className="flex flex-col min-h-screen">
+      <h1 className="text-h1 m-4">{movie.title}</h1>
 
       {movie.videoUrl ? (
         <div className="w-full max-w-6xl">

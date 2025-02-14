@@ -34,7 +34,7 @@ const Home = () => {
   if (error)
     return <div className="text-center mt-10 text-red-500">{error}</div>;
 
-  const featuredMovie = movies[0];
+  const featuredMovie = movies[2];
 
   return (
     <div className="p-0">

@@ -6,12 +6,47 @@ body {
   color: white;
   background: black;
   font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.5;
 }
 
+/* Hide Scrollbar for Overflow Sections */
 .hide-scrollbar {
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* Internet Explorer 10+ */
 }
+
 .hide-scrollbar::-webkit-scrollbar {
   display: none; /* Chrome, Safari, Opera */
+}
+
+@layer utilities {
+  .text-h1 {
+    font-size: 3.5vw;
+    line-height: 4vw;
+    font-weight: bold;
+  }
+
+  .text-h2 {
+    font-size: 1.5vw;
+    line-height: 1.25vw;
+    font-weight: bold;
+  }
+
+  .text-h3 {
+    font-size: 1vw;
+    line-height: 1vw;
+    font-weight: bold;
+  }
+
+  .text-p {
+    font-size: 1.25vw;
+    line-height: 1vw;
+  }
+
+  .text-button {
+    font-size: 1.25vw;
+    line-height: 1.4vw;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
 }
