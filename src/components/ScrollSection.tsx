@@ -2,6 +2,7 @@ import { MovieProps } from "@/lib/types";
 import Image from "next/image";
 import Link from "next/link";
 import { useRef, useState, useEffect } from "react";
+import Wrapper from "./Wrapper";
 
 interface ScrollSectionProps {
   movies: MovieProps[];
@@ -43,71 +44,77 @@ const ScrollSection: React.FC<ScrollSectionProps> = ({ movies, title }) => {
   };
 
   return (
-    <section className="p-10">
-      <h2 className="text-2xl font-semibold mb-4">{title}</h2>
-      <div className="relative flex items-center">
-        {!isAtStart && (
-          <button
-            onClick={scrollLeftFunc}
-            className="absolute left-0 top-0 bottom-0 flex items-center justify-center z-10 bg-gray-800 bg-opacity-30 p-4 rounded-l-md hover:bg-opacity-50 transition-opacity duration-200"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={3.5}
-              stroke="currentColor"
-              className="w-6 h-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M15 19l-7-7 7-7"
-              />
-            </svg>
-          </button>
-        )}
-        <div
-          ref={scrollRef}
-          className="flex w-full gap-4 overflow-x-auto scroll-smooth hide-scrollbar px-2 sm:px-4"
-        >
-          {movies.map((movie) => (
-            <Link key={movie.id} href={`/watch/${movie.slug}`}>
-              <div className="flex-shrink-0 w-[45vw] sm:w-[30vw] md:w-[20vw] lg:w-[15vw] aspect-[5/3] relative cursor-pointer">
-                <Image
-                  src={movie.poster}
-                  alt={movie.title}
-                  fill
-                  priority
-                  className="rounded-lg object-cover"
-                />
-              </div>
-            </Link>
-          ))}
-        </div>
+    <section>
+      <Wrapper>
+        <h2 className="text-h2 font-semibold mb-2 md:mb-3 lg:mb-4 xl:mb:4">
+          {title}
+        </h2>
 
-        {!isAtEnd && (
-          <button
-            onClick={scrollRightFunc}
-            className="absolute right-0 top-0 bottom-0 flex items-center justify-center z-10 bg-gray-800 bg-opacity-30 p-4 rounded-r-md hover:bg-opacity-50 transition-opacity duration-200"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={3.5}
-              stroke="currentColor"
-              className="w-6 h-6"
+        <div className="relative flex items-center">
+          {!isAtStart && (
+            <button
+              onClick={scrollLeftFunc}
+              className="absolute left-0 top-0 bottom-0 flex items-center justify-center z-10 bg-gray-800 bg-opacity-30 p-4 rounded-l-md hover:bg-opacity-50 transition-opacity duration-200"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M9 5l7 7-7 7"
-              />
-            </svg>
-          </button>
-        )}
-      </div>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={3.5}
+                stroke="currentColor"
+                className="w-6 h-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+            </button>
+          )}
+          <div
+            ref={scrollRef}
+            className="flex w-full gap-4 overflow-x-auto scroll-smooth hide-scrollbar"
+          >
+            {movies.map((movie) => (
+              <Link key={movie.id} href={`/watch/${movie.slug}`}>
+                <div className="flex-shrink-0 w-[45vw] sm:w-[30vw] md:w-[20vw] lg:w-[15vw] aspect-[5/3] relative cursor-pointer">
+                  <Image
+                    src={movie.poster}
+                    alt={movie.title}
+                    fill
+                    sizes="900px"
+                    priority
+                    className="rounded-lg object-cover"
+                  />
+                </div>
+              </Link>
+            ))}
+          </div>
+
+          {!isAtEnd && (
+            <button
+              onClick={scrollRightFunc}
+              className="absolute right-0 top-0 bottom-0 flex items-center justify-center z-10 bg-gray-800 bg-opacity-30 p-4 rounded-r-md hover:bg-opacity-50 transition-opacity duration-200"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={3.5}
+                stroke="currentColor"
+                className="w-6 h-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </button>
+          )}
+        </div>
+      </Wrapper>
     </section>
   );
 };

@@ -1,5 +1,4 @@
 "use client";
-
 import HeroSection from "@/components/HeroSection";
 import ScrollSection from "@/components/ScrollSection";
 import { MovieProps } from "@/lib/types";

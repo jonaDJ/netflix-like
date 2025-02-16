@@ -1,12 +1,14 @@
 "use client";
 
-import { useParams, notFound } from "next/navigation";
+import { useParams, notFound, useRouter } from "next/navigation";
 import VideoPlayer from "@/components/VideoPlayer";
 import { useEffect, useState } from "react";
 import { MovieProps } from "@/lib/types";
+import { BackIcon } from "@/components/icons/Icons";
 
 const WatchPage = () => {
   const { slug } = useParams();
+  const router = useRouter();
   const [movie, setMovie] = useState<MovieProps | null>({
     id: 0,
     title: "",
@@ -17,9 +19,7 @@ const WatchPage = () => {
   useEffect(() => {
     const fetchMovie = async () => {
       const res = await fetch(`http://localhost:5000/api/movies/${slug}`);
-      if (!res.ok) {
-        console.log("response failed");
-      }
+      if (!res.ok) return notFound();
 
       const data = await res.json();
       setMovie(data);
@@ -31,17 +31,19 @@ const WatchPage = () => {
   if (!movie) return notFound();
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <h1 className="text-h1 m-4">{movie.title}</h1>
+    <div className="relative w-screen h-screen bg-black flex items-center justify-center">
+      <button
+        aria-label="Go back"
+        onClick={() => router.back()}
+        className="absolute top-6 left-4 bg-black bg-opacity-50 text-white p-3 rounded-full hover:bg-opacity-70 transition"
+      >
+        <BackIcon />
+      </button>
 
       {movie.videoUrl ? (
-        <div className="w-full max-w-6xl">
-          <VideoPlayer src={movie.videoUrl} />
-        </div>
+        <VideoPlayer src={movie.videoUrl} />
       ) : (
-        <div className="text-center text-gray-500">
-          No video available for this movie.
-        </div>
+        <p className="text-white text-xl">No video available for this movie.</p>
       )}
     </div>
   );

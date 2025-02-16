@@ -22,10 +22,11 @@ const VideoPlayer = ({ src }: { src: string }) => {
   }, []);
 
   return (
-    <div className="relative w-full max-w-4xl mx-auto">
+    <div className="relative w-full mx-auto">
       <video
         ref={videoRef}
-        className="video-js vjs-big-play-centered w-full h-full rounded-lg overflow-hidden"
+        controls
+        className="video-js vjs-big-play-centered w-full h-full"
       >
         <source src={src} type="video/mp4" />
         Your browser does not support the video tag.
