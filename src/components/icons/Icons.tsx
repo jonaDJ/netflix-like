@@ -37,37 +37,27 @@ export const DownArrowIcon: React.FC<React.SVGProps<SVGSVGElement>> = () => (
 
 export const LeftArrowIcon: React.FC<React.SVGProps<SVGSVGElement>> = () => (
   <svg
-    className="w-6 h-6 text-gray-800 dark:text-white"
-    aria-hidden="true"
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
-    viewBox="0 0 8 14"
+    viewBox="0 0 24 24"
+    strokeWidth={3.5}
+    stroke="currentColor"
+    className="w-6 h-6"
   >
-    <path
-      stroke="currentColor"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      stroke-width="2"
-      d="M7 1 1.3 6.326a.91.91 0 0 0 0 1.348L7 13"
-    />
+    <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
   </svg>
 );
 
 export const RightArrowIcon: React.FC<React.SVGProps<SVGSVGElement>> = () => (
   <svg
-    className="w-6 h-6 text-gray-800 dark:text-white"
-    aria-hidden="true"
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
-    viewBox="0 0 8 14"
+    viewBox="0 0 24 24"
+    strokeWidth={3.5}
+    stroke="currentColor"
+    className="w-6 h-6"
   >
-    <path
-      stroke="currentColor"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      stroke-width="2"
-      d="m1 13 5.7-5.326a.909.909 0 0 0 0-1.348L1 1"
-    />
+    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
   </svg>
 );
 
@@ -89,9 +79,11 @@ export const UpArrowIcon: React.FC<React.SVGProps<SVGSVGElement>> = () => (
   </svg>
 );
 
-export const PlayIcon: React.FC<React.SVGProps<SVGSVGElement>> = () => (
+export const PlayIcon: React.FC<{ dark: boolean }> = ({ dark }) => (
   <svg
-    className="w-6 h-6 text-gray-800 dark:text-white"
+    className={`w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6  ${
+      dark ? "text-gray-800" : "text-white"
+    }`}
     aria-hidden="true"
     xmlns="http://www.w3.org/2000/svg"
     fill="currentColor"

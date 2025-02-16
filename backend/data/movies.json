@@ -1,17 +1,56 @@
 [
   {
     "id": 1,
+    "title": "Big Buck Bunny",
+    "slug": "big-buck-bunny",
+    "description": "Three rodents amuse themselves by harassing creatures of the forest. However, when they mess with a bunny, he decides to teach them a lesson.",
+    "videoUrl": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+    "poster": "https://upload.wikimedia.org/wikipedia/commons/7/70/Big.Buck.Bunny.-.Opening.Screen.png",
+    "genre": "Comedy",
+    "duration": "10 minutes"
+  },
+  {
+    "id": 2,
+    "title": "Sintel",
+    "slug": "sintel",
+    "description": "A lonely young woman, Sintel, helps and befriends a dragon, whom she calls Scales. But when he is kidnapped by an adult dragon, Sintel decides to embark on a dangerous quest to find her lost friend Scales.",
+    "videoUrl": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
+    "poster": "http://uhdtv.io/wp-content/uploads/2020/10/Sintel-3.jpg",
+    "genre": "Adventure",
+    "duration": "15 minutes"
+  },
+  {
+    "id": 3,
+    "title": "Tears of Steel",
+    "slug": "tears-of-steel",
+    "description": "In an apocalyptic future, a group of soldiers and scientists takes refuge in Amsterdam to try to stop an army of robots that threatens the planet.",
+    "videoUrl": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+    "poster": "https://mango.blender.org/wp-content/uploads/2013/05/01_thom_celia_bridge.jpg",
+    "genre": "Action",
+    "duration": "12 minutes"
+  },
+  {
+    "id": 4,
+    "title": "Elephant's Dream",
+    "slug": "elephants-dream",
+    "description": "Friends Proog and Emo journey inside the folds of a seemingly infinite Machine, exploring the dark and twisted complex of wires, gears, and cogs, until a moment of conflict negates all their assumptions.",
+    "videoUrl": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+    "poster": "https://download.blender.org/ED/cover.jpg",
+    "genre": "Sci-Fi",
+    "duration": "15 minutes"
+  },
+  {
+    "id": 5,
     "title": "The Shawshank Redemption",
     "slug": "the-shawshank-redemption",
     "poster": "https://m.media-amazon.com/images/M/MV5BMDFkYTc0MGEtZmNhMC00ZDIzLWFmNTEtODM1ZmRlYWMwMWFmXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_SX300.jpg",
     "year": "1994",
     "genre": "Drama",
     "description": "Two imprisoned men bond over several years, finding solace and eventual redemption through acts of common decency.",
-
     "videoUrl": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
   },
   {
-    "id": 2,
+    "id": 6,
     "title": "The Godfather",
     "slug": "the-godfather",
     "poster": "https://m.media-amazon.com/images/M/MV5BM2MyNjYxNmUtYTAwNi00MTYxLWJmNWYtYzZlODY3ZTk3OTFlXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_SX300.jpg",
@@ -21,7 +60,7 @@
     "videoUrl": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
   },
   {
-    "id": 3,
+    "id": 7,
     "title": "The Dark Knight",
     "slug": "the-dark-knight",
     "poster": "https://m.media-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_SX300.jpg",
@@ -30,7 +69,7 @@
     "videoUrl": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
   },
   {
-    "id": 4,
+    "id": 8,
     "title": "The Godfather: Part II",
     "slug": "the-godfather-two",
     "poster": "https://m.media-amazon.com/images/M/MV5BMWMwMGQzZTItY2JlNC00OWZiLWIyMDctNDk2ZDQ2YjRjMWQ0XkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_SX300.jpg",
@@ -38,7 +77,7 @@
     "genre": "Crime, Drama"
   },
   {
-    "id": 5,
+    "id": 9,
     "title": "12 Angry Men",
     "slug": "12-angry-men",
     "poster": "https://m.media-amazon.com/images/M/MV5BMWU4N2FjNzYtNTVkNC00NzQ0LTg0MjAtYTJlMjFhNGUxZDFmXkEyXkFqcGdeQXVyNjc1NTYyMjg@._V1_SX300.jpg",
@@ -46,7 +85,7 @@
     "genre": "Crime, Drama"
   },
   {
-    "id": 6,
+    "id": 10,
     "title": "Schindler's List",
     "slug": "schindler-list",
     "poster": "https://m.media-amazon.com/images/M/MV5BNDE4OTMxMTctNmRhYy00NWE2LTg3YzItYTk3M2UwOTU5Njg4XkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SX300.jpg",
@@ -54,7 +93,7 @@
     "genre": "Biography, Drama, History"
   },
   {
-    "id": 7,
+    "id": 11,
     "title": "The Lord of the Rings: The Return of the King",
     "slug": "the-lord-of-the-rings-the-return-of-the-king",
     "poster": "https://m.media-amazon.com/images/M/MV5BNzA5ZDNlZWMtM2NhNS00NDJjLTk4NDItYTRmY2EwMWZlMTY3XkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_SX300.jpg",
@@ -62,7 +101,7 @@
     "genre": "Action, Adventure, Drama"
   },
   {
-    "id": 8,
+    "id": 12,
     "title": "Pulp Fiction",
     "slug": "pulp-fiction",
     "poster": "https://m.media-amazon.com/images/M/MV5BNGNhMDIzZTUtNTBlZi00MTRlLWFjM2ItYzViMjE3YzI5MjljXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_SX300.jpg",
@@ -70,7 +109,7 @@
     "genre": "Crime, Drama"
   },
   {
-    "id": 9,
+    "id": 13,
     "title": "The Lord of the Rings: The Fellowship of the Ring",
     "slug": "the-lord-of-the-rings-the-fellowship-of-the-ring",
     "poster": "https://m.media-amazon.com/images/M/MV5BN2EyZjM3NzUtNWUzMi00MTgxLWI0NTctMzY4M2VlOTdjZWRiXkEyXkFqcGdeQXVyNDUzOTQ5MjY@._V1_SX300.jpg",
@@ -78,7 +117,7 @@
     "genre": "Action, Adventure, Drama"
   },
   {
-    "id": 10,
+    "id": 14,
     "title": "The Good, the Bad and the Ugly",
     "slug": "the-good-bad-and-ugly",
     "poster": "https://m.media-amazon.com/images/M/MV5BNjJlYmNkZGItM2NhYy00MjlmLTk5NmQtNjg1NmM2ODU4OTMwXkEyXkFqcGdeQXVyMjUzOTY1NTc@._V1_SX300.jpg",
@@ -86,7 +125,7 @@
     "genre": "Adventure, Western"
   },
   {
-    "id": 11,
+    "id": 15,
     "title": "Forrest Gump",
     "slug": "forrest-gump",
     "poster": "https://m.media-amazon.com/images/M/MV5BNWIwODRlZTUtY2U3ZS00Yzg1LWJhNzYtMmZiYmEyNmU1NjMzXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg",
@@ -94,7 +133,7 @@
     "genre": "Drama, Romance"
   },
   {
-    "id": 12,
+    "id": 16,
     "title": "Fight Club",
     "slug": "fight-club",
     "poster": "https://m.media-amazon.com/images/M/MV5BNDIzNDU0YzEtYzE5Ni00ZjlkLTk5ZjgtNjM3NWE4YzA3Nzk3XkEyXkFqcGdeQXVyMjUzOTY1NTc@._V1_SX300.jpg",
@@ -102,7 +141,7 @@
     "genre": "Drama"
   },
   {
-    "id": 13,
+    "id": 17,
     "title": "Inception",
     "slug": "inception",
     "poster": "https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_SX300.jpg",

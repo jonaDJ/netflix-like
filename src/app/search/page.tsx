@@ -27,14 +27,14 @@ const SearchPage: React.FC = () => {
         {movies.length > 0 ? (
           movies.map((movie) => (
             <Link key={movie.id} href={`/watch/${movie.slug}`}>
-              <div className="relative w-full aspect-[5/2] cursor-pointer">
+              <div className="relative w-full aspect-[6/3] cursor-pointer">
                 <Image
                   src={movie.poster}
                   alt={movie.title}
                   fill
                   sizes="900px"
                   priority
-                  className="rounded-lg object-cover"
+                  className=" object-cover"
                 />
               </div>
             </Link>

@@ -2,6 +2,7 @@ import { MovieProps } from "@/lib/types";
 import Image from "next/image";
 import Link from "next/link";
 import { useRef, useState, useEffect } from "react";
+import { LeftArrowIcon, RightArrowIcon } from "./icons/Icons";
 import Wrapper from "./Wrapper";
 
 interface ScrollSectionProps {
@@ -54,22 +55,9 @@ const ScrollSection: React.FC<ScrollSectionProps> = ({ movies, title }) => {
           {!isAtStart && (
             <button
               onClick={scrollLeftFunc}
-              className="absolute left-0 top-0 bottom-0 flex items-center justify-center z-10 bg-gray-800 bg-opacity-30 p-4 rounded-l-md hover:bg-opacity-50 transition-opacity duration-200"
+              className="absolute left-0 top-0 bottom-0 flex items-center justify-center z-10 bg-gray-800 bg-opacity-30 p-2 hover:bg-opacity-50 transition-opacity duration-200"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={3.5}
-                stroke="currentColor"
-                className="w-6 h-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M15 19l-7-7 7-7"
-                />
-              </svg>
+              <LeftArrowIcon />
             </button>
           )}
           <div
@@ -85,7 +73,7 @@ const ScrollSection: React.FC<ScrollSectionProps> = ({ movies, title }) => {
                     fill
                     sizes="900px"
                     priority
-                    className="rounded-lg object-cover"
+                    className="object-cover"
                   />
                 </div>
               </Link>
@@ -95,22 +83,9 @@ const ScrollSection: React.FC<ScrollSectionProps> = ({ movies, title }) => {
           {!isAtEnd && (
             <button
               onClick={scrollRightFunc}
-              className="absolute right-0 top-0 bottom-0 flex items-center justify-center z-10 bg-gray-800 bg-opacity-30 p-4 rounded-r-md hover:bg-opacity-50 transition-opacity duration-200"
+              className="absolute right-0 top-0 bottom-0 flex items-center justify-center z-10 bg-gray-800 bg-opacity-30 p-2 rounded-r-md hover:bg-opacity-50 transition-opacity duration-200"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={3.5}
-                stroke="currentColor"
-                className="w-6 h-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
+              <RightArrowIcon />
             </button>
           )}
         </div>

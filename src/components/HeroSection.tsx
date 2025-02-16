@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { MovieProps } from "../lib/types";
 import Wrapper from "./Wrapper";
+import { PlayIcon } from "./icons/Icons";
 
 interface HeroSectionProps {
   movie: MovieProps;
@@ -28,18 +29,17 @@ const HeroSection: React.FC<HeroSectionProps> = ({ movie }) => {
           </p>
           <div className="mt-6 flex space-x-4">
             <Link
-              type="button"
               href={`/watch/${movie.slug}`}
-              className="text-button text-black bg-white hover:bg-gray-400 px-8 py-3 rounded"
+              className="text-button text-black bg-white hover:bg-gray-400 px-4 py-2 rounded flex items-center justify-center"
             >
-              Play
+              <PlayIcon dark />
+              <span className="ml-1">Play</span>
             </Link>
             <Link
-              type="button"
               href={`/`} // Will create a modal or additional info
-              className="text-button bg-custom-gray-800 hover:bg-custom-gray-700 px-8 py-3 rounded"
+              className="text-button bg-custom-gray-800 hover:bg-custom-gray-700 px-4 py-2 rounded flex items-center justify-center"
             >
-              More Info
+              <div className="flex items-center">More Info</div>
             </Link>
           </div>
         </div>
