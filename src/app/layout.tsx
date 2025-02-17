@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import ConditionalNavigation from "@/components/ConditionalNavigation";
+import ConditionalNavigation from "@/components/layout/ConditionalNavigation";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Streaming Platform",
+  title: "Netflix-Like",
   description: "Your ultimate movie streaming experience",
 };
 

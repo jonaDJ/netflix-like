@@ -3,7 +3,7 @@
 import React, { useEffect, useRef } from "react";
 import Link from "next/link";
 import Wrapper from "./Wrapper";
-import SearchBar from "./SearchBar";
+import SearchBar from "../SearchBar";
 
 const navItems = [
   { id: 1, name: "Home", href: "/" },

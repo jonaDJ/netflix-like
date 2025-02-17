@@ -29,7 +29,7 @@ export const DownArrowIcon: React.FC<React.SVGProps<SVGSVGElement>> = () => (
       stroke="currentColor"
       strokeLinecap="round"
       strokeLinejoin="round"
-      stroke-width="2"
+      strokeWidth="2"
       d="m1 1 5.326 5.7a.909.909 0 0 0 1.348 0L13 1"
     />
   </svg>
@@ -73,7 +73,7 @@ export const UpArrowIcon: React.FC<React.SVGProps<SVGSVGElement>> = () => (
       stroke="currentColor"
       strokeLinecap="round"
       strokeLinejoin="round"
-      stroke-width="2"
+      strokeWidth="2"
       d="M13 7 7.674 1.3a.91.91 0 0 0-1.348 0L1 7"
     />
   </svg>
@@ -107,6 +107,66 @@ export const BackIcon: React.FC<React.SVGProps<SVGSVGElement>> = () => (
       strokeLinejoin="round"
       strokeWidth="2"
       d="M15 5H1m0 0 5 5M1 5l5-5"
+    />
+  </svg>
+);
+
+export const CloseIcon: React.FC<React.SVGProps<SVGSVGElement>> = () => (
+  <svg
+    className="w-6 h-6 text-gray-800 dark:text-white"
+    aria-hidden="true"
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    fill="none"
+    viewBox="0 0 24 24"
+  >
+    <path
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+      d="M6 18 17.94 6M18 18 6.06 6"
+    />
+  </svg>
+);
+
+export const CheckIcon: React.FC<React.SVGProps<SVGSVGElement>> = () => (
+  <svg
+    className="w-6 h-6 text-gray-800 dark:text-white"
+    aria-hidden="true"
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    fill="none"
+    viewBox="0 0 24 24"
+  >
+    <path
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+      d="M5 11.917 9.724 16.5 19 7.5"
+    />
+  </svg>
+);
+
+export const PlusIcon: React.FC<React.SVGProps<SVGSVGElement>> = () => (
+  <svg
+    className="w-6 h-6 text-gray-800 dark:text-white"
+    aria-hidden="true"
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    fill="none"
+    viewBox="0 0 24 24"
+  >
+    <path
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+      d="M5 12h14m-7 7V5"
     />
   </svg>
 );
