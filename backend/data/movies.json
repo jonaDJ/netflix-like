@@ -41,11 +41,11 @@
   },
   {
     "id": 5,
-    "title": "The Shawshank Redemption",
-    "slug": "the-shawshank-redemption",
-    "poster": "https://m.media-amazon.com/images/M/MV5BMDFkYTc0MGEtZmNhMC00ZDIzLWFmNTEtODM1ZmRlYWMwMWFmXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_SX300.jpg",
-    "year": "1994",
-    "genre": "Drama",
+    "title": "Your Name.",
+    "slug": "your-name",
+    "poster": "https://m.media-amazon.com/images/M/MV5BODRmZDVmNzUtZDA4ZC00NjhkLWI2M2UtN2M0ZDIzNDcxYThjL2ltYWdlXkEyXkFqcGdeQXVyNTk0MzMzODA@._V1_SX300.jpg",
+    "year": "2016",
+    "genre": "Animation, Drama, Fantasy",
     "description": "Two imprisoned men bond over several years, finding solace and eventual redemption through acts of common decency.",
     "videoUrl": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
   },
@@ -70,19 +70,19 @@
   },
   {
     "id": 8,
-    "title": "The Godfather: Part II",
-    "slug": "the-godfather-two",
-    "poster": "https://m.media-amazon.com/images/M/MV5BMWMwMGQzZTItY2JlNC00OWZiLWIyMDctNDk2ZDQ2YjRjMWQ0XkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_SX300.jpg",
-    "year": "1974",
-    "genre": "Crime, Drama"
+    "title": "Spider-Man: Into the Spider-Verse",
+    "slug": "spider-man-into-the-spider-verse",
+    "poster": "https://m.media-amazon.com/images/M/MV5BMjMwNDkxMTgzOF5BMl5BanBnXkFtZTgwNTkwNTQ3NjM@._V1_SX300.jpg",
+    "year": "2018",
+    "genre": "Animation, Action, Adventure"
   },
   {
     "id": 9,
-    "title": "12 Angry Men",
-    "slug": "12-angry-men",
-    "poster": "https://m.media-amazon.com/images/M/MV5BMWU4N2FjNzYtNTVkNC00NzQ0LTg0MjAtYTJlMjFhNGUxZDFmXkEyXkFqcGdeQXVyNjc1NTYyMjg@._V1_SX300.jpg",
-    "year": "1957",
-    "genre": "Crime, Drama"
+    "title": "Joker",
+    "slug": "joker",
+    "poster": "https://m.media-amazon.com/images/M/MV5BNGVjNWI4ZGUtNzE0MS00YTJmLWE0ZDctN2ZiYTk2YmI3NTYyXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_SX300.jpg",
+    "year": "2019",
+    "genre": "Crime, Drama, Thriller"
   },
   {
     "id": 10,
@@ -147,5 +147,159 @@
     "poster": "https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_SX300.jpg",
     "year": "2010",
     "genre": "Action, Adventure, Sci-Fi"
+  },
+  {
+    "id": 18,
+    "title": "WALL·E",
+    "slug": "wall-e",
+    "poster": "https://m.media-amazon.com/images/M/MV5BMjExMTg5OTU0NF5BMl5BanBnXkFtZTcwMjMxMzMzMw@@._V1_SX300.jpg",
+    "year": "2008",
+    "genre": "Animation, Adventure, Family"
+  },
+  {
+    "id": 19,
+    "title": "The Lives of Others",
+    "slug": "the-lives-of-others",
+    "poster": "https://m.media-amazon.com/images/M/MV5BOTQyZGFjNWMtYWFiYy00OWU1LTlhMjAtYTBiNmU5NjJiNTAzXkEyXkFqcGdeQXVyMTI3ODAyMzE2._V1_SX300.jpg",
+    "year": "2006",
+    "genre": "Drama, Mystery, Thriller"
+  },
+  {
+    "id": 20,
+    "title": "Sunset Blvd.",
+    "slug": "sunset-blvd",
+    "poster": "https://m.media-amazon.com/images/M/MV5BMTU0NTkyNzYwMF5BMl5BanBnXkFtZTgwMDU0NDk5MTI@._V1_SX300.jpg",
+    "year": "1950",
+    "genre": "Drama, Film-Noir"
+  },
+  {
+    "id": 21,
+    "title": "The Shining",
+    "slug": "the-shining",
+    "poster": "https://m.media-amazon.com/images/M/MV5BZWFlYmY2MGEtZjVkYS00YzU4LTg0YjQtYzY1ZGE3NTA5NGQxXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg",
+    "year": "1980",
+    "genre": "Drama, Horror"
+  },
+  {
+    "id": 22,
+    "title": "Paths of Glory",
+    "slug": "paths-of-glory",
+    "poster": "https://m.media-amazon.com/images/M/MV5BNjViMmRkOTEtM2ViOS00ODg0LWJhYWEtNTBlOGQxNDczOGY3XkEyXkFqcGdeQXVyMDI2NDg0NQ@@._V1_SX300.jpg",
+    "year": "1957",
+    "genre": "Drama, War"
+  },
+  {
+    "id": 23,
+    "title": "The Great Dictator",
+    "slug": "the-great-dictator",
+    "poster": "https://m.media-amazon.com/images/M/MV5BMmExYWJjNTktNGUyZS00ODhmLTkxYzAtNWIzOGEyMGNiMmUwXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SX300.jpg",
+    "year": "1940",
+    "genre": "Comedy, Drama, War"
+  },
+  {
+    "id": 24,
+    "title": "Avengers: Infinity War",
+    "slug": "avengers-infinity-war",
+    "poster": "https://m.media-amazon.com/images/M/MV5BMjMxNjY2MDU1OV5BMl5BanBnXkFtZTgwNzY1MTUwNTM@._V1_SX300.jpg",
+    "year": "2018",
+    "genre": "Action, Adventure, Sci-Fi"
+  },
+  {
+    "id": 25,
+    "title": "Witness for the Prosecution",
+    "slug": "witness-for-the-prosecution",
+    "poster": "https://m.media-amazon.com/images/M/MV5BNDQwODU5OWYtNDcyNi00MDQ1LThiOGMtZDkwNWJiM2Y3MDg0XkEyXkFqcGdeQXVyMDI2NDg0NQ@@._V1_SX300.jpg",
+    "year": "1957",
+    "genre": "Crime, Drama, Mystery"
+  },
+  {
+    "id": 26,
+    "title": "Aliens",
+    "slug": "aliens",
+    "poster": "https://m.media-amazon.com/images/M/MV5BZGU2OGY5ZTYtMWNhYy00NjZiLWI0NjUtZmNhY2JhNDRmODU3XkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_SX300.jpg",
+    "year": "1986",
+    "genre": "Action, Adventure, Sci-Fi"
+  },
+  {
+    "id": 27,
+    "title": "American Beauty",
+    "slug": "american-beauty",
+    "poster": "https://m.media-amazon.com/images/M/MV5BNTBmZWJkNjctNDhiNC00MGE2LWEwOTctZTk5OGVhMWMyNmVhXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_SX300.jpg",
+    "year": "1999",
+    "genre": "Drama"
+  },
+  {
+    "id": 28,
+    "title": "The Dark Knight Rises",
+    "slug": "the-dark-knight-rises",
+    "poster": "https://m.media-amazon.com/images/M/MV5BMTk4ODQzNDY3Ml5BMl5BanBnXkFtZTcwODA0NTM4Nw@@._V1_SX300.jpg",
+    "year": "2012",
+    "genre": "Action, Crime, Drama"
+  },
+  {
+    "id": 29,
+    "title": "Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb",
+    "slug": "dr-strangelove-or-how-i-learned-to-stop-worrying-and-love-the-bomb",
+    "poster": "https://m.media-amazon.com/images/M/MV5BZWI3ZTMxNjctMjdlNS00NmUwLWFiM2YtZDUyY2I3N2MxYTE0XkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_SX300.jpg",
+    "year": "1964",
+    "genre": "Comedy, War"
+  },
+  {
+    "id": 30,
+    "title": "The Godfather: Part II",
+    "slug": "the-godfather-two",
+    "poster": "https://m.media-amazon.com/images/M/MV5BMWMwMGQzZTItY2JlNC00OWZiLWIyMDctNDk2ZDQ2YjRjMWQ0XkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_SX300.jpg",
+    "year": "1974",
+    "genre": "Crime, Drama"
+  },
+  {
+    "id": 31,
+    "title": "12 Angry Men",
+    "slug": "12-angry-men",
+    "poster": "https://m.media-amazon.com/images/M/MV5BMWU4N2FjNzYtNTVkNC00NzQ0LTg0MjAtYTJlMjFhNGUxZDFmXkEyXkFqcGdeQXVyNjc1NTYyMjg@._V1_SX300.jpg",
+    "year": "1957",
+    "genre": "Crime, Drama"
+  },
+  {
+    "id": 32,
+    "title": "Old Boy",
+    "slug": "old-boy",
+    "poster": "https://m.media-amazon.com/images/M/MV5BMTI3NTQyMzU5M15BMl5BanBnXkFtZTcwMTM2MjgyMQ@@._V1_SX300.jpg",
+    "year": "2003",
+    "genre": "Action, Drama, Mystery"
+  },
+  {
+    "id": 33,
+    "title": "The Shawshank Redemption",
+    "slug": "the-shawshank-redemption",
+    "poster": "https://m.media-amazon.com/images/M/MV5BMDFkYTc0MGEtZmNhMC00ZDIzLWFmNTEtODM1ZmRlYWMwMWFmXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_SX300.jpg",
+    "year": "1994",
+    "genre": "Drama",
+    "description": "Two imprisoned men bond over several years, finding solace and eventual redemption through acts of common decency.",
+    "videoUrl": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+  },
+  {
+    "id": 34,
+    "title": "Toy Story 3",
+    "slug": "toy-story-3",
+    "poster": "https://m.media-amazon.com/images/M/MV5BMTgxOTY4Mjc0MF5BMl5BanBnXkFtZTcwNTA4MDQyMw@@._V1_SX300.jpg",
+    "year": "2010",
+    "genre": "Animation, Adventure, Comedy"
+  },
+  {
+    "id": 35,
+    "title": "Requiem for a Dream",
+    "slug": "requiem-for-a-dream",
+    "poster": "https://m.media-amazon.com/images/M/MV5BOTdiNzJlOWUtNWMwNS00NmFlLWI0YTEtZmI3YjIzZWUyY2Y3XkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SX300.jpg",
+    "year": "2000",
+    "genre": "Drama"
+  },
+  {
+    "id": 36,
+    "title": "3 Idiots",
+    "slug": "3-idiots",
+    "poster": "https://m.media-amazon.com/images/M/MV5BNTkyOGVjMGEtNmQzZi00NzFlLTlhOWQtODYyMDc2ZGJmYzFhXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SX300.jpg",
+    "year": "2009",
+    "genre": "Comedy, Drama"
   }
 ]

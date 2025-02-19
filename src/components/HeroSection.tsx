@@ -1,27 +1,33 @@
+"use client";
+
 import Image from "next/image";
 import { MovieProps } from "../lib/types";
 import Wrapper from "./layout/Wrapper";
 import { PlayIcon } from "./icons/Icons";
 import Button from "./ui/Button";
-import { useState } from "react";
-import MovieModal from "./layout/MovieModal";
+import { useRouter } from "next/navigation";
 
 interface HeroSectionProps {
   movie: MovieProps;
 }
 
 const HeroSection: React.FC<HeroSectionProps> = ({ movie }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const router = useRouter();
+
+  const openModal = () => {
+    router.push(`/?movie-info=${movie.id}`, { scroll: false });
+  };
+
   return (
     <>
       <div className="relative aspect-[16/7] w-full min-w-[300px] overflow-hidden">
         <Image
+          priority
           src={movie.poster}
           alt={movie.title}
           fill
-          sizes="100vw"
-          priority
-          className="object-cover"
+          style={{ objectFit: "cover" }}
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 800px"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-bgBlack via-transparent to-transparent"></div>
         <div className="absolute inset-0 bg-gradient-to-t from-bgBlack via-transparent to-transparent"></div>
@@ -41,7 +47,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ movie }) => {
                 hoverColor="hover:bg-gray-400"
               />
               <button
-                onClick={() => setIsModalOpen(true)}
+                onClick={openModal}
                 className="bg-custom-gray-800 hover:bg-custom-gray-700 px-4 py-2 rounded text-white"
               >
                 More Info
@@ -50,9 +56,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({ movie }) => {
           </div>
         </Wrapper>
       </div>
-      {isModalOpen && (
-        <MovieModal movie={movie} onClose={() => setIsModalOpen(false)} />
-      )}
     </>
   );
 };

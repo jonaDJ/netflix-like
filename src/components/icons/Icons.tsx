@@ -19,11 +19,11 @@ export const SearchIcon: React.FC<React.SVGProps<SVGSVGElement>> = () => (
 
 export const DownArrowIcon: React.FC<React.SVGProps<SVGSVGElement>> = () => (
   <svg
-    className="w-6 h-6 text-gray-800 dark:text-white"
+    className="w-5 h-5 text-gray-800 dark:text-white"
     aria-hidden="true"
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
-    viewBox="0 0 14 8"
+    viewBox="0 1 14 6"
   >
     <path
       stroke="currentColor"
@@ -81,13 +81,11 @@ export const UpArrowIcon: React.FC<React.SVGProps<SVGSVGElement>> = () => (
 
 export const PlayIcon: React.FC<{ dark: boolean }> = ({ dark }) => (
   <svg
-    className={`w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6  ${
-      dark ? "text-gray-800" : "text-white"
-    }`}
+    className={`w-4 h-4 ${dark ? "text-gray-800" : "text-white"}`}
     aria-hidden="true"
     xmlns="http://www.w3.org/2000/svg"
     fill="currentColor"
-    viewBox="0 0 10 16"
+    viewBox="0 0 8 16"
   >
     <path d="M3.414 1A2 2 0 0 0 0 2.414v11.172A2 2 0 0 0 3.414 15L9 9.414a2 2 0 0 0 0-2.828L3.414 1Z" />
   </svg>
@@ -95,7 +93,7 @@ export const PlayIcon: React.FC<{ dark: boolean }> = ({ dark }) => (
 
 export const BackIcon: React.FC<React.SVGProps<SVGSVGElement>> = () => (
   <svg
-    className="w-6 h-6 text-gray-800 dark:text-white"
+    className={`w-6 h-6 lg:w-8 lg:h-8 text-gray-800 dark:text-white`}
     aria-hidden="true"
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
@@ -116,8 +114,6 @@ export const CloseIcon: React.FC<React.SVGProps<SVGSVGElement>> = () => (
     className="w-6 h-6 text-gray-800 dark:text-white"
     aria-hidden="true"
     xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
     fill="none"
     viewBox="0 0 24 24"
   >
@@ -136,9 +132,9 @@ export const CheckIcon: React.FC<React.SVGProps<SVGSVGElement>> = () => (
     className="w-6 h-6 text-gray-800 dark:text-white"
     aria-hidden="true"
     xmlns="http://www.w3.org/2000/svg"
+    fill="none"
     width="24"
     height="24"
-    fill="none"
     viewBox="0 0 24 24"
   >
     <path
