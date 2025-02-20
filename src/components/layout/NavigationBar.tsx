@@ -4,23 +4,31 @@ import React, { useEffect, useRef } from "react";
 import Link from "next/link";
 import Wrapper from "./Wrapper";
 import SearchBar from "../SearchBar";
+import { usePathname } from "next/navigation";
 
 const navItems = [
   { id: 1, name: "Home", href: "/" },
-  { id: 2, name: "Movies", href: "/" },
-  { id: 3, name: "TV Shows", href: "/" },
+  { id: 2, name: "My List", href: "/my-list" },
 ];
 
-const navItemsList = navItems.map((item) => (
-  <li key={item.id}>
-    <Link href={item.href}>
-      <div className="text-list hover:text-gray-300">{item.name}</div>
-    </Link>
-  </li>
-));
+const navItemsList = (pathName: string) =>
+  navItems.map((item) => (
+    <li key={item.id}>
+      <Link href={item.href}>
+        <div
+          className={`text-list hover:text-gray-300 ${
+            pathName === item.href ? "font-bold" : ""
+          }`}
+        >
+          {item.name}
+        </div>
+      </Link>
+    </li>
+  ));
 
 const NavigationBar: React.FC = () => {
   const navRef = useRef<HTMLElement>(null);
+  const pathName = usePathname();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -50,7 +58,9 @@ const NavigationBar: React.FC = () => {
               </div>
             </Link>
 
-            <ul className="hidden md:flex space-x-4">{navItemsList}</ul>
+            <ul className="hidden md:flex space-x-4">
+              {navItemsList(pathName)}
+            </ul>
 
             <div className="md:hidden relative group">
               <button className="text-button hover:text-gray-300 focus:outline-none">
@@ -58,7 +68,7 @@ const NavigationBar: React.FC = () => {
               </button>
               <div className="absolute hidden group-hover:block top-full left-0 mt-2 w-40 bg-gray-900 border border-gray-700 rounded shadow-lg">
                 <ul className="flex flex-col gap-4 items-center py-2">
-                  {navItemsList}
+                  {navItemsList(pathName)}
                 </ul>
               </div>
             </div>

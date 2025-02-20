@@ -4,8 +4,8 @@ import Image from "next/image";
 import { MovieProps } from "../lib/types";
 import Wrapper from "./layout/Wrapper";
 import { PlayIcon } from "./icons/Icons";
-import Button from "./ui/Button";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface HeroSectionProps {
   movie: MovieProps;
@@ -35,17 +35,16 @@ const HeroSection: React.FC<HeroSectionProps> = ({ movie }) => {
           <div className="absolute bottom-10 max-w-lg">
             <h1 className="text-h1">{movie.title}</h1>
             <p className="text-p mt-4">
-              {movie.description || `${movie.genre} - ${movie.year}`}
+              {movie.description || `${movie.genre} - ${movie.releaseDate}`}
             </p>
             <div className="mt-6 flex space-x-4">
-              <Button
+              <Link
                 href={`/watch/${movie.slug}`}
-                icon={<PlayIcon dark />}
-                text="Play"
-                bgColor="bg-white"
-                textColor="text-black"
-                hoverColor="hover:bg-gray-400"
-              />
+                className="px-4  rounded flex gap-2 items-center justify-center transition-colors bg-white text-black hover:bg-gray-400"
+              >
+                <PlayIcon dark />
+                Play
+              </Link>
               <button
                 onClick={openModal}
                 className="bg-custom-gray-800 hover:bg-custom-gray-700 px-4 py-2 rounded text-white"

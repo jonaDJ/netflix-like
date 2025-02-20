@@ -3,8 +3,9 @@ export interface MovieProps {
   title: string;
   slug: string;
   poster: string;
-  year?: string;
-  genre?: string;
-  description?: string;
-  videoUrl?: string;
+  genre: string[];
+  description: string;
+  videoUrl: string | null;
+  releaseDate: string | null;
+  director: string | null;
 }

@@ -39,13 +39,9 @@ const Home = () => {
     const savedWatchlist = JSON.parse(
       localStorage.getItem("watchlist") || "[]"
     );
-
-    const watchListMovies = savedWatchlist
-      .map((movieId: number) => {
-        return movies.find((movie) => movie.id === movieId);
-      })
-      .filter((movie: MovieProps) => movie !== undefined);
-
+    const watchListMovies = movies.filter((movie) =>
+      savedWatchlist.includes(movie.id)
+    );
     setWatchList(watchListMovies);
   }, [movies]);
 

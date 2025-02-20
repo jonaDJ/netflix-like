@@ -9,12 +9,7 @@ import { BackIcon } from "@/components/icons/Icons";
 const WatchPage = () => {
   const { slug } = useParams();
   const router = useRouter();
-  const [movie, setMovie] = useState<MovieProps | null>({
-    id: 0,
-    title: "",
-    slug: "",
-    poster: "",
-  });
+  const [movie, setMovie] = useState<MovieProps | null>(null);
 
   useEffect(() => {
     const fetchMovie = async () => {

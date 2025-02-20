@@ -23,7 +23,7 @@ export const DownArrowIcon: React.FC<React.SVGProps<SVGSVGElement>> = () => (
     aria-hidden="true"
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
-    viewBox="0 1 14 6"
+    viewBox="0 1 14 4.5"
   >
     <path
       stroke="currentColor"

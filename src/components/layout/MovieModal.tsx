@@ -3,7 +3,6 @@
 import { MovieProps } from "@/lib/types";
 import useWatchlist from "@/components/hooks/useWatchlist";
 import Image from "next/image";
-import Button from "@/components/ui/Button";
 import {
   PlayIcon,
   PlusIcon,
@@ -11,6 +10,7 @@ import {
   CloseIcon,
 } from "@/components/icons/Icons";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface MovieModalProps {
   movie: MovieProps;
@@ -23,32 +23,32 @@ const MovieModal: React.FC<MovieModalProps> = ({ movie }) => {
   const closeModal = () => {
     router.push("/", { scroll: false });
   };
+
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 px-[7%]">
-      <div className="bg-black text-white rounded-md overflow-hidden relative">
-        <div className="relative w-full h-[60vh]">
+    <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 px-[7%] zoomInOut">
+      <div className="bg-black text-white rounded-md overflow-hidden relative w-full max-w-3xl h-[70vh]">
+        <div className="relative w-full h-[50vh]">
           <Image
             src={movie.poster}
             alt={movie.title}
-            layout="fill"
+            fill
             className="object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
 
-          <div className="absolute bottom-4 left-4">
-            <h2 className="text-2xl font-bold">{movie.title}</h2>
-            <div className="flex space-x-4 mt-2">
-              <Button
+          <div className="absolute px-[5%] bottom-5 ">
+            <div className="mt-4 flex items-center space-x-2">
+              <Link
                 href={`/watch/${movie.slug}`}
-                icon={<PlayIcon dark />}
-                text="Play"
-                bgColor="bg-white"
-                textColor="text-black"
-                hoverColor="hover:bg-gray-400"
-              />
+                className="flex items-center gap-2 bg-white text-black px-4 py-2 rounded hover:bg-gray-300 transition-colors"
+              >
+                <PlayIcon dark />
+                Play
+              </Link>
               <button
                 onClick={() => toggleWatchlist(movie)}
-                className="p-2 rounded-full bg-gray-800 hover:bg-gray-700"
+                className="p-2 rounded-full bg-gray-800 hover:bg-gray-700 transition-colors"
               >
                 {isInWatchlist ? <CheckIcon /> : <PlusIcon />}
               </button>
@@ -57,17 +57,36 @@ const MovieModal: React.FC<MovieModalProps> = ({ movie }) => {
 
           <button
             onClick={closeModal}
-            className="absolute top-4 right-4 bg-gray-800 hover:bg-gray-700 p-2 rounded-full"
+            className="absolute top-4 right-4 bg-gray-800 hover:bg-gray-700 p-2 rounded-full transition-colors"
           >
             <CloseIcon />
           </button>
         </div>
 
         <div className="px-[5%] py-[3%]">
-          <p className="text-md text-gray-400">
-            {movie.genre} • {movie.year}
-          </p>
-          <p className="text-md mt-[3%]">{movie.description}</p>
+          <div className="flex flex-col md:flex-row gap-5">
+            <div className="md:w-2/3">
+              <h2 className="text-2xl font-bold">{movie.title}</h2>
+              <p className="mt-2 text-sm text-gray-400">
+                {movie.releaseDate
+                  ? new Date(movie.releaseDate).getFullYear()
+                  : ""}{" "}
+                • Directed by {movie.director}
+              </p>
+              <p className="mt-4 text-sm">{movie.description}</p>
+            </div>
+            <div className="md:w-1/3 mt-4 md:mt-0">
+              <div className="text-sm text-gray-400">
+                <div>
+                  <span className="font-semibold">Cast:</span> N/A
+                </div>
+                <div className="mt-2">
+                  <span className="font-semibold">Genres:</span>{" "}
+                  {movie.genre.join(", ")}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
