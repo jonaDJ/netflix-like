@@ -5,10 +5,9 @@ import MoviePreview from "../layout/MoviePreview";
 
 interface MovieCardProps {
   movie: MovieProps;
-  baseWidth: string;
 }
 
-const MovieCard: React.FC<MovieCardProps> = ({ movie, baseWidth }) => {
+const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
   const [hoveredMovie, setHoveredMovie] = useState<MovieProps | null>(null);
   const [previewPosition, setPreviewPosition] = useState<{
     left: number;
@@ -52,11 +51,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, baseWidth }) => {
         />
       </div>
       {hoveredMovie === movie && previewPosition && (
-        <MoviePreview
-          baseImageWidth={baseWidth}
-          movie={movie}
-          position={previewPosition}
-        />
+        <MoviePreview movie={movie} position={previewPosition} />
       )}
     </div>
   );

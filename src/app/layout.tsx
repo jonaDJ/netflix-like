@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import ConditionalNavigation from "@/components/layout/ConditionalNavigation";
 import "./globals.css";
+import { DynamicLayoutProvider } from "@/components/contexts/DynamicLayoutContext";
 
 export const metadata: Metadata = {
   title: "Netflix-Like",
@@ -15,8 +16,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <ConditionalNavigation />
-        {children}
+        <DynamicLayoutProvider>
+          <ConditionalNavigation />
+          {children}
+        </DynamicLayoutProvider>
       </body>
     </html>
   );

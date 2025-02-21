@@ -1,14 +1,14 @@
 import React from "react";
 import { MovieProps } from "@/lib/types";
 import MovieCard from "./MovieCards";
-import useDynamicItemWidth from "../hooks/useDynamicItemWidth";
+import { useDynamicLayout } from "../contexts/DynamicLayoutContext";
 
 interface GridCardsProps {
   movies: MovieProps[];
 }
 
 const GridCards: React.FC<GridCardsProps> = ({ movies }) => {
-  const { itemWidth } = useDynamicItemWidth();
+  const { itemWidth } = useDynamicLayout();
 
   return (
     <div
@@ -19,9 +19,7 @@ const GridCards: React.FC<GridCardsProps> = ({ movies }) => {
       }}
     >
       {movies.length > 0 ? (
-        movies.map((movie) => (
-          <MovieCard key={movie.id} movie={movie} baseWidth={itemWidth} />
-        ))
+        movies.map((movie) => <MovieCard key={movie.id} movie={movie} />)
       ) : (
         <p className="text-white text-center col-span-full">
           No results found.

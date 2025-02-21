@@ -1,9 +1,9 @@
 import { MovieProps } from "@/lib/types";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { LeftArrowIcon, RightArrowIcon } from "./icons/Icons";
 import Wrapper from "./layout/Wrapper";
 import MovieCard from "./ui/MovieCards";
-import useDynamicItemWidth from "./hooks/useDynamicItemWidth";
+import { useDynamicLayout } from "./contexts/DynamicLayoutContext";
 
 interface ScrollSectionProps {
   movies: MovieProps[];
@@ -14,12 +14,13 @@ const ScrollSection: React.FC<ScrollSectionProps> = ({ movies, title }) => {
   const [hovered, setHovered] = useState(false);
   const [isAtStart, setIsAtStart] = useState(true);
   const [isAtEnd, setIsAtEnd] = useState(false);
+  const scrollRef = useRef<HTMLDivElement | null>(null);
 
-  const { scrollRef, itemWidth } = useDynamicItemWidth();
+  const { itemWidth, visibleItems } = useDynamicLayout();
 
   useEffect(() => {
     if (!scrollRef.current) return;
-
+    console.log(visibleItems);
     const scrollContainer = scrollRef.current;
     const handleScroll = () => {
       if (!scrollRef.current) return;
@@ -34,7 +35,7 @@ const ScrollSection: React.FC<ScrollSectionProps> = ({ movies, title }) => {
     return () => {
       scrollContainer?.removeEventListener("scroll", handleScroll);
     };
-  }, [scrollRef]);
+  }, [scrollRef, visibleItems]);
 
   const scrollToDirection = (direction: "left" | "right") => {
     if (!scrollRef.current) return;
@@ -47,11 +48,9 @@ const ScrollSection: React.FC<ScrollSectionProps> = ({ movies, title }) => {
   };
 
   return (
-    <section className="mt-10">
+    <section className="my-[3vmin]">
       <Wrapper>
-        <h2 className="text-h2 font-semibold mb-1 md:mb-2 lg:mb-3 xl:mb-4">
-          {title}
-        </h2>
+        <h2 className="text-h2 font-semibold mt-0 mb-[0.5em]">{title}</h2>
       </Wrapper>
       <div
         className="m-0 relative touch-action-pan-y"
@@ -79,7 +78,7 @@ const ScrollSection: React.FC<ScrollSectionProps> = ({ movies, title }) => {
           }}
         >
           {movies.map((movie) => (
-            <MovieCard key={movie.id} movie={movie} baseWidth={itemWidth} />
+            <MovieCard key={movie.id} movie={movie} />
           ))}
         </div>
 

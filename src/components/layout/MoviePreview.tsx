@@ -6,32 +6,27 @@ import Image from "next/image";
 import { PlayIcon, CheckIcon, DownArrowIcon, PlusIcon } from "../icons/Icons";
 import { useRouter } from "next/navigation";
 import Button from "../ui/Button";
+import { useDynamicLayout } from "../contexts/DynamicLayoutContext";
 
 interface MoviePreviewProps {
   movie: MovieProps;
   position: { left: number; top: number };
-  baseImageWidth: string;
 }
 
-const MoviePreview: React.FC<MoviePreviewProps> = ({
-  movie,
-  position,
-  baseImageWidth,
-}) => {
+const MoviePreview: React.FC<MoviePreviewProps> = ({ movie, position }) => {
   const { isInWatchlist, toggleWatchlist } = useWatchlist(String(movie.id));
+  const { itemWidth } = useDynamicLayout();
   const router = useRouter();
 
-  const baseWidth = parseFloat(baseImageWidth);
-  const widthPercentage = `${baseWidth * 1.2}%`;
-  const marginPercentage = `${baseWidth * 1}%`;
+  const baseWidth = parseFloat(itemWidth);
 
   return (
     <div
       className="absolute z-20 bg-black text-white rounded-md zoomInOut"
       style={{
-        left: `${position.left - parseFloat(marginPercentage)}px`,
-        top: `${position.top - parseFloat(marginPercentage)}px`,
-        width: widthPercentage,
+        left: `${position.left - baseWidth}px`,
+        top: `${position.top - baseWidth}px`,
+        width: `${baseWidth * 1.2}%`,
         position: "fixed",
         zIndex: 40,
       }}
@@ -72,7 +67,7 @@ const MoviePreview: React.FC<MoviePreviewProps> = ({
           </div>
         </div>
         <h3 className="text-lg font-semibold mt-2">{movie.title}</h3>
-        {/* Genre List */}
+
         <div className="mt-1 flex items-center text-sm text-gray-400">
           {movie.genre.map((genre, index) => (
             <span key={genre} className="flex items-center">
