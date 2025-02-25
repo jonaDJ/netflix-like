@@ -7,6 +7,7 @@ import { PlayIcon, CheckIcon, DownArrowIcon, PlusIcon } from "../icons/Icons";
 import { useRouter } from "next/navigation";
 import Button from "../ui/Button";
 import { useDynamicLayout } from "../contexts/DynamicLayoutContext";
+import { getGenreNames } from "@/utils/genreUtils";
 
 interface MoviePreviewProps {
   movie: MovieProps;
@@ -15,25 +16,25 @@ interface MoviePreviewProps {
 
 const MoviePreview: React.FC<MoviePreviewProps> = ({ movie, position }) => {
   const { isInWatchlist, toggleWatchlist } = useWatchlist(String(movie.id));
-  const { itemWidth } = useDynamicLayout();
+  const { itemWidthPercentage } = useDynamicLayout();
   const router = useRouter();
-
-  const baseWidth = parseFloat(itemWidth);
+  const baseWidth = parseFloat(itemWidthPercentage);
+  const genreNames = getGenreNames(movie.genres.slice(0, 2) || [], "movie");
 
   return (
     <div
       className="absolute z-20 bg-black text-white rounded-md zoomInOut"
       style={{
-        left: `${position.left - baseWidth}px`,
-        top: `${position.top - baseWidth}px`,
-        width: `${baseWidth * 1.2}%`,
+        left: `${position.left - baseWidth * 3}px`,
+        top: `${position.top - 3 * baseWidth}px`,
+        width: `${baseWidth * 1.5}%`,
         position: "fixed",
         zIndex: 40,
       }}
     >
-      <div className="relative w-full h-[8rem] overflow-hidden">
+      <div className="relative w-full h-[12rem] overflow-hidden">
         <Image
-          src={movie.poster}
+          src={movie.backdropPath}
           alt={movie.title}
           fill
           sizes="(max-width: 768px) 100vw, 280px"
@@ -44,9 +45,7 @@ const MoviePreview: React.FC<MoviePreviewProps> = ({ movie, position }) => {
         <div className="flex justify-between items-center">
           <div className="flex justify-between items-center gap-2 m-2 ml-0">
             <Button
-              onClick={() => {
-                router.push(`/watch/${movie.slug}`);
-              }}
+              onClick={() => router.push(`/watch/${movie.slug}`)}
               icon={<PlayIcon dark />}
               className="bg-white"
             />
@@ -67,9 +66,8 @@ const MoviePreview: React.FC<MoviePreviewProps> = ({ movie, position }) => {
           </div>
         </div>
         <h3 className="text-lg font-semibold mt-2">{movie.title}</h3>
-
         <div className="mt-1 flex items-center text-sm text-gray-400">
-          {movie.genre.map((genre, index) => (
+          {genreNames.map((genre, index) => (
             <span key={genre} className="flex items-center">
               {index !== 0 && <span className="mx-1">&bull;</span>}
               <span>{genre}</span>

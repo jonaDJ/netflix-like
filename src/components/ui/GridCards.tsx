@@ -8,14 +8,14 @@ interface GridCardsProps {
 }
 
 const GridCards: React.FC<GridCardsProps> = ({ movies }) => {
-  const { itemWidth } = useDynamicLayout();
+  const { itemWidthPercentage } = useDynamicLayout();
 
   return (
     <div
       className={`grid gap-y-8`}
       style={{
-        gridTemplateColumns: `repeat(auto-fill, minmax(${itemWidth}, 1fr))`,
-        gridAutoColumns: `minmax(${itemWidth}, 1fr)`,
+        gridTemplateColumns: `repeat(auto-fill, minmax(${itemWidthPercentage}, 1fr))`,
+        gridAutoColumns: `minmax(${itemWidthPercentage}, 1fr)`,
       }}
     >
       {movies.length > 0 ? (

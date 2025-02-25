@@ -33,6 +33,8 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
     setPreviewPosition(null);
   };
 
+  const backdropPath = movie.backdropPath || "/placeholder.jpg";
+
   return (
     <div
       key={movie.id}
@@ -40,9 +42,9 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
       onMouseLeave={handleMouseLeave}
       className="relative cursor-pointer flex px-[0.2rem]"
     >
-      <div className="relative w-full aspect-[7/4] ">
+      <div className="relative w-full aspect-[4/2.5] ">
         <Image
-          src={movie.poster}
+          src={backdropPath}
           alt={movie.title}
           fill
           sizes="500px"

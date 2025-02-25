@@ -82,7 +82,7 @@ const MovieModal: React.FC<MovieModalProps> = ({ movie }) => {
                 </div>
                 <div className="mt-2">
                   <span className="font-semibold">Genres:</span>{" "}
-                  {movie.genre.join(", ")}
+                  {movie.genres.join(", ")}
                 </div>
               </div>
             </div>

@@ -11,9 +11,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@graphql-tools/schema": "^10.0.19",
+    "apollo-server-express": "^3.13.0",
+    "axios": "^1.7.9",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
-    "express": "^4.21.2"
+    "express": "^4.21.2",
+    "graphql": "^16.10.0"
   },
   "type": "module"
 }

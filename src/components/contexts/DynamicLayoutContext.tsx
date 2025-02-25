@@ -9,19 +9,22 @@ import React, {
 } from "react";
 
 interface DynamicLayoutContextProps {
-  itemWidth: string;
+  itemWidthPercentage: string;
+  itemWidth: number;
   visibleItems: number;
 }
 
 const DynamicLayoutContext = createContext<DynamicLayoutContextProps>({
-  itemWidth: "25%",
+  itemWidthPercentage: "25%",
+  itemWidth: 0,
   visibleItems: 0,
 });
 
 export const DynamicLayoutProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [itemWidth, setItemWidth] = useState("25%");
+  const [itemWidthPercentage, setItemWidthPercentage] = useState("25%");
+  const [itemWidth, setItemWidth] = useState(0);
   const [visibleItems, setVisibleItems] = useState(0);
 
   useEffect(() => {
@@ -29,10 +32,12 @@ export const DynamicLayoutProvider: React.FC<{ children: ReactNode }> = ({
       if (typeof window !== "undefined") {
         const viewportWidth = window.innerWidth;
         const numberOfItems = Math.max(Math.floor(viewportWidth / 200), 3);
-        const calculatedWidth = `${(100 / numberOfItems).toFixed(2)}%`;
+        const calculatedPercentage = (100 / numberOfItems).toFixed(2);
+        const calculatedPixelWidth = viewportWidth / numberOfItems;
 
         setVisibleItems(numberOfItems);
-        setItemWidth(calculatedWidth);
+        setItemWidthPercentage(`${calculatedPercentage}%`);
+        setItemWidth(calculatedPixelWidth);
       }
     };
 
@@ -42,7 +47,9 @@ export const DynamicLayoutProvider: React.FC<{ children: ReactNode }> = ({
   }, []);
 
   return (
-    <DynamicLayoutContext.Provider value={{ itemWidth, visibleItems }}>
+    <DynamicLayoutContext.Provider
+      value={{ itemWidthPercentage, itemWidth, visibleItems }}
+    >
       {children}
     </DynamicLayoutContext.Provider>
   );

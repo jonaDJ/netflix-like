@@ -3,9 +3,10 @@ export interface MovieProps {
   title: string;
   slug: string;
   poster: string;
-  genre: string[];
+  genres: number[];
   description: string;
   videoUrl: string | null;
   releaseDate: string | null;
   director: string | null;
+  backdropPath: string;
 }

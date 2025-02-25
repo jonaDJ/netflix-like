@@ -23,7 +23,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ movie }) => {
       <div className="relative aspect-[16/7] w-full min-w-[300px] overflow-hidden">
         <Image
           priority
-          src={movie.poster}
+          src={movie.backdropPath}
           alt={movie.title}
           fill
           style={{ objectFit: "cover" }}
@@ -34,9 +34,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ movie }) => {
         <Wrapper>
           <div className="absolute bottom-10 max-w-lg">
             <h1 className="text-h1">{movie.title}</h1>
-            <p className="text-p mt-4">
-              {movie.description || `${movie.genre} - ${movie.releaseDate}`}
-            </p>
+            <p className="text-p mt-4"></p>
             <div className="mt-6 flex space-x-4">
               <Link
                 href={`/watch/${movie.slug}`}
