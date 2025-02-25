@@ -43,13 +43,6 @@ export const resolvers = {
         return [];
       }
     },
-    // Get the watchlist
-    watchList: () => {
-      const watchList = JSON.parse(
-        localStorage.getItem("watchList") || { movies: [], tvShows: [] }
-      );
-      return watchList;
-    },
     // Search for movies/shows
     search: async (_, { query }) => {
       try {
@@ -62,39 +55,34 @@ export const resolvers = {
         return [];
       }
     },
-  },
-  Mutation: {
-    // Add a movie/show to the watchlist
-    addToWatchList: (_, { movieId, tvShowId }) => {
-      const watchList = JSON.parse(
-        localStorage.getItem("watchList") || { movies: [], tvShows: [] }
-      );
+    moviesByIds: async (_, { ids }) => {
+      try {
+        const movieDetails = await Promise.all(
+          ids.map(async (id) => {
+            const movie = await tmdbService.getMovieById(id);
+            return movie;
+          })
+        );
 
-      if (movieId) {
-        watchList.movies.push(movieId);
+        return movieDetails.filter((movie) => movie !== null); // Remove any failed requests
+      } catch (error) {
+        console.error("Error fetching movies by IDs:", error);
+        throw new Error("Failed to fetch movies by IDs");
       }
-      if (tvShowId) {
-        watchList.tvShows.push(tvShowId);
-      }
-
-      localStorage.setItem("watchList", JSON.stringify(watchList));
-      return watchList;
     },
-    // Remove a movie/show from the watchlist
-    removeFromWatchList: (_, { movieId, tvShowId }) => {
-      const watchList = JSON.parse(
-        localStorage.getItem("watchList") || { movies: [], tvShows: [] }
-      );
-
-      if (movieId) {
-        watchList.movies = watchList.movies.filter((id) => id !== movieId);
+    contentPreview: async (_, { id, type }) => {
+      try {
+        if (type === "movie") {
+          return await tmdbService.getMovieById(id);
+        } else if (type === "tv") {
+          return await tmdbService.getTVShowById(id);
+        } else {
+          throw new Error("Invalid content type. Use 'movie' or 'tv'.");
+        }
+      } catch (error) {
+        console.error("Error fetching content preview:", error);
+        return null;
       }
-      if (tvShowId) {
-        watchList.tvShows = watchList.tvShows.filter((id) => id !== tvShowId);
-      }
-
-      localStorage.setItem("watchList", JSON.stringify(watchList));
-      return watchList;
     },
   },
 };

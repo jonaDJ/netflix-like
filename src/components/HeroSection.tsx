@@ -14,8 +14,9 @@ interface HeroSectionProps {
 const HeroSection: React.FC<HeroSectionProps> = ({ movie }) => {
   const router = useRouter();
 
-  const openModal = () => {
-    router.push(`/?movie-info=${movie.id}`, { scroll: false });
+  const handleOpenMovie = () => {
+    const jbv = movie.id;
+    router.push(`/?jbv=${jbv}&type=${movie.type}`, { scroll: false });
   };
 
   return (
@@ -44,7 +45,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ movie }) => {
                 Play
               </Link>
               <button
-                onClick={openModal}
+                onClick={handleOpenMovie}
                 className="bg-custom-gray-800 hover:bg-custom-gray-700 px-4 py-2 rounded text-white"
               >
                 More Info

@@ -2,45 +2,64 @@
 
 import GridCards from "@/components/ui/GridCards";
 import { MovieProps } from "@/lib/types";
+import { fetchGraphQL } from "@/utils/graphql";
 import React, { useEffect, useState } from "react";
 
 const MyListPage: React.FC = () => {
-  const [movies, setMovies] = useState<MovieProps[]>([]);
+  const [watchlistIds, setWatchlistIds] = useState<string[]>([]);
   const [watchListMovies, setWatchListMovies] = useState<MovieProps[]>([]);
-
-  useEffect(() => {
-    const fetchMovies = async () => {
-      try {
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/movies`
-        );
-        if (!res.ok) throw new Error("Failed to fetch movies");
-        const data = await res.json();
-        setMovies(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchMovies();
-  }, []);
-
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
   useEffect(() => {
     const savedWatchlist = JSON.parse(
       localStorage.getItem("watchlist") || "[]"
     );
+    const idsOnly = savedWatchlist.map((movie: MovieProps) => String(movie.id)); // Extract only IDs
+    setWatchlistIds(idsOnly);
+  }, []);
 
-    if (movies.length > 0) {
-      const filteredMovies = movies.filter((movie) =>
-        savedWatchlist.includes(movie.id)
-      );
+  useEffect(() => {
+    if (watchlistIds.length === 0) return;
 
-      setWatchListMovies(filteredMovies);
-    }
-  }, [movies]);
+    const fetchWatchlistMovies = async () => {
+      setLoading(true);
+      setError(null);
+      setWatchListMovies([]);
+
+      const query = `
+        query GetMoviesByIds($ids: [ID!]!) {
+          moviesByIds(ids: $ids) {
+            id
+            title
+            overview
+            releaseDate
+            rating
+            posterPath
+            backdropPath
+            slug
+            genres
+          }
+        }
+      `;
+
+      try {
+        const data = await fetchGraphQL(query, { ids: watchlistIds });
+        setWatchListMovies(data.moviesByIds);
+      } catch (err) {
+        console.error("Error fetching watchlist movies:", err);
+        setError("Failed to fetch watchlist movies. Please try again later.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchWatchlistMovies();
+  }, [watchlistIds]);
 
   return (
     <div className="pt-[100px] min-h-screen bg-black px-4 md:px-8">
+      {loading && <p className="text-white text-center">Loading...</p>}
+      {error && <p className="text-red-500 text-center">{error}</p>}
       <GridCards movies={watchListMovies} />
     </div>
   );

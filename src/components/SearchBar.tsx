@@ -14,6 +14,7 @@ const SearchBar: React.FC = () => {
   const searchParams = useSearchParams();
 
   useEffect(() => {
+    //Remove after a11y fixes
     const handleFocusChange = () => {
       console.log("Active Element:", document.activeElement);
     };

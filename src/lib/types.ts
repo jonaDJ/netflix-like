@@ -1,12 +1,26 @@
+export interface CastMember {
+  name: string;
+}
+
 export interface MovieProps {
   id: number;
   title: string;
   slug: string;
-  poster: string;
+  posterPath: string;
+  backdropPath: string;
   genres: number[];
   description: string;
   videoUrl: string | null;
   releaseDate: string | null;
+  rating: number;
+  runtime?: number;
   director: string | null;
-  backdropPath: string;
+  cast: CastMember[];
+  trailerUrl: string | null;
+  languages: string[];
+  countries: string[];
+  type: string;
+  overview: string;
+  numberOfSeasons?: number; // For TV shows
+  numberOfEpisodes?: number; // For TV shows
 }

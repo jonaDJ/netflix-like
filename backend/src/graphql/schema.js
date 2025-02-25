@@ -5,46 +5,50 @@ export const typeDefs = gql`
     id: ID!
     title: String!
     overview: String
+    type: String
     releaseDate: String
     rating: Float
     posterPath: String
     backdropPath: String
     slug: String!
     genres: [String!]!
+    runtime: Int
+    cast: [CastMember!]!
+    trailerUrl: String
+    languages: [String!]!
+    countries: [String!]!
   }
 
   type TVShow {
     id: ID!
     title: String!
     overview: String
+    type: String
     releaseDate: String
     rating: Float
     posterPath: String
     backdropPath: String
     slug: String!
     genres: [String!]!
+    numberOfSeasons: Int
+    numberOfEpisodes: Int
+    cast: [CastMember!]!
+    trailerUrl: String
+    languages: [String!]!
+    countries: [String!]!
+  }
+
+  type CastMember {
+    name: String!
   }
 
   union Content = Movie | TVShow
 
-  type WatchList {
-    id: ID!
-    movies: [Movie!]!
-    tvShows: [TVShow!]!
-  }
-
   type Query {
     popularContentOfTheDay: Content!
     contentByGenre(genre: String!): [Content!]!
-    watchList: WatchList!
     search(query: String!): [Content!]!
-  }
-
-  type Mutation {
-    # Add a movie/show to the watchlist
-    addToWatchList(movieId: ID, tvShowId: ID): WatchList!
-
-    # Remove a movie/show from the watchlist
-    removeFromWatchList(movieId: ID, tvShowId: ID): WatchList!
+    moviesByIds(ids: [ID!]!): [Movie!]!
+    contentPreview(id: ID!, type: String!): Content!
   }
 `;

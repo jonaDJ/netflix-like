@@ -54,7 +54,6 @@ class TMDBService {
   // Fetch movies by genre
   async getMoviesByGenre(genreId) {
     try {
-      console.log("Fetching movies by genre ID:", genreId);
       const res = await this.api.get("/discover/movie", {
         params: { with_genres: genreId, page: 1, include_adult: false },
       });
@@ -73,7 +72,6 @@ class TMDBService {
   // Fetch TV shows by genre
   async getShowsByGenre(genreId) {
     try {
-      console.log("Fetching TV shows by genre ID:", genreId);
       const res = await this.api.get("/discover/tv", {
         params: { with_genres: genreId, page: 1, include_adult: false },
       });
@@ -122,6 +120,40 @@ class TMDBService {
     }
   }
 
+  async getMovieById(movieId) {
+    try {
+      const res = await this.api.get(`/movie/${movieId}`, {
+        params: { append_to_response: "credits,videos" },
+      });
+
+      return this.transformMovie(res.data);
+    } catch (error) {
+      console.error(`Error fetching movie ${movieId}:`, {
+        status: error.response?.status,
+        data: error.response?.data,
+        message: error.message,
+      });
+      return null;
+    }
+  }
+
+  async getTVShowById(tvId) {
+    try {
+      const res = await this.api.get(`/tv/${tvId}`, {
+        params: { append_to_response: "credits,videos" },
+      });
+
+      return this.transformTVShow(res.data);
+    } catch (error) {
+      console.error(`Error fetching TV show ${tvId}:`, {
+        status: error.response?.status,
+        data: error.response?.data,
+        message: error.message,
+      });
+      return null;
+    }
+  }
+
   // Transform TMDB movie data into our schema
   transformMovie(tmdbMovie) {
     return {
@@ -129,6 +161,7 @@ class TMDBService {
       id: tmdbMovie.id,
       title: tmdbMovie.title || "Untitled",
       overview: tmdbMovie.overview || "No description available",
+      type: "movie",
       releaseDate: tmdbMovie.release_date || "Unknown",
       rating: tmdbMovie.vote_average || 0,
       posterPath: tmdbMovie.poster_path
@@ -143,6 +176,21 @@ class TMDBService {
           ?.replace(/[^a-z0-9]/g, "-")
           ?.replace(/-+/g, "-") || `movie-${tmdbMovie.id}`,
       genres: tmdbMovie.genre_ids || [],
+      runtime: tmdbMovie.runtime || 0,
+      cast:
+        tmdbMovie.credits?.cast?.slice(0, 5).map((member) => ({
+          name: member.name,
+        })) || [],
+      trailerUrl: tmdbMovie.videos?.results?.find(
+        (video) => video.type === "Trailer"
+      )?.key
+        ? `https://www.youtube.com/watch?v=${
+            tmdbMovie.videos.results.find((video) => video.type === "Trailer")
+              .key
+          }`
+        : null,
+      languages: tmdbMovie.spoken_languages?.map((l) => l.name) || [],
+      countries: tmdbMovie.production_countries?.map((c) => c.name) || [],
     };
   }
 
@@ -152,6 +200,7 @@ class TMDBService {
       id: tmdbShow.id,
       title: tmdbShow.name || "Untitled",
       overview: tmdbShow.overview || "No description available",
+      type: "tvShow",
       releaseDate: tmdbShow.first_air_date || "Unknown",
       rating: tmdbShow.vote_average || 0,
       posterPath: tmdbShow.poster_path
@@ -166,7 +215,22 @@ class TMDBService {
           ?.replace(/[^a-z0-9]/g, "-")
           ?.replace(/-+/g, "-") || `tvshow-${tmdbShow.id}`,
       genres: tmdbShow.genre_ids || [],
-      seasons: tmdbShow.seasons || [],
+      numberOfSeasons: tmdbShow.number_of_seasons || 0,
+      numberOfEpisodes: tmdbShow.number_of_episodes || 0,
+      cast:
+        tmdbShow.credits?.cast?.slice(0, 5).map((member) => ({
+          name: member.name,
+        })) || [],
+      trailerUrl: tmdbShow.videos?.results?.find(
+        (video) => video.type === "Trailer"
+      )?.key
+        ? `https://www.youtube.com/watch?v=${
+            tmdbShow.videos.results.find((video) => video.type === "Trailer")
+              .key
+          }`
+        : null,
+      languages: tmdbShow.spoken_languages?.map((l) => l.name) || [],
+      countries: tmdbShow.production_countries?.map((c) => c.name) || [],
     };
   }
 }

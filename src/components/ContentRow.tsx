@@ -20,7 +20,6 @@ const ContentRow: React.FC<ContentRowProps> = ({ movies, title }) => {
 
   useEffect(() => {
     if (!scrollRef.current) return;
-    console.log(visibleItems);
     const scrollContainer = scrollRef.current;
     const handleScroll = () => {
       if (!scrollRef.current) return;

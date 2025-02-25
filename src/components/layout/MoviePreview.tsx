@@ -21,6 +21,11 @@ const MoviePreview: React.FC<MoviePreviewProps> = ({ movie, position }) => {
   const baseWidth = parseFloat(itemWidthPercentage);
   const genreNames = getGenreNames(movie.genres.slice(0, 2) || [], "movie");
 
+  const handleOpenMovie = () => {
+    const jbv = movie.id;
+    router.push(`/?jbv=${jbv}&type=${movie.type}`, { scroll: false });
+  };
+
   return (
     <div
       className="absolute z-20 bg-black text-white rounded-md zoomInOut"
@@ -57,9 +62,7 @@ const MoviePreview: React.FC<MoviePreviewProps> = ({ movie, position }) => {
           </div>
           <div>
             <Button
-              onClick={() =>
-                router.push(`/?movie-info=${movie.id}`, { scroll: false })
-              }
+              onClick={handleOpenMovie}
               icon={<DownArrowIcon />}
               className="bg-gray-800"
             />
