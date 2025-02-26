@@ -1,6 +1,7 @@
 "use client";
 
 import GridCards from "@/components/ui/GridCards";
+import { MOVIES_BY_IDS_QUERY } from "@/graphql/queries";
 import { MovieProps } from "@/lib/types";
 import { fetchGraphQL } from "@/utils/graphql";
 import React, { useEffect, useState } from "react";
@@ -15,7 +16,7 @@ const MyListPage: React.FC = () => {
       localStorage.getItem("watchlist") || "[]"
     );
     const idsOnly = savedWatchlist.map((movie: MovieProps) => String(movie.id)); // Extract only IDs
-    setWatchlistIds(idsOnly);
+    setWatchlistIds(idsOnly.reverse());
   }, []);
 
   useEffect(() => {
@@ -26,24 +27,10 @@ const MyListPage: React.FC = () => {
       setError(null);
       setWatchListMovies([]);
 
-      const query = `
-        query GetMoviesByIds($ids: [ID!]!) {
-          moviesByIds(ids: $ids) {
-            id
-            title
-            overview
-            releaseDate
-            rating
-            posterPath
-            backdropPath
-            slug
-            genres
-          }
-        }
-      `;
-
       try {
-        const data = await fetchGraphQL(query, { ids: watchlistIds });
+        const data = await fetchGraphQL(MOVIES_BY_IDS_QUERY, {
+          ids: watchlistIds,
+        });
         setWatchListMovies(data.moviesByIds);
       } catch (err) {
         console.error("Error fetching watchlist movies:", err);

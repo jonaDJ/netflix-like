@@ -9,11 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@types/video.js": "^7.3.58",
     "next": "15.1.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "video.js": "^8.21.0"
+    "react-player": "^2.16.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

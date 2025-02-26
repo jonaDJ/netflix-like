@@ -23,7 +23,7 @@ const MoviePreview: React.FC<MoviePreviewProps> = ({ movie, position }) => {
 
   const handleOpenMovie = () => {
     const jbv = movie.id;
-    router.push(`/?jbv=${jbv}&type=${movie.type}`, { scroll: false });
+    router.push(`/?jbv=${jbv}&type=${movie.type}`, { scroll: true });
   };
 
   return (
@@ -50,7 +50,9 @@ const MoviePreview: React.FC<MoviePreviewProps> = ({ movie, position }) => {
         <div className="flex justify-between items-center">
           <div className="flex justify-between items-center gap-2 m-2 ml-0">
             <Button
-              onClick={() => router.push(`/watch/${movie.slug}`)}
+              onClick={() =>
+                router.push(`/watch/${movie.id}?&type=${movie.type}`)
+              }
               icon={<PlayIcon dark />}
               className="bg-white"
             />

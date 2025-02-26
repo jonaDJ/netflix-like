@@ -79,6 +79,18 @@ export const UpArrowIcon: React.FC<React.SVGProps<SVGSVGElement>> = () => (
   </svg>
 );
 
+export const VideoPlayIcon: React.FC<React.SVGProps<SVGSVGElement>> = () => (
+  <svg
+    className="w-6 h-6 text-gray-800 dark:text-white"
+    aria-hidden="true"
+    xmlns="http://www.w3.org/2000/svg"
+    fill="currentColor"
+    viewBox="0 0 16 16"
+  >
+    <path d="M3 2v12l10-6L3 2z" />
+  </svg>
+);
+
 export const PlayIcon: React.FC<{ dark: boolean }> = ({ dark }) => (
   <svg
     className={`w-4 h-4 ${dark ? "text-gray-800" : "text-white"}`}
@@ -106,6 +118,88 @@ export const BackIcon: React.FC<React.SVGProps<SVGSVGElement>> = () => (
       strokeWidth="2"
       d="M15 5H1m0 0 5 5M1 5l5-5"
     />
+  </svg>
+);
+
+export const PauseIcon: React.FC<React.SVGProps<SVGSVGElement>> = () => (
+  <svg
+    className="w-5 h-5 text-gray-800 dark:text-white"
+    aria-hidden="true"
+    xmlns="http://www.w3.org/2000/svg"
+    fill="currentColor"
+    viewBox="0 0 16 16"
+  >
+    <path d="M5 2h2v12H5V2zm4 0h2v12H9V2z" />
+  </svg>
+);
+
+export const VolumeIcon: React.FC = () => (
+  <svg
+    className="w-6 h-6 text-white"
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+      d="M11 5L6 9H2v6h4l5 4V5z"
+    />
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+      d="M15 9a5 5 0 010 6M18 6a9 9 0 010 12"
+    />
+  </svg>
+);
+
+export const MuteIcon: React.FC = () => (
+  <svg
+    className="w-6 h-6 text-white"
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+      d="M11 5L6 9H2v6h4l5 4V5z"
+    />
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+      d="M15 9l4 4m0-4l-4 4"
+    />
+  </svg>
+);
+
+export const ForwardIcon: React.FC<React.SVGProps<SVGSVGElement>> = () => (
+  <svg
+    className="w-6 h-6 lg:w-8 lg:h-8 text-gray-800 dark:text-white"
+    aria-hidden="true"
+    xmlns="http://www.w3.org/2000/svg"
+    fill="currentColor"
+    viewBox="0 0 16 16"
+  >
+    <path d="M4 2v12l8-6-8-6zm6 0v12l8-6-8-6z" />
+  </svg>
+);
+
+export const RewindIcon: React.FC<React.SVGProps<SVGSVGElement>> = () => (
+  <svg
+    className="w-6 h-6 lg:w-8 lg:h-8 text-gray-800 dark:text-white"
+    aria-hidden="true"
+    xmlns="http://www.w3.org/2000/svg"
+    fill="currentColor"
+    viewBox="0 0 16 16"
+  >
+    <path d="M10 2v12L2 8l8-6zm4 0v12l-8-6 8-6z" />
   </svg>
 );
 
