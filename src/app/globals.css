@@ -49,8 +49,8 @@ body {
   }
 
   .text-h2 {
-    font-size: 1.4vw;
-    line-height: 1.25vw;
+    font-size: 1.6vw;
+    line-height: 1.5vw;
     font-weight: bold;
   }
   @media screen and (max-width: 800px) {

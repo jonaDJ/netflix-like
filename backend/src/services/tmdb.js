@@ -17,11 +17,38 @@ class TMDBService {
     });
   }
 
+  //trending movie
+  async getTrendingContent() {
+    try {
+      const res = await this.api.get("/trending/all/day", {
+        params: { page: 1, include_adult: false },
+      });
+
+      return res.data.results
+        .map((item) => {
+          if (item.media_type === "movie") {
+            return this.transformMovie(item);
+          } else if (item.media_type === "tv") {
+            return this.transformTVShow(item);
+          }
+          return null;
+        })
+        .filter(Boolean); // Remove null values
+    } catch (error) {
+      console.error("TMDB Trending Content Error:", {
+        status: error.response?.status,
+        data: error.response?.data,
+        message: error.message,
+      });
+      return [];
+    }
+  }
+
   // Fetch popular movies
-  async getPopularMovies() {
+  async getPopularMovies(page = 1, region = "US") {
     try {
       const res = await this.api.get("/movie/popular", {
-        params: { page: 1, include_adult: false },
+        params: { page, include_adult: false, region },
       });
       return res.data.results.map(this.transformMovie);
     } catch (error) {
@@ -170,11 +197,6 @@ class TMDBService {
       backdropPath: tmdbMovie.backdrop_path
         ? `https://image.tmdb.org/t/p/original${tmdbMovie.backdrop_path}`
         : "/placeholder-horizontal.jpg",
-      slug:
-        tmdbMovie.title
-          ?.toLowerCase()
-          ?.replace(/[^a-z0-9]/g, "-")
-          ?.replace(/-+/g, "-") || `movie-${tmdbMovie.id}`,
       genres: tmdbMovie.genre_ids || [],
       runtime: tmdbMovie.runtime || 0,
       cast:
@@ -209,11 +231,6 @@ class TMDBService {
       backdropPath: tmdbShow.backdrop_path
         ? `https://image.tmdb.org/t/p/original${tmdbShow.backdrop_path}`
         : "/placeholder-horizontal.jpg",
-      slug:
-        tmdbShow.name
-          ?.toLowerCase()
-          ?.replace(/[^a-z0-9]/g, "-")
-          ?.replace(/-+/g, "-") || `tvshow-${tmdbShow.id}`,
       genres: tmdbShow.genre_ids || [],
       numberOfSeasons: tmdbShow.number_of_seasons || 0,
       numberOfEpisodes: tmdbShow.number_of_episodes || 0,

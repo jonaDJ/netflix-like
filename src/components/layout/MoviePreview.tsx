@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import Button from "../ui/Button";
 import { useDynamicLayout } from "../contexts/DynamicLayoutContext";
 import { getGenreNames } from "@/utils/genreUtils";
+import { useEffect, useState } from "react";
 
 interface MoviePreviewProps {
   movie: MovieProps;
@@ -16,9 +17,10 @@ interface MoviePreviewProps {
 
 const MoviePreview: React.FC<MoviePreviewProps> = ({ movie, position }) => {
   const { isInWatchlist, toggleWatchlist } = useWatchlist(String(movie.id));
-  const { itemWidthPercentage } = useDynamicLayout();
+  const { itemWidth } = useDynamicLayout();
+  const [calculatedLeft, setCalculatedLeft] = useState<number>(0);
+  const [calculatedTop, setCalculatedTop] = useState<number>(0); // New state for vertical positioning
   const router = useRouter();
-  const baseWidth = parseFloat(itemWidthPercentage);
   const genreNames = getGenreNames(movie.genres.slice(0, 2) || [], "movie");
 
   const handleOpenMovie = () => {
@@ -26,13 +28,38 @@ const MoviePreview: React.FC<MoviePreviewProps> = ({ movie, position }) => {
     router.push(`/?jbv=${jbv}&type=${movie.type}`, { scroll: true });
   };
 
+  useEffect(() => {
+    const midpoint = position.left + itemWidth / 2;
+    let newLeft = Math.max(
+      window.innerWidth * 0.04,
+      midpoint - (itemWidth * 1.5) / 2
+    );
+
+    const rightEdge = newLeft + itemWidth * 1.5;
+    if (rightEdge > window.innerWidth) {
+      newLeft -= rightEdge - window.innerWidth * 0.96;
+    }
+
+    setCalculatedLeft(newLeft);
+
+    const midpointTop = position.top - 10;
+    let newTop = Math.max(window.innerHeight * 0.07, midpointTop - 10);
+
+    const bottomEdge = newTop + 280;
+    if (bottomEdge > window.innerHeight) {
+      newTop -= newTop + 240 - window.innerHeight * 0.9;
+    }
+
+    setCalculatedTop(newTop);
+  }, [position, itemWidth]);
+
   return (
     <div
       className="absolute z-20 bg-black text-white rounded-md zoomInOut"
       style={{
-        left: `${position.left - baseWidth * 3}px`,
-        top: `${position.top - 3 * baseWidth}px`,
-        width: `${baseWidth * 1.5}%`,
+        left: `${calculatedLeft}px`,
+        top: `${calculatedTop}px`,
+        width: `${itemWidth * 1.5}px`,
         position: "fixed",
         zIndex: 40,
       }}

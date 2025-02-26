@@ -31,7 +31,6 @@ const SearchPage: React.FC = () => {
                   rating
                   posterPath
                   backdropPath
-                  slug
                   genres
                 }
                 ... on TVShow {
@@ -42,7 +41,6 @@ const SearchPage: React.FC = () => {
                   rating
                   posterPath
                   backdropPath
-                  slug
                   genres
                 }
               }

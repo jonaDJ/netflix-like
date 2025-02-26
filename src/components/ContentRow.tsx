@@ -8,9 +8,10 @@ import { useDynamicLayout } from "./contexts/DynamicLayoutContext";
 interface ContentRowProps {
   movies: MovieProps[];
   title: string;
+  top10?: boolean;
 }
 
-const ContentRow: React.FC<ContentRowProps> = ({ movies, title }) => {
+const ContentRow: React.FC<ContentRowProps> = ({ movies, title, top10 }) => {
   const [hovered, setHovered] = useState(false);
   const [isAtStart, setIsAtStart] = useState(true);
   const [isAtEnd, setIsAtEnd] = useState(false);
@@ -76,8 +77,13 @@ const ContentRow: React.FC<ContentRowProps> = ({ movies, title }) => {
             gridAutoColumns: `minmax(${itemWidthPercentage}, 1fr)`,
           }}
         >
-          {movies.map((movie) => (
-            <MovieCard key={movie.id} movie={movie} />
+          {movies.map((movie, id) => (
+            <MovieCard
+              key={movie.id}
+              movie={movie}
+              rank={id + 1}
+              top10={top10}
+            />
           ))}
         </div>
 

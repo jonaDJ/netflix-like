@@ -4,7 +4,6 @@ export const POPULAR_CONTENT_QUERY = `
       ... on Movie {
         id
         title
-        slug
         backdropPath
         genres
         overview
@@ -14,13 +13,28 @@ export const POPULAR_CONTENT_QUERY = `
       ... on TVShow {
         id
         title
-        slug
         backdropPath
         genres
         overview
         releaseDate
         type
       }
+    }
+  }
+`;
+
+export const TOP_10_MOVIES_QUERY = `
+  query {
+    top10Movies {
+      id
+      title
+      backdropPath
+      genres
+      overview
+      releaseDate
+      type
+      rating
+      posterPath
     }
   }
 `;
@@ -32,7 +46,6 @@ export const GENRE_CONTENT_QUERY = (genre: string) => `
         id
         title
         backdropPath
-        slug
         genres
         type
       }
@@ -40,7 +53,6 @@ export const GENRE_CONTENT_QUERY = (genre: string) => `
         id
         title
         backdropPath
-        slug
         genres
         type
       }
@@ -62,7 +74,6 @@ export const CONTENT_PREVIEW_QUERY = (jbv: string, type: string) => `
       ... on Movie {
         id
         title
-        slug
         backdropPath
         posterPath
         genres
@@ -81,7 +92,6 @@ export const CONTENT_PREVIEW_QUERY = (jbv: string, type: string) => `
       ... on TVShow {
         id
         title
-        slug
         backdropPath
         posterPath
         genres
@@ -112,7 +122,6 @@ export const MOVIES_BY_IDS_QUERY = `
       rating
       posterPath
       backdropPath
-      slug
       genres
       type
     }

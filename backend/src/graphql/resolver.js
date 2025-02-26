@@ -10,11 +10,21 @@ export const resolvers = {
   Query: {
     popularContentOfTheDay: async () => {
       try {
-        const popularMovies = await tmdbService.getPopularMovies();
-
-        return popularMovies[0];
+        const trendingContent = await tmdbService.getTrendingContent();
+        console.log("a0", trendingContent.length);
+        return trendingContent[3];
       } catch (error) {
         console.error("Error fetching popular content:", error);
+        return null;
+      }
+    },
+    top10Movies: async () => {
+      try {
+        const popularMovies = await tmdbService.getPopularMovies(1, "US");
+        console.log("top 10 Fetched movies:", popularMovies.length);
+        return popularMovies.slice(0, 10);
+      } catch (error) {
+        console.error("Error fetching top 10 movies in the US:", error);
         return null;
       }
     },

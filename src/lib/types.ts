@@ -5,7 +5,6 @@ export interface CastMember {
 export interface MovieProps {
   id: number;
   title: string;
-  slug: string;
   posterPath: string;
   backdropPath: string;
   genres: number[];

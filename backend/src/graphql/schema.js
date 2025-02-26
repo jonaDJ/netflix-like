@@ -10,7 +10,6 @@ export const typeDefs = gql`
     rating: Float
     posterPath: String
     backdropPath: String
-    slug: String!
     genres: [String!]!
     runtime: Int
     cast: [CastMember!]!
@@ -28,7 +27,6 @@ export const typeDefs = gql`
     rating: Float
     posterPath: String
     backdropPath: String
-    slug: String!
     genres: [String!]!
     numberOfSeasons: Int
     numberOfEpisodes: Int
@@ -50,5 +48,6 @@ export const typeDefs = gql`
     search(query: String!): [Content!]!
     moviesByIds(ids: [ID!]!): [Movie!]!
     contentPreview(id: ID!, type: String!): Content!
+    top10Movies: [Movie!]!
   }
 `;

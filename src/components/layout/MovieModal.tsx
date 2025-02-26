@@ -35,7 +35,6 @@ const MovieModal: React.FC<MovieModalProps> = ({ movie }) => {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 px-[7%] zoomInOut">
       <div className="bg-bgBlack text-white rounded-md overflow-hidden relative w-full max-w-3xl">
-        {/* Backdrop Image with Gradient Overlay */}
         <div className="relative w-full h-[50vh]">
           <Image
             src={movie.backdropPath}
@@ -68,7 +67,6 @@ const MovieModal: React.FC<MovieModalProps> = ({ movie }) => {
             </div>
           </div>
 
-          {/* Close Button */}
           <button
             onClick={closeModal}
             className="absolute top-4 right-4 bg-gray-800 hover:bg-gray-700 p-2 rounded-full transition-colors"

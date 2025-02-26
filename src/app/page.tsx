@@ -12,13 +12,16 @@ import {
   MOVIES_BY_IDS_QUERY,
   POPULAR_CONTENT_QUERY,
   GENRE_CONTENT_QUERY,
+  TOP_10_MOVIES_QUERY,
 } from "@/graphql/queries";
 
 // Define the genres you want to fetch
-const genres = ["Animation", "Action", "Drama"];
+const genres = ["Animation", "Drama", "Action"];
 
 const Home = () => {
   const [popularItem, setPopularItem] = useState<MovieProps | null>(null);
+  const [top10Movies, setTop10Movies] = useState<MovieProps[]>([]);
+
   const [genreContent, setGenreContent] = useState<
     Record<string, MovieProps[]>
   >({});
@@ -40,6 +43,10 @@ const Home = () => {
         // Fetch popular content
         const popularData = await fetchGraphQL(POPULAR_CONTENT_QUERY);
         setPopularItem(popularData.popularContentOfTheDay);
+
+        const top10MovieData = await fetchGraphQL(TOP_10_MOVIES_QUERY);
+        setTop10Movies(top10MovieData.top10Movies);
+        console.log(top10MovieData);
 
         // Fetch data for all genres in parallel
         const genreData = await Promise.all(
@@ -114,9 +121,16 @@ const Home = () => {
   return (
     <div className="p-0">
       {popularItem && <HeroSection movie={popularItem} />}
+      {top10Movies.length > 0 && (
+        <ContentRow
+          movies={top10Movies}
+          title="Top 10 Movies in U.S. Today"
+          top10={true}
+        />
+      )}
 
       {watchlistMovies.length > 0 && (
-        <ContentRow movies={watchlistMovies} title="Your Watchlist" />
+        <ContentRow movies={watchlistMovies} title="My List" />
       )}
 
       {Object.entries(genreContent).map(([genre, movies]) => (
