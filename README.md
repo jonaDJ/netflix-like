@@ -1,69 +1,106 @@
-# Streaming platform(Netflix-like)
+# Netflix-like Streaming Platform 🎥
 
-## Overview
+A Netflix-inspired streaming platform with a modern tech stack, featuring cross-browser compatibility, dynamic content from TMDB, and plans for collaboration features. Built with **Next.js (Tailwind CSS)** for the frontend and **Express + GraphQL** for the backend.
 
-This is a Netflix-like streaming platform (currently without login/auth) built using **Next.js** on the frontend and **Express.js** on the backend. The application allows users to browse movies, view details, and stream video content—all while providing a modern, responsive UI.
+---
 
-## Project Goals
+## Features ✨
 
-- **Responsive Design:** Build a fully responsive user interface with a Netflix-inspired look and feel.
-- **Feature-rich UI:** Implement features such as a carousel for featured movies, movie grids, hover effects, and smooth transitions.
-- **Robust Streaming:** Stream video content using a custom VideoPlayer built with Video.js.
-- **Modular Architecture:** Keep frontend and backend concerns separated for better maintainability and scalability.
-- **Extensibility:** Prepare the codebase for future expansion (search, filtering, user ratings, etc.).
+### Frontend (Next.js + Tailwind CSS)
+- **Watch Page**: Video playback with `react-player`.
+- **Search Page**: Dynamic search functionality.
+- **Sliders**: Responsive movie/TV show carousels.
+- **Cross-Browser Support**: Optimized for Chrome, Firefox, Safari, and Edge.
 
-## Tech Stack
+### Backend (Express + GraphQL)
+- **TMDB Integration**: Fetch movies/shows from TMDB API.
+- **GraphQL API**: Efficient data querying for frontend.
+- **Basic Database**: Storing user preferences (to be expanded).
 
-- **Frontend:** Next.js, React, TypeScript, Tailwind CSS, Video.js
-- **Backend:** Express.js, Node.js
-- **Data Storage:** JSON file (`backend/data/movies.json`)- mainly focus on UI.
-- **Testing:** Jest, React Testing Library, Supertest (for backend testing)
+### Future Plans 🚧
+1. **User Authentication**: Firebase Auth or JWT-based login.
+2. **Profiles**: Multi-user profiles with parental controls (Kid Version).
+3. **Database Expansion**: Add MongoDB/Firestore for user data.
+4. **Collaboration**: Watch parties with real-time sync (WebSocket/Socket.io).
+5. **Advanced Queries**: Recommendations, watch history, and reviews.
 
-## Setup Instructions
+---
+
+## Installation ⚙️
 
 ### Prerequisites
+- Node.js v18+
+- TMDB API Key (register at [TMDB](https://www.themoviedb.org/))
+- Firebase Account (optional, for future auth/storage)
 
-- **Node.js** (version 14 or above)
-- **npm** or **yarn**
+### Steps
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/netflix-like.git
+   cd netflix-like
+   ```
 
-### Backend Setup
+2. Install frontend dependencies:
+   ```bash
+   npm install
+   ```
 
-1. Open a terminal and navigate to the `backend/` directory:
+3. Install backend dependencies:
    ```bash
    cd backend
-   ```
-2. Install the dependencies:
-   ```bash
    npm install
    ```
-3. Start the Express server:
-   ```bash
-   npm start
-   ```
-4. The API is available at: http://localhost:5000/api/movies
 
-### Frontend Setup
+4. Set up environment variables:
+   - **Frontend**: Create `.env.local` in the root:
+     ```env
+     NEXT_PUBLIC_TMDB_API_KEY=your_tmdb_key
+     NEXT_PUBLIC_GRAPHQL_API_URL=http://localhost:5000/graphql
+     ```
+   - **Backend**: Create `.env` in the `backend` folder:
+     ```env
+     PORT=5000
+     TMDB_API_KEY=your_tmdb_key
+     TMDB_BASE_URL=https://api.themoviedb.org/3
+     ```
 
-1. From the project root, install the dependencies:
+5. Start the backend:
    ```bash
-   npm install
-   ```
-2. Create a .env.local file in the root directory and add your environment variables
-   ```bash
-   NEXT_PUBLIC_API_URL=http://localhost:5000/api
-   ```
-3. Run the Next.js development server:
-   ```bash
+   cd backend
    npm run dev
    ```
-4. The application will be available at: http://localhost:3000
 
-## Additional Information
+6. Start the frontend (in a new terminal):
+   ```bash
+   cd ..
+   npm run dev
+   ```
 
-**Styling:** This project uses Tailwind CSS for styling. Global styles are located in src/styles/globals.css.
-**Video Streaming:** Video playback is powered by Video.js in the src/components/VideoPlayer.tsx component.
-**API:** All movie data is served from the Express backend via the /api/movies endpoints.
+7. Open `http://localhost:3000` in your browser.
 
-## License
+---
 
-This project is licensed under the MIT License.
+## Tech Stack 🔧
+
+| **Frontend**       | **Backend**         | **Tools**              |
+|---------------------|---------------------|------------------------|
+| Next.js (React)     | Express.js          | Git + GitHub           |
+| Tailwind CSS        | GraphQL             | Firebase               |
+| Apollo Client       | TMDB API            | Postman (API Testing)  |
+| react-player        | Axios               | ESLint/Prettier        |
+
+---
+
+## FAQ ❓
+
+**Q: How do I add a new GraphQL query?**  
+A: Update the backend schema in `backend/src/schemas` and write resolvers in `backend/src/resolvers`.
+
+
+---
+
+## License 📄
+
+MIT License. See `LICENSE` for details.
+
+---
