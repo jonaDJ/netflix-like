@@ -1,7 +1,7 @@
 import React from "react";
 
 interface ButtonProps {
-  onClick: () => void;
+  onClick: (event: React.MouseEvent) => void;
   icon: React.ReactNode;
   className: string;
   ariaLabel?: string;

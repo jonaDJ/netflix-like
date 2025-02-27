@@ -12,7 +12,7 @@ const GridCards: React.FC<GridCardsProps> = ({ movies }) => {
 
   return (
     <div
-      className={`grid gap-y-8`}
+      className={`grid gap-y-14`}
       style={{
         gridTemplateColumns: `repeat(auto-fill, minmax(${itemWidthPercentage}, 1fr))`,
         gridAutoColumns: `minmax(${itemWidthPercentage}, 1fr)`,

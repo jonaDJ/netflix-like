@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, memo } from "react";
 import { fetchGraphQL } from "../utils/graphql";
 import HeroSection from "@/components/HeroSection";
 import { MovieProps } from "@/lib/types";
@@ -14,9 +14,11 @@ import {
   GENRE_CONTENT_QUERY,
   TOP_10_MOVIES_QUERY,
 } from "@/graphql/queries";
+import ShimmerUI from "@/components/layout/ShimmerUI";
 
 // Define the genres you want to fetch
-const genres = ["Animation", "Drama", "Action"];
+const genres = ["Animation", "Horror", "History", "Drama", "Action"];
+const MemoizedContentRow = memo(ContentRow);
 
 const Home = () => {
   const [popularItem, setPopularItem] = useState<MovieProps | null>(null);
@@ -25,38 +27,35 @@ const Home = () => {
   const [genreContent, setGenreContent] = useState<
     Record<string, MovieProps[]>
   >({});
+
+  const [loading, setLoading] = useState(true);
+
   const [selectedContent, setSelectedContent] = useState<MovieProps | null>(
     null
   );
   const [watchlistMovies, setWatchlistMovies] = useState<MovieProps[]>([]);
-  const [loading, setLoading] = useState(true);
+
   const [error, setError] = useState<string | null>(null);
 
   const searchParams = useSearchParams();
   const jbv = searchParams.get("jbv");
   const type = searchParams.get("type");
 
-  // Fetch popular content and genre-specific content
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch popular content
         const popularData = await fetchGraphQL(POPULAR_CONTENT_QUERY);
         setPopularItem(popularData.popularContentOfTheDay);
 
         const top10MovieData = await fetchGraphQL(TOP_10_MOVIES_QUERY);
         setTop10Movies(top10MovieData.top10Movies);
-        console.log(top10MovieData);
 
-        // Fetch data for all genres in parallel
         const genreData = await Promise.all(
           genres.map(async (genre) => {
             const data = await fetchGraphQL(GENRE_CONTENT_QUERY(genre));
             return { genre, content: data.contentByGenre };
           })
         );
-
-        // Update genreContent state dynamically
         const updatedGenreContent: Record<string, MovieProps[]> = {};
         genreData.forEach(({ genre, content }) => {
           updatedGenreContent[genre] = content;
@@ -73,7 +72,6 @@ const Home = () => {
     fetchData();
   }, []);
 
-  // Fetch content preview when URL params change
   useEffect(() => {
     if (jbv && type) {
       const fetchContentPreview = async () => {
@@ -92,7 +90,6 @@ const Home = () => {
     }
   }, [jbv, type]);
 
-  // Fetch watchlist movies from local storage
   useEffect(() => {
     const savedWatchlist = JSON.parse(
       localStorage.getItem("watchlist") || "[]"
@@ -105,6 +102,10 @@ const Home = () => {
           const data = await fetchGraphQL(MOVIES_BY_IDS_QUERY, {
             ids: reversedIds,
           });
+
+          console.log("Fetched Watchlist Movies:", data.moviesByIds);
+
+          setWatchlistMovies(data.moviesByIds.slice(0, 15));
           setWatchlistMovies(data.moviesByIds.slice(0, 15));
         } catch (error) {
           console.error("Error fetching watchlist movies:", error);
@@ -114,15 +115,16 @@ const Home = () => {
     }
   }, []);
 
-  if (loading) return <div className="text-center mt-10">Loading...</div>;
+  if (loading) return <ShimmerUI />;
   if (error)
     return <div className="text-center mt-10 text-red-500">{error}</div>;
 
   return (
     <div className="p-0">
       {popularItem && <HeroSection movie={popularItem} />}
+
       {top10Movies.length > 0 && (
-        <ContentRow
+        <MemoizedContentRow
           movies={top10Movies}
           title="Top 10 Movies in U.S. Today"
           top10={true}
@@ -130,11 +132,11 @@ const Home = () => {
       )}
 
       {watchlistMovies.length > 0 && (
-        <ContentRow movies={watchlistMovies} title="My List" />
+        <MemoizedContentRow movies={watchlistMovies} title="My List" />
       )}
 
       {Object.entries(genreContent).map(([genre, movies]) => (
-        <ContentRow key={genre} movies={movies} title={genre} />
+        <MemoizedContentRow key={genre} movies={movies} title={genre} />
       ))}
 
       {selectedContent && <MovieModal movie={selectedContent} />}

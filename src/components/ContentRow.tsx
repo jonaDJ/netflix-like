@@ -73,7 +73,7 @@ const ContentRow: React.FC<ContentRowProps> = ({ movies, title, top10 }) => {
           ref={scrollRef}
           className="px-[4%] grid relative grid-flow-col grid-rows-1 overflow-x-auto scroll-smooth hide-scrollbar transition-all duration-300"
           style={{
-            gridTemplateColumns: `repeat(auto-fill, minmax(${itemWidthPercentage}, 1fr))`,
+            gridTemplateColumns: `repeat(${visibleItems}, minmax(${itemWidthPercentage}, 1fr))`,
             gridAutoColumns: `minmax(${itemWidthPercentage}, 1fr)`,
           }}
         >

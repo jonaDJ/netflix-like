@@ -47,6 +47,8 @@ export const GENRE_CONTENT_QUERY = (genre: string) => `
         title
         backdropPath
         genres
+        overview
+        releaseDate
         type
       }
       ... on TVShow {
@@ -54,6 +56,8 @@ export const GENRE_CONTENT_QUERY = (genre: string) => `
         title
         backdropPath
         genres
+        overview
+        releaseDate
         type
       }
     }

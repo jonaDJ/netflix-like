@@ -1,5 +1,5 @@
 export async function fetchGraphQL(query, variables = {}) {
-  const res = await fetch("http://localhost:5000/graphql", {
+  const res = await fetch(process.env.NEXT_PUBLIC_GRAPHQL_API_URL, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

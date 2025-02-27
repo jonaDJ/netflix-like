@@ -11,8 +11,8 @@ export const resolvers = {
     popularContentOfTheDay: async () => {
       try {
         const trendingContent = await tmdbService.getTrendingContent();
-        console.log("a0", trendingContent.length);
-        return trendingContent[3];
+
+        return trendingContent[0];
       } catch (error) {
         console.error("Error fetching popular content:", error);
         return null;

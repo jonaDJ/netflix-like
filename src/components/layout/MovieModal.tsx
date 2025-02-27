@@ -11,6 +11,7 @@ import {
 } from "@/components/icons/Icons";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { getGenreNames } from "@/utils/genreUtils";
 
 interface MovieModalProps {
   movie: MovieProps;
@@ -19,6 +20,7 @@ interface MovieModalProps {
 const MovieModal: React.FC<MovieModalProps> = ({ movie }) => {
   const { isInWatchlist, toggleWatchlist } = useWatchlist(String(movie.id));
   const router = useRouter();
+  const genreNames = getGenreNames(movie.genres.slice(0, 2) || [], "movie");
 
   const closeModal = () => {
     // Remove query parameters by navigating to the home page.
@@ -124,9 +126,7 @@ const MovieModal: React.FC<MovieModalProps> = ({ movie }) => {
                 {movie.genres.length > 0 && (
                   <div className="mt-2">
                     <span className="font-semibold">Genres:</span>{" "}
-                    <span className="text-white">
-                      {movie.genres.join(", ")}
-                    </span>
+                    <span className="text-white">{genreNames.join(", ")}</span>
                   </div>
                 )}
                 {movie.countries.length > 0 && (

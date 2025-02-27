@@ -197,7 +197,9 @@ class TMDBService {
       backdropPath: tmdbMovie.backdrop_path
         ? `https://image.tmdb.org/t/p/original${tmdbMovie.backdrop_path}`
         : "/placeholder-horizontal.jpg",
-      genres: tmdbMovie.genre_ids || [],
+      genres:
+        tmdbMovie.genre_ids ||
+        (tmdbMovie.genres ? tmdbMovie.genres.map((g) => g.id.toString()) : []),
       runtime: tmdbMovie.runtime || 0,
       cast:
         tmdbMovie.credits?.cast?.slice(0, 5).map((member) => ({

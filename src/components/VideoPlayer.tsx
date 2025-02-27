@@ -8,8 +8,33 @@ import {
   VideoPlayIcon,
   VolumeIcon,
   MuteIcon,
+  Forward10Icon,
+  Backward10Icon,
+  FullScreenIcon,
 } from "./icons/Icons";
 import { useRouter } from "next/navigation";
+
+interface ButtonProps {
+  onClick?: () => void;
+  children: React.ReactNode;
+  className?: string;
+  ariaLabel?: string;
+}
+
+const ButtonController: React.FC<ButtonProps> = ({
+  onClick,
+  children,
+  className = "",
+  ariaLabel,
+}) => (
+  <button
+    onClick={onClick}
+    aria-label={ariaLabel}
+    className={`text-white p-2 bg-black bg-opacity-50 rounded-full hover:bg-opacity-70 transition ${className}`}
+  >
+    {children}
+  </button>
+);
 
 const VideoPlayer = ({ src }: { src: string }) => {
   const [isPlaying, setIsPlaying] = useState(true);
@@ -17,33 +42,51 @@ const VideoPlayer = ({ src }: { src: string }) => {
   const [isMuted, setIsMuted] = useState(false);
   const [played, setPlayed] = useState(0);
   const [controlsVisible, setControlsVisible] = useState(false);
+  const [showVolumeInput, setShowVolumeInput] = useState(false);
   const playerRef = useRef<ReactPlayer>(null);
   const router = useRouter();
 
-  // Play/Pause toggle
   const handlePlayPause = () => setIsPlaying(!isPlaying);
 
-  // Volume Control
   const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newVolume = parseFloat(e.target.value);
     setVolume(newVolume);
     setIsMuted(newVolume === 0);
   };
 
-  // Mute toggle
   const handleMute = () => {
     setIsMuted(!isMuted);
-    if (isMuted) setVolume(0.8); // Restore volume when unmuting
+    setVolume(() => (isMuted ? 0.5 : 0));
   };
 
-  // Seek bar update
-  const handleProgress = (state: { played: number }) => setPlayed(state.played);
-
-  // Seek video manually
   const handleSeekChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newPlayed = parseFloat(e.target.value);
     setPlayed(newPlayed);
     playerRef.current?.seekTo(newPlayed);
+  };
+
+  const handleForward = () => {
+    if (playerRef.current) {
+      const currentTime = playerRef.current.getCurrentTime();
+      playerRef.current.seekTo(currentTime + 10);
+    }
+  };
+
+  const handleBackward = () => {
+    if (playerRef.current) {
+      const currentTime = playerRef.current.getCurrentTime();
+      playerRef.current.seekTo(currentTime - 10);
+    }
+  };
+
+  // Fullscreen toggle
+  const handleFullScreen = () => {
+    const videoContainer = document.documentElement;
+    if (document.fullscreenElement) {
+      document.exitFullscreen();
+    } else {
+      videoContainer.requestFullscreen().catch((err) => console.log(err));
+    }
   };
 
   return (
@@ -73,7 +116,7 @@ const VideoPlayer = ({ src }: { src: string }) => {
         height="100%"
         muted={isMuted}
         volume={volume}
-        onProgress={handleProgress}
+        onProgress={({ played }) => setPlayed(played)}
         config={{
           youtube: {
             playerVars: {
@@ -92,10 +135,17 @@ const VideoPlayer = ({ src }: { src: string }) => {
         }}
       />
 
+      <div
+        className="absolute top-[11rem] left-0 right-0 bottom-[11.25rem]"
+        style={{
+          zIndex: 50,
+        }}
+        onClick={() => handlePlayPause()}
+      />
+
       {/* Controls */}
       {controlsVisible && (
-        <div className="absolute bottom-0 left-0 w-screen bg-black bg-opacity-50 p-3 flex flex-col space-y-2">
-          {/* Seek Bar */}
+        <div className="absolute bottom-0 left-0 w-screen bg-black bg-opacity-50 p-3 pb-10 flex flex-col space-y-2">
           <input
             type="range"
             min="0"
@@ -111,38 +161,56 @@ const VideoPlayer = ({ src }: { src: string }) => {
             }}
           />
 
-          {/* Playback & Volume Controls */}
-          <div className="flex justify-between items-center px-6">
-            {/* Play/Pause Button */}
-            <button
-              onClick={handlePlayPause}
-              className="text-white  p-2 bg-black bg-opacity-50 rounded-full hover:bg-opacity-70 transition"
-              aria-label={isPlaying ? "Pause" : "Play"}
-            >
-              {isPlaying ? <PauseIcon /> : <VideoPlayIcon />}
-            </button>
-
-            {/* Volume Control */}
-            <div className="flex items-center space-x-3">
-              {/* Mute/Unmute Button */}
-              <button
-                onClick={handleMute}
-                className="text-white  p-2 bg-black bg-opacity-50 rounded-full hover:bg-opacity-70 transition"
+          <div className="flex justify-between px-6">
+            <div className="flex gap-3">
+              <ButtonController
+                onClick={handlePlayPause}
+                ariaLabel={isPlaying ? "Pause" : "Play"}
               >
-                {isMuted || volume === 0 ? <MuteIcon /> : <VolumeIcon />}
-              </button>
+                {isPlaying ? <PauseIcon /> : <VideoPlayIcon />}
+              </ButtonController>
+              <ButtonController
+                onClick={handleBackward}
+                ariaLabel="Rewind 10 seconds"
+              >
+                <Backward10Icon />
+              </ButtonController>
+              <ButtonController
+                onClick={handleForward}
+                ariaLabel="Forward 10 seconds"
+              >
+                <Forward10Icon />
+              </ButtonController>
 
-              {/* Volume Slider */}
-              <input
-                type="range"
-                min="0"
-                max="1"
-                step="0.01"
-                value={isMuted ? 0 : volume}
-                onChange={handleVolumeChange}
-                className="w-24 h-1 bg-gray-300 rounded-lg cursor-pointer appearance-none accent-red-500"
-              />
+              <div
+                className="flex items-center relative"
+                onMouseEnter={() => setShowVolumeInput(true)}
+                onMouseLeave={() => setShowVolumeInput(false)}
+              >
+                <ButtonController onClick={handleMute}>
+                  {isMuted || volume === 0 ? <MuteIcon /> : <VolumeIcon />}
+                </ButtonController>
+                {showVolumeInput && (
+                  <input
+                    type="range"
+                    min="0"
+                    max="1"
+                    step="0.01"
+                    value={isMuted ? 0 : volume}
+                    onChange={handleVolumeChange}
+                    className="w-24 h-1 bg-gray-300 rounded-lg cursor-pointer appearance-none accent-red-500"
+                    style={{
+                      background: `linear-gradient(to right, #ef4444 ${
+                        volume * 100
+                      }%, #D1D5DB ${volume * 100}%)`,
+                    }}
+                  />
+                )}
+              </div>
             </div>
+            <ButtonController onClick={handleFullScreen} ariaLabel="Fullscreen">
+              <FullScreenIcon />
+            </ButtonController>
           </div>
         </div>
       )}

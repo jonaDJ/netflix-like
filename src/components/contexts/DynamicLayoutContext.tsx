@@ -31,7 +31,12 @@ export const DynamicLayoutProvider: React.FC<{ children: ReactNode }> = ({
     const updateItemWidth = () => {
       if (typeof window !== "undefined") {
         const viewportWidth = window.innerWidth;
-        const numberOfItems = Math.max(Math.floor(viewportWidth / 200), 3);
+        // Ensure number of items is between 3 (min) and 6 (max)
+        const numberOfItems = Math.min(
+          Math.max(Math.floor(viewportWidth / 200), 3),
+          6
+        );
+
         const calculatedPercentage = (100 / numberOfItems).toFixed(2);
         const calculatedPixelWidth = viewportWidth / numberOfItems;
 

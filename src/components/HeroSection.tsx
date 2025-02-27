@@ -39,14 +39,14 @@ const HeroSection: React.FC<HeroSectionProps> = ({ movie }) => {
             <div className="mt-6 flex space-x-4">
               <Link
                 href={`/watch/${movie.id}?&type=${movie.type}`}
-                className="px-4  rounded flex gap-2 items-center justify-center transition-colors bg-white text-black hover:bg-gray-400"
+                className="text-button px-4 rounded flex gap-2 items-center justify-center transition-colors bg-white text-black hover:bg-gray-400"
               >
                 <PlayIcon dark />
                 Play
               </Link>
               <button
                 onClick={handleOpenMovie}
-                className="bg-custom-gray-800 hover:bg-custom-gray-700 px-4 py-2 rounded text-white"
+                className="text-button bg-custom-gray-800 hover:bg-custom-gray-700 px-4 py-2 rounded text-white"
               >
                 More Info
               </button>
