@@ -37,8 +37,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({ movie }) => {
         <Wrapper>
           <div className="absolute bottom-10 max-w-lg">
             <h1 className="text-h1">{movie.title}</h1>
-            <p className="text-p mt-4"></p>
-            <div className="mt-6 flex space-x-4">
+            <p className="text-p mt-3"></p>
+            <div className="flex space-x-4">
               <Link
                 href={`/watch/${movie.id}?&type=${movie.type}`}
                 className="text-button px-4 rounded flex gap-2 items-center justify-center transition-colors py-2 bg-white text-black hover:bg-gray-400"

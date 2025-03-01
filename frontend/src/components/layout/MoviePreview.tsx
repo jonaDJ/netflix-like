@@ -59,9 +59,10 @@ const MoviePreview: React.FC<MoviePreviewProps> = ({ movie, position }) => {
     const midpointTop = position.top - 10;
     let newTop = Math.max(window.innerHeight * 0.07, midpointTop - 10);
 
-    const bottomEdge = newTop + 280;
+    const bottomEdge = newTop + 300;
     if (bottomEdge > window.innerHeight) {
-      newTop -= newTop + 240 - window.innerHeight * 0.9;
+      console.log("b", newTop, bottomEdge, window.innerHeight);
+      newTop -= bottomEdge - window.innerHeight * 0.9;
     }
 
     setCalculatedTop(newTop);

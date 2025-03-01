@@ -18,7 +18,7 @@ const navItemsList = (pathName: string) =>
     <li key={item.id}>
       <Link href={item.href}>
         <div
-          className={`text-button md:h-auto lg:h-auto h-12 flex align-middle hover:text-gray-300 ${
+          className={`text-xs md:h-auto lg:h-auto h-12 flex justify-center items-center hover:text-gray-300 ${
             pathName === item.href ? "font-bold" : ""
           }`}
         >
@@ -59,9 +59,7 @@ const NavigationBar: React.FC = () => {
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-6">
             <Link href="/">
-              <div className="text-button text-red-600 font-extrabold">
-                NETFLIX-LIKE
-              </div>
+              <div className="text-xs text-red-600 font-bold">NETFLIX-LIKE</div>
             </Link>
 
             <ul className="hidden md:flex space-x-4">
