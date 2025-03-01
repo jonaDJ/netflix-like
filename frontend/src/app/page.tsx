@@ -6,14 +6,11 @@ import { fetchGraphQL } from "../utils/graphql";
 import HeroSection from "../components/HeroSection";
 import { MovieProps } from "../lib/types";
 import ContentRow from "../components/ContentRow";
-import { useSearchParams } from "next/navigation";
-import MovieModal from "../components/layout/MovieModal";
 import {
-  CONTENT_PREVIEW_QUERY,
   MOVIES_BY_IDS_QUERY,
   POPULAR_CONTENT_QUERY,
   GENRE_CONTENT_QUERY,
-  TOP_10_MOVIES_QUERY,
+  TOP_10_QUERY,
 } from "../graphql/queries";
 import ShimmerUI from "../components/layout/ShimmerUI";
 
@@ -31,16 +28,9 @@ const Home = () => {
 
   const [loading, setLoading] = useState(true);
 
-  const [selectedContent, setSelectedContent] = useState<MovieProps | null>(
-    null
-  );
   const [watchlistMovies, setWatchlistMovies] = useState<MovieProps[]>([]);
 
   const [error, setError] = useState<string | null>(null);
-
-  const searchParams = useSearchParams();
-  const jbv = searchParams.get("jbv");
-  const type = searchParams.get("type");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -48,8 +38,8 @@ const Home = () => {
         const popularData = await fetchGraphQL(POPULAR_CONTENT_QUERY);
         setPopularItem(popularData.popularContentOfTheDay);
 
-        const top10MovieData = await fetchGraphQL(TOP_10_MOVIES_QUERY);
-        setTop10Movies(top10MovieData.top10Movies);
+        const top10Data = await fetchGraphQL(TOP_10_QUERY);
+        setTop10Movies(top10Data.top10);
 
         const genreData = await Promise.all(
           genres.map(async (genre) => {
@@ -74,24 +64,6 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    if (jbv && type) {
-      const fetchContentPreview = async () => {
-        try {
-          const query = CONTENT_PREVIEW_QUERY(jbv, type);
-          const data = await fetchGraphQL(query);
-          setSelectedContent(data.contentPreview);
-        } catch (error) {
-          console.error("Error fetching content preview:", error);
-        }
-      };
-
-      fetchContentPreview();
-    } else {
-      setSelectedContent(null);
-    }
-  }, [jbv, type]);
-
-  useEffect(() => {
     const savedWatchlist = JSON.parse(
       localStorage.getItem("watchlist") || "[]"
     );
@@ -103,8 +75,6 @@ const Home = () => {
           const data = await fetchGraphQL(MOVIES_BY_IDS_QUERY, {
             ids: reversedIds,
           });
-
-          console.log("Fetched Watchlist Movies:", data.moviesByIds);
 
           setWatchlistMovies(data.moviesByIds.slice(0, 15));
           setWatchlistMovies(data.moviesByIds.slice(0, 15));
@@ -126,7 +96,7 @@ const Home = () => {
 
       {top10Movies.length > 0 && (
         <MemoizedContentRow
-          movies={top10Movies}
+          movies={top10Movies.slice(0, 10)}
           title="Top 10 Movies in U.S. Today"
           top10={true}
         />
@@ -140,7 +110,13 @@ const Home = () => {
         <MemoizedContentRow key={genre} movies={movies} title={genre} />
       ))}
 
-      {selectedContent && <MovieModal movie={selectedContent} />}
+      {top10Movies.length > 10 && (
+        <MemoizedContentRow
+          movies={top10Movies.slice(10, 20)}
+          title="Top 10 Shows in U.S. Today"
+          top10={true}
+        />
+      )}
     </div>
   );
 };

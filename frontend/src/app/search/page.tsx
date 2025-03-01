@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import GridCards from "../../components/ui/GridCards";
 import { fetchGraphQL } from "../../utils/graphql";
+import ShimmerUI from "src/components/layout/ShimmerUI";
 
 const SearchPage: React.FC = () => {
   const searchParams = useSearchParams();
@@ -32,6 +33,7 @@ const SearchPage: React.FC = () => {
                   posterPath
                   backdropPath
                   genres
+                  type
                 }
                 ... on TVShow {
                   id
@@ -42,6 +44,7 @@ const SearchPage: React.FC = () => {
                   posterPath
                   backdropPath
                   genres
+                  type
                 }
               }
             }
@@ -63,7 +66,7 @@ const SearchPage: React.FC = () => {
   }, [queryParam]);
 
   if (loading) {
-    return <div className="text-center mt-10 text-white">Loading...</div>;
+    return <ShimmerUI />;
   }
 
   if (error) {

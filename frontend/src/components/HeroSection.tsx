@@ -2,9 +2,9 @@
 
 import Image from "next/image";
 import { MovieProps } from "../lib/types";
-import Wrapper from "./layout/Wrapper";
-import { PlayIcon } from "./icons/Icons";
-import { useRouter } from "next/navigation";
+import Wrapper from "./ui/Wrapper";
+import { InfoIcon, PlayIcon } from "./icons/Icons";
+import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 
 interface HeroSectionProps {
@@ -13,10 +13,13 @@ interface HeroSectionProps {
 
 const HeroSection: React.FC<HeroSectionProps> = ({ movie }) => {
   const router = useRouter();
+  const pathname = usePathname();
 
   const handleOpenMovie = () => {
     const jbv = movie.id;
-    router.push(`/?jbv=${jbv}&type=${movie.type}`, { scroll: false });
+    router.push(`${pathname}/?jbv=${jbv}&type=${movie.type}`, {
+      scroll: false,
+    });
   };
 
   return (
@@ -28,7 +31,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({ movie }) => {
           alt={movie.title}
           fill
           style={{ objectFit: "cover" }}
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 800px"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-bgBlack via-transparent to-transparent"></div>
         <div className="absolute inset-0 bg-gradient-to-t from-bgBlack via-transparent to-transparent"></div>
@@ -39,15 +41,16 @@ const HeroSection: React.FC<HeroSectionProps> = ({ movie }) => {
             <div className="mt-6 flex space-x-4">
               <Link
                 href={`/watch/${movie.id}?&type=${movie.type}`}
-                className="text-button px-4 rounded flex gap-2 items-center justify-center transition-colors bg-white text-black hover:bg-gray-400"
+                className="text-button px-4 rounded flex gap-2 items-center justify-center transition-colors py-2 bg-white text-black hover:bg-gray-400"
               >
                 <PlayIcon dark />
                 Play
               </Link>
               <button
                 onClick={handleOpenMovie}
-                className="text-button bg-custom-gray-800 hover:bg-custom-gray-700 px-4 py-2 rounded text-white"
+                className="text-button bg-custom-gray-800 flex gap-2 items-center justify-center  hover:bg-custom-gray-700 px-4 py-2 rounded text-white"
               >
+                <InfoIcon />
                 More Info
               </button>
             </div>

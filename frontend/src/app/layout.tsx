@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import ConditionalNavigation from "../components/layout/ConditionalNavigation";
 import "./globals.css";
 import { DynamicLayoutProvider } from "../components/contexts/DynamicLayoutContext";
+import MovieModalWrapper from "src/components/ui/MovieModalWrapper";
+import Footer from "src/components/layout/Footer";
 
 export const metadata: Metadata = {
   title: "Netflix-Like",
@@ -18,7 +20,8 @@ export default function RootLayout({
       <body>
         <DynamicLayoutProvider>
           <ConditionalNavigation />
-          {children}
+          <MovieModalWrapper>{children}</MovieModalWrapper>
+          <Footer />
         </DynamicLayoutProvider>
       </body>
     </html>

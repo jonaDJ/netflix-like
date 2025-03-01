@@ -62,10 +62,10 @@ class TMDBService {
   }
 
   // Fetch popular TV shows
-  async getPopularShows() {
+  async getPopularShows(page = 1, region = "US") {
     try {
       const res = await this.api.get("/tv/popular", {
-        params: { page: 1, include_adult: false },
+        params: { page, include_adult: false, region },
       });
       return res.data.results.map(this.transformTVShow);
     } catch (error) {
@@ -178,6 +178,49 @@ class TMDBService {
         message: error.message,
       });
       return null;
+    }
+  }
+
+  async getMoviesByReleaseDateRange(startDate, endDate) {
+    try {
+      const res = await this.api.get("/discover/movie", {
+        params: {
+          "primary_release_date.gte": startDate,
+          "primary_release_date.lte": endDate,
+          page: 1,
+          include_adult: false,
+        },
+      });
+      return res.data.results.map(this.transformMovie);
+    } catch (error) {
+      console.error("TMDB Movies by Release Date Error:", {
+        status: error.response?.status,
+        data: error.response?.data,
+        message: error.message,
+      });
+      return [];
+    }
+  }
+
+  // Fetch TV shows by release date range
+  async getShowsByReleaseDateRange(startDate, endDate) {
+    try {
+      const res = await this.api.get("/discover/tv", {
+        params: {
+          "first_air_date.gte": startDate,
+          "first_air_date.lte": endDate,
+          page: 1,
+          include_adult: false,
+        },
+      });
+      return res.data.results.map(this.transformTVShow);
+    } catch (error) {
+      console.error("TMDB Shows by Release Date Error:", {
+        status: error.response?.status,
+        data: error.response?.data,
+        message: error.message,
+      });
+      return [];
     }
   }
 

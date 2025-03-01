@@ -1,5 +1,6 @@
 "use client";
 
+import ShimmerUI from "src/components/layout/ShimmerUI";
 import GridCards from "../../components/ui/GridCards";
 import { MOVIES_BY_IDS_QUERY } from "../../graphql/queries";
 import { MovieProps } from "../../lib/types";
@@ -42,11 +43,12 @@ const MyListPage: React.FC = () => {
 
     fetchWatchlistMovies();
   }, [watchlistIds]);
+  if (loading) return <ShimmerUI />;
+
+  if (error) return <p className="text-red-500 text-center">{error}</p>;
 
   return (
     <div className="pt-[100px] min-h-screen bg-black px-4 md:px-8">
-      {loading && <p className="text-white text-center">Loading...</p>}
-      {error && <p className="text-red-500 text-center">{error}</p>}
       <GridCards movies={watchListMovies} />
     </div>
   );

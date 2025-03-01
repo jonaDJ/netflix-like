@@ -1,7 +1,7 @@
 import { MovieProps } from "../lib/types";
 import { useState, useEffect, useRef } from "react";
 import { LeftArrowIcon, RightArrowIcon } from "./icons/Icons";
-import Wrapper from "./layout/Wrapper";
+import Wrapper from "./ui/Wrapper";
 import MovieCard from "./ui/MovieCards";
 import { useDynamicLayout } from "./contexts/DynamicLayoutContext";
 
@@ -16,8 +16,12 @@ const ContentRow: React.FC<ContentRowProps> = ({ movies, title, top10 }) => {
   const [isAtStart, setIsAtStart] = useState(true);
   const [isAtEnd, setIsAtEnd] = useState(false);
   const scrollRef = useRef<HTMLDivElement | null>(null);
-
   const { itemWidthPercentage, visibleItems } = useDynamicLayout();
+  const [visibleMovies, setVisibleMovies] = useState<MovieProps[]>([]);
+
+  useEffect(() => {
+    setVisibleMovies(() => movies.slice(0, visibleItems * 2));
+  }, [visibleItems, movies]);
 
   useEffect(() => {
     if (!scrollRef.current) return;
@@ -25,6 +29,7 @@ const ContentRow: React.FC<ContentRowProps> = ({ movies, title, top10 }) => {
     const handleScroll = () => {
       if (!scrollRef.current) return;
       const { scrollLeft, clientWidth, scrollWidth } = scrollRef.current;
+
       setIsAtStart(scrollLeft <= 5);
       setIsAtEnd(scrollLeft + clientWidth >= scrollWidth - 5);
     };
@@ -35,7 +40,7 @@ const ContentRow: React.FC<ContentRowProps> = ({ movies, title, top10 }) => {
     return () => {
       scrollContainer?.removeEventListener("scroll", handleScroll);
     };
-  }, [scrollRef, visibleItems]);
+  }, [visibleItems]);
 
   const scrollToDirection = (direction: "left" | "right") => {
     if (!scrollRef.current) return;
@@ -43,12 +48,18 @@ const ContentRow: React.FC<ContentRowProps> = ({ movies, title, top10 }) => {
     const containerWidth = scrollRef.current.clientWidth;
     const scrollAmount = containerWidth * 0.92;
     const offset = direction === "left" ? -scrollAmount : scrollAmount;
+    if (direction === "right" && visibleMovies.length !== movies.length) {
+      setVisibleMovies((prevMovies) => [
+        ...prevMovies,
+        ...movies.slice(prevMovies.length, prevMovies.length + visibleItems),
+      ]);
+    }
 
     scrollRef.current.scrollBy({ left: offset, behavior: "smooth" });
   };
 
   return (
-    <section className="my-[3vmin] pb-6">
+    <section className="my-[3vmin] pb-8">
       <Wrapper>
         <h2 className="text-h2 font-semibold mt-0 mb-[0.5em]">{title}</h2>
       </Wrapper>
@@ -61,6 +72,7 @@ const ContentRow: React.FC<ContentRowProps> = ({ movies, title, top10 }) => {
           onClick={() => scrollToDirection("left")}
           className="absolute left-0 top-0 bottom-0 flex items-center justify-center z-30  transition-opacity duration-200 shadow-md"
           style={{ width: "4%" }}
+          tabIndex={isAtStart ? -1 : 0}
         >
           {!isAtStart && (
             <span className="bg-black bg-opacity-60 w-full h-full flex items-center justify-center hover:bg-opacity-30">
@@ -76,8 +88,9 @@ const ContentRow: React.FC<ContentRowProps> = ({ movies, title, top10 }) => {
             gridTemplateColumns: `repeat(${visibleItems}, minmax(${itemWidthPercentage}, 1fr))`,
             gridAutoColumns: `minmax(${itemWidthPercentage}, 1fr)`,
           }}
+          tabIndex={-1}
         >
-          {movies.map((movie, id) => (
+          {visibleMovies.map((movie, id) => (
             <MovieCard
               key={movie.id}
               movie={movie}
@@ -91,6 +104,7 @@ const ContentRow: React.FC<ContentRowProps> = ({ movies, title, top10 }) => {
           onClick={() => scrollToDirection("right")}
           className="absolute right-0 top-0 bottom-0 flex items-center justify-center z-30 rounded-r-md  transition-opacity duration-200 shadow-md"
           style={{ width: "4%" }}
+          tabIndex={isAtEnd ? -1 : 0}
         >
           {!isAtEnd && (
             <span className="bg-black bg-opacity-60 w-full h-full flex items-center justify-center hover:bg-opacity-30">

@@ -44,10 +44,15 @@ export const typeDefs = gql`
 
   type Query {
     popularContentOfTheDay: Content!
-    contentByGenre(genre: String!): [Content!]!
+    contentByGenre(genre: String!, contentType: String): [Content!]!
     search(query: String!): [Content!]!
     moviesByIds(ids: [ID!]!): [Movie!]!
     contentPreview(id: ID!, type: String!): Content!
-    top10Movies: [Movie!]!
+    top10: [Content!]!
+
+    # New queries
+    comingThisWeek: [Content!]! # Content releasing this week
+    comingNextWeek: [Content!]! # Content releasing next week
+    newContent: [Content!]! # Recently released content (e.g., within the last 30 days)
   }
 `;

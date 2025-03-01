@@ -4,7 +4,7 @@ import { MovieProps } from "../../lib/types";
 import useWatchlist from "../hooks/useWatchlist";
 import Image from "next/image";
 import { PlayIcon, CheckIcon, DownArrowIcon, PlusIcon } from "../icons/Icons";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Button from "../ui/Button";
 import { useDynamicLayout } from "../contexts/DynamicLayoutContext";
 import { getGenreNames } from "../../utils/genreUtils";
@@ -22,11 +22,14 @@ const MoviePreview: React.FC<MoviePreviewProps> = ({ movie, position }) => {
   const [calculatedLeft, setCalculatedLeft] = useState<number>(0);
   const [calculatedTop, setCalculatedTop] = useState<number>(0);
   const router = useRouter();
+  const pathname = usePathname();
   const genreNames = getGenreNames(movie.genres.slice(0, 2) || [], "movie");
 
   const handleOpenMovie = () => {
     const jbv = movie.id;
-    router.push(`/?jbv=${jbv}&type=${movie.type}`, { scroll: true });
+    router.push(`${pathname}/?jbv=${jbv}&type=${movie.type}`, {
+      scroll: false,
+    });
   };
 
   const handlePlayClick = (event: React.MouseEvent) => {
@@ -81,27 +84,29 @@ const MoviePreview: React.FC<MoviePreviewProps> = ({ movie, position }) => {
           href={`/watch/${movie.id}?&type=${movie.type}`}
           onClick={(event) => event.stopPropagation()}
         >
-          <Image
-            src={movie.backdropPath}
-            alt={movie.title}
-            fill
-            sizes="(max-width: 768px) 100vw, 280px"
-            style={{ objectFit: "cover" }}
-          />
+          <div className="absolute inset-0">
+            <Image
+              src={movie.backdropPath}
+              alt={movie.title}
+              fill
+              sizes="(max-width: 768px) 100vw, 280px"
+              style={{ objectFit: "cover" }}
+            />
+          </div>
         </Link>
       </div>
       <div className="p-3 pt-1 cursor-pointer">
         <div className="flex justify-between items-center">
           <div className="flex justify-between items-center gap-2 m-2 ml-0">
             <Button
-              onClick={(event: React.MouseEvent) => handlePlayClick(event)} // Pass the event
+              onClick={(event: React.MouseEvent) => handlePlayClick(event)}
               icon={<PlayIcon dark />}
               className="bg-white"
             />
             <Button
               onClick={(event: React.MouseEvent) =>
                 handleToggleWatchlist(event)
-              } // Pass the event
+              }
               icon={isInWatchlist ? <CheckIcon /> : <PlusIcon />}
               className="bg-gray-800 p-1.5"
             />

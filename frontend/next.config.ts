@@ -6,6 +6,11 @@ const nextConfig = {
         hostname: "image.tmdb.org",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "upload.wikimedia.org",
+        pathname: "/**",
+      },
     ],
   },
 };

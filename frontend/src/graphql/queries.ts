@@ -23,9 +23,10 @@ export const POPULAR_CONTENT_QUERY = `
   }
 `;
 
-export const TOP_10_MOVIES_QUERY = `
+export const TOP_10_QUERY = `
   query {
-    top10Movies {
+    top10 {
+     ... on Movie {
       id
       title
       backdropPath
@@ -35,6 +36,18 @@ export const TOP_10_MOVIES_QUERY = `
       type
       rating
       posterPath
+      }
+    ... on TVShow {
+      id
+      title
+      backdropPath
+      genres
+      overview
+      releaseDate
+      type
+      rating
+      posterPath
+      }
     }
   }
 `;
@@ -128,6 +141,87 @@ export const MOVIES_BY_IDS_QUERY = `
       backdropPath
       genres
       type
+    }
+  }
+`;
+
+export const COMING_THIS_WEEEK = `
+  query {
+    comingThisWeek {
+      ... on Movie {
+      id
+      title
+      backdropPath
+      genres
+      overview
+      releaseDate
+      type
+      rating
+     }
+      ... on TVShow {
+      id
+      title
+      backdropPath
+      genres
+      overview
+      releaseDate
+      type
+      rating
+     }
+    }
+  }
+`;
+
+export const COMING_NEXT_WEEEK = `
+ query {
+    comingNextWeek {
+      ... on Movie {
+      id
+      title
+      backdropPath
+      genres
+      overview
+      releaseDate
+      type
+      rating
+     }
+      ... on TVShow {
+      id
+      title
+      backdropPath
+      genres
+      overview
+      releaseDate
+      type
+      rating
+     }
+    }
+  }
+`;
+
+export const NEW_CONTENT = `
+  query {
+    newContent   {
+      ... on Movie {
+      id
+      title
+      backdropPath
+      genres
+      overview
+      releaseDate
+      type
+      rating
+     }
+      ... on TVShow {
+      id
+      title
+      backdropPath
+      genres
+      overview
+      releaseDate
+      type
+      rating
+     }
     }
   }
 `;

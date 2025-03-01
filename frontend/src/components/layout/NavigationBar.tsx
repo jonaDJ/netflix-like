@@ -1,15 +1,16 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import Wrapper from "./Wrapper";
+import Wrapper from "../ui/Wrapper";
 import SearchBar from "../SearchBar";
 import { usePathname } from "next/navigation";
-import { DropdownIcon } from "../icons/Icons";
+import { DropdownIcon, DropUpIcon } from "../icons/Icons";
 
 const navItems = [
   { id: 1, name: "Home", href: "/" },
-  { id: 2, name: "My List", href: "/my-list" },
+  { id: 2, name: "New & Popular", href: "/latest" },
+  { id: 3, name: "My List", href: "/my-list" },
 ];
 
 const navItemsList = (pathName: string) =>
@@ -17,7 +18,7 @@ const navItemsList = (pathName: string) =>
     <li key={item.id}>
       <Link href={item.href}>
         <div
-          className={`text-list hover:text-gray-300 ${
+          className={`text-button md:h-auto lg:h-auto h-12 flex align-middle hover:text-gray-300 ${
             pathName === item.href ? "font-bold" : ""
           }`}
         >
@@ -30,7 +31,7 @@ const navItemsList = (pathName: string) =>
 const NavigationBar: React.FC = () => {
   const navRef = useRef<HTMLElement>(null);
   const pathName = usePathname();
-  const [scrolled, setScrolled] = React.useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -70,11 +71,14 @@ const NavigationBar: React.FC = () => {
             <div className="md:hidden relative group">
               <button className="flex items-center text-button hover:text-gray-300">
                 <span>Browse</span>
-
                 <DropdownIcon className="ml-1 w-5 h-5 text-button hover:text-gray-300" />
               </button>
-              <div className="absolute hidden group-hover:block top-full left-1/2 -translate-x-1/3 mt-1 w-40 bg-gray-900 border border-gray-700 rounded shadow-lg pointer-events-none group-hover:pointer-events-auto">
-                <ul className="flex flex-col gap-4 items-center py-2">
+
+              <div className="absolute hidden group-hover:block top-full left-2 -translate-x-1/3 mt-1 w-64 bg-black border border-gray-700 rounded shadow-lg">
+                <div className="absolute -top-2 left-1/2 transform -translate-x-1/2">
+                  <DropUpIcon className="w-5 h-5 text-white" />
+                </div>
+                <ul className="flex flex-col items-center py-2">
                   {navItemsList(pathName)}
                 </ul>
               </div>

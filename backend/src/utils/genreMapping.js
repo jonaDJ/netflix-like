@@ -21,7 +21,7 @@ const movieGenreMap = {
 };
 
 const tvShowGenreMap = {
-  "Action & Adventure": 10759,
+  Action: 10759,
   Animation: 16,
   Comedy: 35,
   Crime: 80,

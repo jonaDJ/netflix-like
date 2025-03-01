@@ -18,8 +18,7 @@ const MovieModal: React.FC<MovieModalProps> = ({ movie }) => {
   const genreNames = getGenreNames(movie.genres.slice(0, 2) || [], "movie");
 
   const closeModal = () => {
-    // Remove query parameters by navigating to the home page.
-    router.push("/", { scroll: false });
+    router.back();
   };
 
   const formatRuntime = (runtime: number | undefined) => {

@@ -4,7 +4,12 @@ const ShimmerUI = () => {
   const placeholderCount = 6;
 
   return (
-    <section className="my-[3vmin] py-6">
+    <section
+      className="my-[3vmin] py-6 min-h-full"
+      style={{
+        minHeight: "100vh",
+      }}
+    >
       {/* Shimmer Title */}
       <div className="px-4">
         <div className="h-8 w-1/3 bg-gray-800 rounded mb-4 animate-pulse" />

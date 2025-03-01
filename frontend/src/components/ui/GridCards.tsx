@@ -19,7 +19,9 @@ const GridCards: React.FC<GridCardsProps> = ({ movies }) => {
       }}
     >
       {movies.length > 0 ? (
-        movies.map((movie) => <MovieCard key={movie.id} movie={movie} />)
+        movies.map((movie) => (
+          <MovieCard tabIndex={1} key={movie.id} movie={movie} />
+        ))
       ) : (
         <p className="text-white text-center col-span-full">
           No results found.
