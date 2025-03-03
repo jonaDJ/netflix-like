@@ -1,14 +1,14 @@
 "use client";
 
 import { useParams, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { MovieProps } from "../../../lib/types";
 import { CONTENT_PREVIEW_QUERY } from "../../../graphql/queries";
 import { fetchGraphQL } from "../../../utils/graphql";
 import VideoPlayer from "../../../components/VideoPlayer";
 import { BackIcon } from "../../../components/icons/Icons";
 
-const WatchPage = () => {
+const WatchPageContent = () => {
   const { id } = useParams();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -55,8 +55,9 @@ const WatchPage = () => {
 
   if (loading) {
     return (
-      <div className="w-screen h-screen bg-black flex items-center justify-center">
-        <p className="text-white text-xl animate-pulse">Loading...</p>
+      <div className="relative w-screen h-screen bg-black flex items-center justify-center">
+        <div className="w-full h-full max-w-4xl max-h-[60vh] bg-gray-800 animate-pulse rounded-lg"></div>
+        <BackButton />
       </div>
     );
   }
@@ -84,6 +85,14 @@ const WatchPage = () => {
         </div>
       )}
     </div>
+  );
+};
+
+const WatchPage = () => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <WatchPageContent />
+    </Suspense>
   );
 };
 

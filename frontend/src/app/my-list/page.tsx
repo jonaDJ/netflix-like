@@ -5,13 +5,14 @@ import GridCards from "../../components/ui/GridCards";
 import { MOVIES_BY_IDS_QUERY } from "../../graphql/queries";
 import { MovieProps } from "../../lib/types";
 import { fetchGraphQL } from "../../utils/graphql";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 
 const MyListPage: React.FC = () => {
   const [watchlistIds, setWatchlistIds] = useState<string[]>([]);
   const [watchListMovies, setWatchListMovies] = useState<MovieProps[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+
   useEffect(() => {
     const savedWatchlist = JSON.parse(
       localStorage.getItem("watchlist") || "[]"
@@ -43,14 +44,17 @@ const MyListPage: React.FC = () => {
 
     fetchWatchlistMovies();
   }, [watchlistIds]);
+
   if (loading) return <ShimmerUI />;
 
   if (error) return <p className="text-red-500 text-center">{error}</p>;
 
   return (
-    <div className="pt-[100px] min-h-screen bg-black px-4 md:px-8">
-      <GridCards movies={watchListMovies} />
-    </div>
+    <Suspense fallback={<ShimmerUI />}>
+      <div className="pt-[100px] min-h-screen bg-black px-4 md:px-8">
+        <GridCards movies={watchListMovies} />
+      </div>
+    </Suspense>
   );
 };
 

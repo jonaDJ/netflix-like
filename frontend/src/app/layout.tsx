@@ -4,6 +4,7 @@ import "./globals.css";
 import { DynamicLayoutProvider } from "../components/contexts/DynamicLayoutContext";
 import MovieModalWrapper from "src/components/ui/MovieModalWrapper";
 import Footer from "src/components/layout/Footer";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Netflix-Like",
@@ -20,7 +21,9 @@ export default function RootLayout({
       <body>
         <DynamicLayoutProvider>
           <ConditionalNavigation />
-          <MovieModalWrapper>{children}</MovieModalWrapper>
+          <Suspense fallback={<div>Loading...</div>}>
+            <MovieModalWrapper>{children}</MovieModalWrapper>
+          </Suspense>
           <Footer />
         </DynamicLayoutProvider>
       </body>

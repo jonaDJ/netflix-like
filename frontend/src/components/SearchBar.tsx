@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, Suspense } from "react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { CloseIcon, SearchIcon } from "./icons/Icons";
 
-const SearchBar: React.FC = () => {
+const SearchBarContent = () => {
   const [showSearch, setShowSearch] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -89,6 +89,14 @@ const SearchBar: React.FC = () => {
         </button>
       </div>
     </div>
+  );
+};
+
+const SearchBar = () => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <SearchBarContent />
+    </Suspense>
   );
 };
 

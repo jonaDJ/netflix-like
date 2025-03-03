@@ -2,12 +2,12 @@
 
 import { MovieProps } from "../../lib/types";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import GridCards from "../../components/ui/GridCards";
 import { fetchGraphQL } from "../../utils/graphql";
 import ShimmerUI from "src/components/layout/ShimmerUI";
 
-const SearchPage: React.FC = () => {
+const SearchPageContent = () => {
   const searchParams = useSearchParams();
   const queryParam = searchParams.get("q");
   const [results, setResults] = useState<MovieProps[]>([]);
@@ -22,33 +22,33 @@ const SearchPage: React.FC = () => {
         setResults([]);
 
         const searchQuery = `
-            query SearchContent($query: String!) {
-              search(query: $query) {
-                ... on Movie {
-                  id
-                  title
-                  overview
-                  releaseDate
-                  rating
-                  posterPath
-                  backdropPath
-                  genres
-                  type
-                }
-                ... on TVShow {
-                  id
-                  title
-                  overview
-                  releaseDate
-                  rating
-                  posterPath
-                  backdropPath
-                  genres
-                  type
-                }
+          query SearchContent($query: String!) {
+            search(query: $query) {
+              ... on Movie {
+                id
+                title
+                overview
+                releaseDate
+                rating
+                posterPath
+                backdropPath
+                genres
+                type
+              }
+              ... on TVShow {
+                id
+                title
+                overview
+                releaseDate
+                rating
+                posterPath
+                backdropPath
+                genres
+                type
               }
             }
-          `;
+          }
+        `;
 
         try {
           const data = await fetchGraphQL(searchQuery, { query: queryParam });
@@ -77,6 +77,14 @@ const SearchPage: React.FC = () => {
     <div className="pt-[100px] min-h-screen bg-black px-4 md:px-8">
       <GridCards movies={results} />
     </div>
+  );
+};
+
+const SearchPage = () => {
+  return (
+    <Suspense fallback={<ShimmerUI />}>
+      <SearchPageContent />
+    </Suspense>
   );
 };
 
