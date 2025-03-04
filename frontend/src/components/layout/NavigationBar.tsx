@@ -15,11 +15,11 @@ const navItems = [
 
 const navItemsList = (pathName: string) =>
   navItems.map((item) => (
-    <li key={item.id}>
+    <li key={item.id} className="text-nav">
       <Link href={item.href}>
         <div
-          className={`text-xs md:h-auto lg:h-auto h-12 flex justify-center items-center hover:text-gray-300 ${
-            pathName === item.href ? "font-bold" : ""
+          className={`text-nav h-12 flex justify-center items-center hover:text-gray-300 ${
+            pathName === item.href ? "active" : ""
           }`}
         >
           {item.name}
@@ -67,14 +67,14 @@ const NavigationBar: React.FC = () => {
             </ul>
 
             <div className="md:hidden relative group">
-              <button className="flex items-center text-button hover:text-gray-300">
+              <button className="flex items-center text-nav hover:text-gray-300">
                 <span>Browse</span>
-                <DropdownIcon className="ml-1 w-5 h-5 text-button hover:text-gray-300" />
+                <DropdownIcon className="ml-1 w-5 h-5  hover:text-gray-300" />
               </button>
 
-              <div className="absolute hidden group-hover:block top-full left-2 -translate-x-1/3 mt-1 w-64 bg-black border border-gray-700 rounded shadow-lg">
-                <div className="absolute -top-2 left-1/2 transform -translate-x-1/2">
-                  <DropUpIcon className="w-5 h-5 text-white" />
+              <div className="absolute hidden group-hover:block top-full border-t-2 border-t-white left-2 -translate-x-1/3 mt-2 w-64 bg-black border border-gray-700 rounded shadow-lg">
+                <div className="absolute -top-3.5 left-1/2 transform -translate-x-1/2">
+                  <DropUpIcon className="w-6 h-5 text-white" />
                 </div>
                 <ul className="flex flex-col items-center py-2">
                   {navItemsList(pathName)}

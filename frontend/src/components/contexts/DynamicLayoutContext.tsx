@@ -20,6 +20,14 @@ const DynamicLayoutContext = createContext<DynamicLayoutContextProps>({
   visibleItems: 0,
 });
 
+const breakpoints = [
+  { maxWidth: 440, items: 2 },
+  { maxWidth: 780, items: 3 },
+  { maxWidth: 1100, items: 4 },
+  { maxWidth: 1440, items: 5 },
+  { maxWidth: Infinity, items: 6 },
+];
+
 export const DynamicLayoutProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
@@ -31,11 +39,10 @@ export const DynamicLayoutProvider: React.FC<{ children: ReactNode }> = ({
     const updateItemWidth = () => {
       if (typeof window !== "undefined") {
         const viewportWidth = window.innerWidth;
-        // Ensure number of items is between 3 (min) and 6 (max)
-        const numberOfItems = Math.min(
-          Math.max(Math.floor(viewportWidth / 200), 3),
-          6
-        );
+
+        const numberOfItems =
+          breakpoints.find((breakpoint) => viewportWidth <= breakpoint.maxWidth)
+            ?.items ?? 6;
 
         const calculatedPercentage = (100 / numberOfItems).toFixed(2);
         const calculatedPixelWidth = viewportWidth / numberOfItems;

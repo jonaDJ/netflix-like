@@ -15,7 +15,16 @@ import {
 import ShimmerUI from "../components/layout/ShimmerUI";
 
 // Define the genres you want to fetch
-const genres = ["Animation", "Horror", "History", "Drama", "Action"];
+const genres = [
+  { title: "Drama Films", name: "Drama" },
+  { title: "Anime Hits", name: "Animation" },
+  { title: "Action Movies", name: "Action" },
+  { title: "Horror Hits", name: "Horror" },
+  { title: "Sci-Fi Adventures", name: "Science Fiction" },
+  { title: "Family Favorites", name: "Family" },
+  { title: "Romantic Flicks", name: "Romance" },
+];
+
 const MemoizedContentRow = memo(ContentRow);
 
 const Home = () => {
@@ -42,14 +51,16 @@ const Home = () => {
         setTop10Movies(top10Data.top10);
 
         const genreData = await Promise.all(
-          genres.map(async (genre) => {
-            const data = await fetchGraphQL(GENRE_CONTENT_QUERY(genre));
-            return { genre, content: data.contentByGenre };
+          genres.map(async ({ title, name }) => {
+            const data = await fetchGraphQL(GENRE_CONTENT_QUERY(name));
+            return { title, movies: data.contentByGenre };
           })
         );
+
         const updatedGenreContent: Record<string, MovieProps[]> = {};
-        genreData.forEach(({ genre, content }) => {
-          updatedGenreContent[genre] = content;
+
+        genreData.forEach(({ title, movies }) => {
+          updatedGenreContent[title] = movies;
         });
         setGenreContent(updatedGenreContent);
       } catch (error) {
@@ -94,6 +105,10 @@ const Home = () => {
     <div className="p-0">
       {popularItem && <HeroSection movie={popularItem} />}
 
+      {watchlistMovies.length > 0 && (
+        <MemoizedContentRow movies={watchlistMovies} title="My List" />
+      )}
+
       {top10Movies.length > 0 && (
         <MemoizedContentRow
           movies={top10Movies.slice(0, 10)}
@@ -102,13 +117,12 @@ const Home = () => {
         />
       )}
 
-      {watchlistMovies.length > 0 && (
-        <MemoizedContentRow movies={watchlistMovies} title="My List" />
+      {Object.entries(genreContent).map(
+        ([title, movies], index) =>
+          index < 2 && (
+            <MemoizedContentRow key={title} movies={movies} title={title} />
+          )
       )}
-
-      {Object.entries(genreContent).map(([genre, movies]) => (
-        <MemoizedContentRow key={genre} movies={movies} title={genre} />
-      ))}
 
       {top10Movies.length > 10 && (
         <MemoizedContentRow
@@ -116,6 +130,13 @@ const Home = () => {
           title="Top 10 Shows in U.S. Today"
           top10={true}
         />
+      )}
+
+      {Object.entries(genreContent).map(
+        ([title, movies], index) =>
+          index >= 2 && (
+            <MemoizedContentRow key={title} movies={movies} title={title} />
+          )
       )}
     </div>
   );

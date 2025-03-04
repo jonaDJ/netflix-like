@@ -41,17 +41,17 @@ const HeroSection: React.FC<HeroSectionProps> = ({ movie }) => {
             <div className="flex space-x-4">
               <Link
                 href={`/watch/${movie.id}?&type=${movie.type}`}
-                className="text-button px-4 rounded flex gap-2 items-center justify-center transition-colors py-2 bg-white text-black hover:bg-gray-400"
+                className="pl-3 pr-4 py-.5 rounded flex gap-2 items-center justify-center transition-colors  bg-white text-black hover:bg-gray-400"
               >
                 <PlayIcon dark />
-                Play
+                <span className="text-button "> Play</span>
               </Link>
               <button
                 onClick={handleOpenMovie}
-                className="text-button bg-custom-gray-800 flex gap-2 items-center justify-center  hover:bg-custom-gray-700 px-4 py-2 rounded text-white"
+                className="pl-3 pr-4 py-.5 bg-custom-gray-800 flex gap-2 items-center justify-center  hover:bg-custom-gray-700 rounded text-white"
               >
                 <InfoIcon />
-                More Info
+                <span className="text-button "> More Info</span>
               </button>
             </div>
           </div>

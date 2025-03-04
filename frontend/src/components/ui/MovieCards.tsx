@@ -63,27 +63,28 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, rank, top10 }) => {
       onMouseLeave={handleMouseLeave}
       className="relative cursor-pointer flex px-[0.2rem]"
     >
-      <div className="relative w-full aspect-[4/2.5] ">
-        {top10 ? (
+      {top10 ? (
+        <div className="relative w-full aspect-[4/3] ">
           <div className="flex w-full h-full">
-            {/* Parent flex container for 50/50 split */}
             <div className="w-1/2 flex items-center justify-center">
               <svg
                 viewBox="0 0 40 50"
-                fill="none"
                 xmlns="http://www.w3.org/2000/svg"
+                width="100%"
+                height="100%"
+                className="flex justify-center items-center"
               >
                 <text
-                  x="62%"
-                  y="62%"
+                  x="55%"
+                  y="65%"
                   dominantBaseline="middle"
                   textAnchor="middle"
-                  fontSize="64"
+                  fontSize="75"
                   fontWeight="bold"
                   fill="black"
-                  stroke="rgb(89, 89, 89)"
-                  strokeWidth="2"
-                  letterSpacing="-0.16em"
+                  stroke="gray"
+                  strokeWidth="1.5"
+                  letterSpacing="-0.85rem"
                 >
                   {rank}
                 </text>
@@ -100,7 +101,9 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, rank, top10 }) => {
               />
             </div>
           </div>
-        ) : (
+        </div>
+      ) : (
+        <div className="relative w-full aspect-[4/2.5] ">
           <Image
             src={backdropPath}
             alt={movie.title}
@@ -109,8 +112,9 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, rank, top10 }) => {
             priority
             className="object-cover"
           />
-        )}
-      </div>
+        </div>
+      )}
+
       {hoveredMovie === movie && previewPosition && (
         <MoviePreview movie={movie} position={previewPosition} />
       )}

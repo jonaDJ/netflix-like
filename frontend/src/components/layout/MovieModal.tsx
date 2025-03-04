@@ -7,6 +7,7 @@ import { PlayIcon, PlusIcon, CheckIcon, CloseIcon } from "../icons/Icons";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { getGenreNames } from "../../utils/genreUtils";
+import { formatRuntime } from "src/utils/timeUtils";
 
 interface MovieModalProps {
   movie: MovieProps;
@@ -19,13 +20,6 @@ const MovieModal: React.FC<MovieModalProps> = ({ movie }) => {
 
   const closeModal = () => {
     router.back();
-  };
-
-  const formatRuntime = (runtime: number | undefined) => {
-    if (!runtime) return "";
-    const hours = Math.floor(runtime / 60);
-    const minutes = runtime % 60;
-    return `${hours}h ${minutes}m`;
   };
 
   return (
@@ -43,6 +37,7 @@ const MovieModal: React.FC<MovieModalProps> = ({ movie }) => {
           <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
 
           <div className="absolute px-[5%] bottom-5">
+            <h2 className="text-h1 font-bold">{movie.title}</h2>
             <div className="mt-4 flex items-center space-x-2">
               <Link
                 href={`/watch/${movie.id}?&type=${movie.type}`}
@@ -75,7 +70,6 @@ const MovieModal: React.FC<MovieModalProps> = ({ movie }) => {
         <div className="px-[5%] py-[3%]">
           <div className="flex flex-col md:flex-row gap-5">
             <div className="md:w-2/3">
-              <h2 className="text-2xl font-bold">{movie.title}</h2>
               <p className="mt-2 text-sm text-gray-400">
                 {movie.releaseDate && (
                   <span className="px-1">
@@ -86,7 +80,7 @@ const MovieModal: React.FC<MovieModalProps> = ({ movie }) => {
                   <span className="px-1">{formatRuntime(movie.runtime)}</span>
                 )}
                 {movie.rating && (
-                  <span className="px-1">{movie.rating.toFixed(1)} / 10</span>
+                  <span className="px-1">{movie.rating.toFixed(1)}/10</span>
                 )}
               </p>
               <p className="mt-4 text-sm">{movie.overview}</p>

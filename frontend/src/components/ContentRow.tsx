@@ -4,6 +4,7 @@ import { LeftArrowIcon, RightArrowIcon } from "./icons/Icons";
 import Wrapper from "./ui/Wrapper";
 import MovieCard from "./ui/MovieCards";
 import { useDynamicLayout } from "./contexts/DynamicLayoutContext";
+import PaginationIndicator from "./PaginationIndicator";
 
 interface ContentRowProps {
   movies: MovieProps[];
@@ -13,68 +14,90 @@ interface ContentRowProps {
 
 const ContentRow: React.FC<ContentRowProps> = ({ movies, title, top10 }) => {
   const [hovered, setHovered] = useState(false);
-  const [isAtStart, setIsAtStart] = useState(true);
-  const [isAtEnd, setIsAtEnd] = useState(false);
+  const [currentIdx, setCurrentIdx] = useState(0);
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const { itemWidthPercentage, visibleItems } = useDynamicLayout();
   const [visibleMovies, setVisibleMovies] = useState<MovieProps[]>([]);
 
+  const sentinelRef = useRef<HTMLDivElement | null>(null);
+
   useEffect(() => {
-    setVisibleMovies(() => movies.slice(0, visibleItems * 2));
+    setVisibleMovies(movies.slice(0, visibleItems * 2));
   }, [visibleItems, movies]);
 
+  // IntersectionObserver to load more movies when the sentinel enters the viewport
   useEffect(() => {
-    if (!scrollRef.current) return;
-    const scrollContainer = scrollRef.current;
-    const handleScroll = () => {
-      if (!scrollRef.current) return;
-      const { scrollLeft, clientWidth, scrollWidth } = scrollRef.current;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && visibleMovies.length < movies.length) {
+          const remainingItems = movies.length - visibleMovies.length;
+          const itemsToAdd = Math.min(remainingItems, visibleItems);
 
-      setIsAtStart(scrollLeft <= 5);
-      setIsAtEnd(scrollLeft + clientWidth >= scrollWidth - 5);
-    };
+          setVisibleMovies((prev) => [
+            ...prev,
+            ...movies.slice(prev.length, prev.length + itemsToAdd),
+          ]);
+        }
+      },
+      { root: scrollRef.current, threshold: 0.1 }
+    );
 
-    scrollContainer.addEventListener("scroll", handleScroll);
-    handleScroll();
+    const sentinelNode = sentinelRef.current;
+
+    if (sentinelNode) {
+      observer.observe(sentinelNode);
+    }
 
     return () => {
-      scrollContainer?.removeEventListener("scroll", handleScroll);
+      if (sentinelNode) {
+        observer.unobserve(sentinelNode);
+      }
     };
-  }, [visibleItems]);
+  }, [visibleMovies, movies, visibleItems]);
 
-  const scrollToDirection = (direction: "left" | "right") => {
+  const scrollToDirection = (direction: string) => {
     if (!scrollRef.current) return;
-
     const containerWidth = scrollRef.current.clientWidth;
     const scrollAmount = containerWidth * 0.92;
     const offset = direction === "left" ? -scrollAmount : scrollAmount;
-    if (direction === "right" && visibleMovies.length !== movies.length) {
-      setVisibleMovies((prevMovies) => [
-        ...prevMovies,
-        ...movies.slice(prevMovies.length, prevMovies.length + visibleItems),
-      ]);
-    }
+
+    setCurrentIdx((prevIdx) => {
+      if (direction === "left") {
+        return Math.max(0, prevIdx - visibleItems);
+      } else {
+        const remainingItems = movies.length - (prevIdx + visibleItems);
+        const itemsToMove = Math.min(remainingItems, visibleItems);
+        return prevIdx + itemsToMove;
+      }
+    });
 
     scrollRef.current.scrollBy({ left: offset, behavior: "smooth" });
   };
 
   return (
-    <section className="my-[3vmin] pb-8">
+    <section className="my-[4vmin]">
       <Wrapper>
-        <h2 className="text-h2 font-semibold mt-0 mb-[0.5em]">{title}</h2>
+        <h2 className="text-h2 font-semibold mt-0 mb-[0.2em]">{title}</h2>
       </Wrapper>
       <div
         className="m-0 relative touch-action-pan-y"
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
       >
+        {movies.length > visibleItems && (
+          <PaginationIndicator
+            totalItems={movies.length}
+            visibleItems={visibleItems}
+            currentIdx={currentIdx}
+          />
+        )}
         <button
           onClick={() => scrollToDirection("left")}
-          className="absolute left-0 top-0 bottom-0 flex items-center justify-center z-30  transition-opacity duration-200 shadow-md"
+          className="absolute left-0 top-0 bottom-0 flex items-center justify-center z-30 transition-opacity duration-200 shadow-md"
           style={{ width: "4%" }}
-          tabIndex={isAtStart ? -1 : 0}
+          tabIndex={currentIdx === 0 ? -1 : 0}
         >
-          {!isAtStart && (
+          {currentIdx !== 0 && (
             <span className="bg-black bg-opacity-60 w-full h-full flex items-center justify-center hover:bg-opacity-30">
               {hovered && <LeftArrowIcon />}
             </span>
@@ -98,15 +121,17 @@ const ContentRow: React.FC<ContentRowProps> = ({ movies, title, top10 }) => {
               top10={top10}
             />
           ))}
+          {/* Sentinel element to trigger loading more items */}
+          <div ref={sentinelRef} style={{ width: "1px" }} />
         </div>
 
         <button
           onClick={() => scrollToDirection("right")}
-          className="absolute right-0 top-0 bottom-0 flex items-center justify-center z-30 rounded-r-md  transition-opacity duration-200 shadow-md"
+          className="absolute right-0 top-0 bottom-0 flex items-center justify-center z-30 rounded-r-md transition-opacity duration-200 shadow-md"
           style={{ width: "4%" }}
-          tabIndex={isAtEnd ? -1 : 0}
+          tabIndex={currentIdx + visibleItems < movies.length ? 0 : -1}
         >
-          {!isAtEnd && (
+          {currentIdx + visibleItems < movies.length && (
             <span className="bg-black bg-opacity-60 w-full h-full flex items-center justify-center hover:bg-opacity-30">
               {hovered && <RightArrowIcon />}
             </span>

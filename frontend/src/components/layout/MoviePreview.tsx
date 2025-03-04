@@ -123,7 +123,7 @@ const MoviePreview: React.FC<MoviePreviewProps> = ({ movie, position }) => {
         <h3 className="text-lg font-semibold mt-2">{movie.title}</h3>
         <div className="mt-1 flex items-center text-sm text-gray-400">
           {genreNames.map((genre, index) => (
-            <span key={genre} className="flex items-center">
+            <span key={genre + index} className="flex items-center">
               {index !== 0 && <span className="mx-1">&bull;</span>}
               <span>{genre}</span>
             </span>

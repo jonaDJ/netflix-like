@@ -67,14 +67,16 @@ export const DownArrowIcon: React.FC<React.SVGProps<SVGSVGElement>> = () => (
     aria-hidden="true"
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
-    viewBox="0 1 14 4.5"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
   >
     <path
       stroke="currentColor"
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth="2"
-      d="m1 1 5.326 5.7a.909.909 0 0 0 1.348 0L13 1"
+      d="M5 9l7 7 7-7"
     />
   </svg>
 );
@@ -328,27 +330,26 @@ export const CloseIcon: React.FC<React.SVGProps<SVGSVGElement>> = () => (
 
 export const CheckIcon: React.FC<React.SVGProps<SVGSVGElement>> = () => (
   <svg
-    className="w-6 h-6 text-gray-800 dark:text-white"
+    className="w-5 h-5 text-gray-800 dark:text-white"
     aria-hidden="true"
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
+    width="20"
+    height="20"
+    viewBox="0 0 20 24"
   >
     <path
-      stroke="currentColor"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth="2"
-      d="M5 11.917 9.724 16.5 19 7.5"
-    />
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M21.2928 4.29285L22.7071 5.70706L8.70706 19.7071C8.51952 19.8946 8.26517 20 7.99995 20C7.73474 20 7.48038 19.8946 7.29285 19.7071L0.292847 12.7071L1.70706 11.2928L7.99995 17.5857L21.2928 4.29285Z"
+      fill="currentColor"
+    ></path>
   </svg>
 );
 
 export const PlusIcon: React.FC<React.SVGProps<SVGSVGElement>> = () => (
   <svg
-    className="w-6 h-6 text-gray-800 dark:text-white"
+    className="w-5 h-5 text-gray-800 dark:text-white"
     aria-hidden="true"
     xmlns="http://www.w3.org/2000/svg"
     width="24"
@@ -361,7 +362,7 @@ export const PlusIcon: React.FC<React.SVGProps<SVGSVGElement>> = () => (
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth="2"
-      d="M5 12h14m-7 7V5"
+      d="M5 12h16m-8-8v16"
     />
   </svg>
 );
