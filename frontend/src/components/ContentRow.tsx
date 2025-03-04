@@ -74,6 +74,24 @@ const ContentRow: React.FC<ContentRowProps> = ({ movies, title, top10 }) => {
     scrollRef.current.scrollBy({ left: offset, behavior: "smooth" });
   };
 
+  // Watch scroll position to update currentIdx dynamically
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!scrollRef.current) return;
+      const scrollPosition = scrollRef.current.scrollLeft;
+      const itemWidth = scrollRef.current.clientWidth / visibleItems;
+      const newIndex = Math.floor(scrollPosition / itemWidth);
+      setCurrentIdx(newIndex);
+    };
+
+    const scrollContainer = scrollRef.current;
+    scrollContainer?.addEventListener("scroll", handleScroll);
+
+    return () => {
+      scrollContainer?.removeEventListener("scroll", handleScroll);
+    };
+  }, [visibleItems]);
+
   return (
     <section className="my-[4vmin]">
       <Wrapper>
