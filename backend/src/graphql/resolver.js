@@ -76,14 +76,13 @@ export const resolvers = {
     },
     moviesByIds: async (_, { ids }) => {
       try {
-        const movieDetails = await Promise.all(
-          ids.map(async (id) => {
-            const movie = await tmdbService.getMovieById(id);
-            return movie;
-          })
+        const movieDetails = await Promise.allSettled(
+          ids.map((id) => tmdbService.getMovieById(id))
         );
 
-        return movieDetails.filter((movie) => movie !== null); // Remove any failed requests
+        return movieDetails
+          .filter((result) => result.status === "fulfilled")
+          .map((result) => result.value);
       } catch (error) {
         console.error("Error fetching movies by IDs:", error);
         throw new Error("Failed to fetch movies by IDs");
@@ -123,7 +122,15 @@ export const resolvers = {
           endOfWeekFormatted
         );
 
-        return [...movies, ...shows];
+        const filtered = [...movies, ...shows].filter(
+          (item) => item.backdropPath !== "/placeholder-horizontal.jpg"
+        );
+
+        const sorted = filtered.sort(
+          (a, b) => new Date(a.releaseDate) - new Date(b.releaseDate)
+        );
+
+        return sorted.slice(0, 20);
       } catch (error) {
         console.error("Error fetching content coming this week:", error);
         return [];
@@ -154,7 +161,15 @@ export const resolvers = {
           nextWeekEndFormatted
         );
 
-        return [...movies, ...shows];
+        const filtered = [...movies, ...shows].filter(
+          (item) => item.backdropPath !== "/placeholder-horizontal.jpg"
+        );
+
+        const sorted = filtered.sort(
+          (a, b) => new Date(a.releaseDate) - new Date(b.releaseDate)
+        );
+
+        return sorted.slice(0, 20);
       } catch (error) {
         console.error("Error fetching content coming next week:", error);
         return [];
@@ -183,7 +198,15 @@ export const resolvers = {
           currentDate
         );
 
-        return [...movies, ...shows];
+        const filtered = [...movies, ...shows].filter(
+          (item) => item.backdropPath !== "/placeholder-horizontal.jpg"
+        );
+
+        const sorted = filtered.sort(
+          (a, b) => new Date(a.releaseDate) - new Date(b.releaseDate)
+        );
+
+        return sorted.slice(0, 20);
       } catch (error) {
         console.error("Error fetching new content:", error);
         return [];
