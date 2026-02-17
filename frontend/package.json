@@ -10,7 +10,7 @@
     "format": "prettier --write ."
   },
   "dependencies": {
-    "next": "15.1.6",
+    "next": "15.1.11",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-player": "^2.16.0"
@@ -27,5 +27,5 @@
     "typescript": "^5",
     "prettier": "^3.2.5"
   },
-   "proxy": "http://localhost:5000"
+  "proxy": "http://localhost:5000"
 }
