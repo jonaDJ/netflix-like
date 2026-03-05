@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import MovieModal from "../layout/MovieModal";
 import { fetchGraphQL } from "../../utils/graphql";
 import { CONTENT_PREVIEW_QUERY } from "../../graphql/queries";
@@ -15,9 +15,23 @@ const MovieModalWrapper: React.FC<MovieModalWrapperProps> = ({ children }) => {
   const [selectedContent, setSelectedContent] = useState<MovieProps | null>(
     null
   );
+  const router = useRouter();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
   const jbv = searchParams.get("jbv");
   const type = searchParams.get("type");
+
+  const closeModal = () => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete("jbv");
+    params.delete("type");
+
+    const nextQuery = params.toString();
+    const nextUrl = nextQuery ? `${pathname}?${nextQuery}` : pathname;
+
+    setSelectedContent(null);
+    router.replace(nextUrl, { scroll: false });
+  };
 
   useEffect(() => {
     if (jbv && type) {
@@ -40,7 +54,9 @@ const MovieModalWrapper: React.FC<MovieModalWrapperProps> = ({ children }) => {
   return (
     <>
       {children}
-      {selectedContent && <MovieModal movie={selectedContent} />}
+      {selectedContent && (
+        <MovieModal movie={selectedContent} onClose={closeModal} />
+      )}
     </>
   );
 };

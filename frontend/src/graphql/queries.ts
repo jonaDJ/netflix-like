@@ -52,26 +52,46 @@ export const TOP_10_QUERY = `
   }
 `;
 
-export const GENRE_CONTENT_QUERY = (genre: string) => `
-  query {
-    contentByGenre(genre: "${genre}") {
-      ... on Movie {
-        id
-        title
-        backdropPath
-        genres
-        overview
-        releaseDate
-        type
+export const GENRE_CONTENT_QUERY = `
+  query GetGenreContent(
+    $genre: String!
+    $contentType: String
+    $page: Int!
+    $limit: Int!
+  ) {
+    contentByGenre(
+      genre: $genre
+      contentType: $contentType
+      page: $page
+      limit: $limit
+    ) {
+      items {
+        ... on Movie {
+          id
+          title
+          backdropPath
+          genres
+          overview
+          releaseDate
+          type
+        }
+        ... on TVShow {
+          id
+          title
+          backdropPath
+          genres
+          overview
+          releaseDate
+          type
+        }
       }
-      ... on TVShow {
-        id
-        title
-        backdropPath
-        genres
-        overview
-        releaseDate
-        type
+      pageInfo {
+        page
+        limit
+        totalResults
+        totalPages
+        hasNextPage
+        hasPreviousPage
       }
     }
   }
@@ -132,15 +152,67 @@ export const CONTENT_PREVIEW_QUERY = (jbv: string, type: string) => `
 export const MOVIES_BY_IDS_QUERY = `
   query GetMoviesByIds($ids: [ID!]!) {
     moviesByIds(ids: $ids) {
-      id
-      title
-      overview
-      releaseDate
-      rating
-      posterPath
-      backdropPath
-      genres
-      type
+      ... on Movie {
+        id
+        title
+        overview
+        releaseDate
+        rating
+        posterPath
+        backdropPath
+        genres
+        type
+      }
+      ... on TVShow {
+        id
+        title
+        overview
+        releaseDate
+        rating
+        posterPath
+        backdropPath
+        genres
+        type
+      }
+    }
+  }
+`;
+
+export const SEARCH_CONTENT_QUERY = `
+  query SearchContent($query: String!, $page: Int!, $limit: Int!) {
+    search(query: $query, page: $page, limit: $limit) {
+      items {
+        ... on Movie {
+          id
+          title
+          overview
+          releaseDate
+          rating
+          posterPath
+          backdropPath
+          genres
+          type
+        }
+        ... on TVShow {
+          id
+          title
+          overview
+          releaseDate
+          rating
+          posterPath
+          backdropPath
+          genres
+          type
+        }
+      }
+      pageInfo {
+        page
+        limit
+        totalResults
+        totalPages
+        hasNextPage
+        hasPreviousPage
+      }
     }
   }
 `;

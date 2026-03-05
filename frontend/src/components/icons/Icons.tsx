@@ -3,7 +3,7 @@ import React from "react";
 export const SearchIcon: React.FC<React.SVGProps<SVGSVGElement>> = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    className="w-5 h-5 absolute top-1/2 left-3 transform -translate-y-1/2 text-white"
+    className="w-5 h-5 absolute top-1/2 left-3 transform -translate-y-1/2 text-brand-text"
     fill="none"
     viewBox="0 0 24 24"
     stroke="currentColor"
@@ -18,7 +18,7 @@ export const SearchIcon: React.FC<React.SVGProps<SVGSVGElement>> = () => (
 );
 export const InfoIcon: React.FC<React.SVGProps<SVGSVGElement>> = () => (
   <svg
-    className="w-6 h-6 text-gray-800 dark:text-white"
+    className="w-6 h-6 text-brand-text"
     aria-hidden="true"
     xmlns="http://www.w3.org/2000/svg"
     width="24"
@@ -42,7 +42,7 @@ export const DropdownIcon: React.FC<React.SVGProps<SVGSVGElement>> = (
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
     fill="currentColor" // Makes it a filled triangle
-    className="w-5 h-5 text-white"
+    className="w-5 h-5 text-brand-text"
     {...props}
   >
     <path d="M6 9l6 6 6-6H6z" />
@@ -54,7 +54,7 @@ export const DropUpIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
     fill="currentColor"
-    className="w-5 h-5 text-white"
+    className="w-5 h-5 text-brand-text"
     {...props}
   >
     <path d="M6 15l6-6 6 6H6z" />
@@ -63,7 +63,7 @@ export const DropUpIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
 
 export const DownArrowIcon: React.FC<React.SVGProps<SVGSVGElement>> = () => (
   <svg
-    className="w-5 h-5 text-gray-800 dark:text-white"
+    className="w-5 h-5 text-brand-text"
     aria-hidden="true"
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
@@ -109,7 +109,7 @@ export const RightArrowIcon: React.FC<React.SVGProps<SVGSVGElement>> = () => (
 
 export const UpArrowIcon: React.FC<React.SVGProps<SVGSVGElement>> = () => (
   <svg
-    className="w-6 h-6 text-gray-800 dark:text-white"
+    className="w-6 h-6 text-brand-text"
     aria-hidden="true"
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
@@ -127,7 +127,7 @@ export const UpArrowIcon: React.FC<React.SVGProps<SVGSVGElement>> = () => (
 
 export const VideoPlayIcon: React.FC<React.SVGProps<SVGSVGElement>> = () => (
   <svg
-    className="w-6 h-6 text-gray-800 dark:text-white"
+    className="w-6 h-6 text-brand-text"
     aria-hidden="true"
     xmlns="http://www.w3.org/2000/svg"
     fill="currentColor"
@@ -139,7 +139,7 @@ export const VideoPlayIcon: React.FC<React.SVGProps<SVGSVGElement>> = () => (
 
 export const PlayIcon: React.FC<{ dark: boolean }> = ({ dark }) => (
   <svg
-    className={`w-4 h-4 ${dark ? "text-gray-800" : "text-white"}`}
+    className={`w-4 h-4 ${dark ? "text-brand-inverse" : "text-brand-text"}`}
     aria-hidden="true"
     xmlns="http://www.w3.org/2000/svg"
     fill="currentColor"
@@ -151,7 +151,7 @@ export const PlayIcon: React.FC<{ dark: boolean }> = ({ dark }) => (
 
 export const BackIcon: React.FC<React.SVGProps<SVGSVGElement>> = () => (
   <svg
-    className={`w-6 h-6 lg:w-8 lg:h-8 text-gray-800 dark:text-white`}
+    className="w-6 h-6 lg:w-8 lg:h-8 text-brand-text"
     aria-hidden="true"
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
@@ -169,7 +169,7 @@ export const BackIcon: React.FC<React.SVGProps<SVGSVGElement>> = () => (
 
 export const PauseIcon: React.FC<React.SVGProps<SVGSVGElement>> = () => (
   <svg
-    className="w-5 h-5 text-gray-800 dark:text-white"
+    className="w-5 h-5 text-brand-text"
     aria-hidden="true"
     xmlns="http://www.w3.org/2000/svg"
     fill="currentColor"
@@ -242,7 +242,7 @@ export const Backward10Icon: React.FC<React.SVGProps<SVGSVGElement>> = () => (
 
 export const VolumeIcon: React.FC = () => (
   <svg
-    className="w-6 h-6 text-white"
+    className="w-6 h-6 text-brand-text"
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
     viewBox="0 0 24 24"
@@ -265,7 +265,7 @@ export const VolumeIcon: React.FC = () => (
 
 export const MuteIcon: React.FC = () => (
   <svg
-    className="w-6 h-6 text-white"
+    className="w-6 h-6 text-brand-text"
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
     viewBox="0 0 24 24"
@@ -288,7 +288,7 @@ export const MuteIcon: React.FC = () => (
 
 export const ForwardIcon: React.FC<React.SVGProps<SVGSVGElement>> = () => (
   <svg
-    className="w-6 h-6 lg:w-8 lg:h-8 text-gray-800 dark:text-white"
+    className="w-6 h-6 lg:w-8 lg:h-8 text-brand-text"
     aria-hidden="true"
     xmlns="http://www.w3.org/2000/svg"
     fill="currentColor"
@@ -300,7 +300,7 @@ export const ForwardIcon: React.FC<React.SVGProps<SVGSVGElement>> = () => (
 
 export const RewindIcon: React.FC<React.SVGProps<SVGSVGElement>> = () => (
   <svg
-    className="w-6 h-6 lg:w-8 lg:h-8 text-gray-800 dark:text-white"
+    className="w-6 h-6 lg:w-8 lg:h-8 text-brand-text"
     aria-hidden="true"
     xmlns="http://www.w3.org/2000/svg"
     fill="currentColor"
@@ -310,13 +310,17 @@ export const RewindIcon: React.FC<React.SVGProps<SVGSVGElement>> = () => (
   </svg>
 );
 
-export const CloseIcon: React.FC<React.SVGProps<SVGSVGElement>> = () => (
+export const CloseIcon: React.FC<React.SVGProps<SVGSVGElement>> = ({
+  className = "w-6 h-6 text-brand-text",
+  ...props
+}) => (
   <svg
-    className="w-6 h-6 text-gray-800 dark:text-white"
+    className={className}
     aria-hidden="true"
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
     viewBox="0 0 24 24"
+    {...props}
   >
     <path
       stroke="currentColor"
@@ -330,7 +334,7 @@ export const CloseIcon: React.FC<React.SVGProps<SVGSVGElement>> = () => (
 
 export const CheckIcon: React.FC<React.SVGProps<SVGSVGElement>> = () => (
   <svg
-    className="w-5 h-5 text-gray-800 dark:text-white"
+    className="w-5 h-5 text-brand-text"
     aria-hidden="true"
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
@@ -349,7 +353,7 @@ export const CheckIcon: React.FC<React.SVGProps<SVGSVGElement>> = () => (
 
 export const PlusIcon: React.FC<React.SVGProps<SVGSVGElement>> = () => (
   <svg
-    className="w-5 h-5 text-gray-800 dark:text-white"
+    className="w-5 h-5 text-brand-text"
     aria-hidden="true"
     xmlns="http://www.w3.org/2000/svg"
     width="24"

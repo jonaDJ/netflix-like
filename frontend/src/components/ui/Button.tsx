@@ -15,7 +15,7 @@ const Button: React.FC<ButtonProps> = ({
 }) => (
   <button
     onClick={onClick}
-    className={`p-2 rounded-full hover:bg-gray-700 transition-all ${className}`}
+    className={`p-2 rounded-full hover:bg-brand-elevated transition-all ${className}`}
     aria-label={ariaLabel}
   >
     {icon}

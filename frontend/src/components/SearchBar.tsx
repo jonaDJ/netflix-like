@@ -51,7 +51,9 @@ const SearchBarContent = () => {
       <div className="relative">
         <div
           className={`relative flex items-center overflow-hidden transition-all duration-300 ${
-            showSearch ? "border border-white bg-transparent" : "bg-transparent"
+            showSearch
+              ? "border border-brand-text bg-transparent"
+              : "bg-transparent"
           }`}
           style={{ width: showSearch ? "12rem" : "2rem" }}
         >
@@ -63,7 +65,7 @@ const SearchBarContent = () => {
             onBlur={() => {
               if (!searchTerm) setShowSearch(false);
             }}
-            className="bg-transparent text-white focus:outline-none transition-all duration-300 pl-2 pr-2 py-1 w-full"
+            className="bg-transparent text-brand-text focus:outline-none transition-all duration-300 pl-2 pr-2 py-1 w-full"
             style={{
               width: showSearch ? "10rem" : "0rem",
               paddingLeft: showSearch ? "2.5rem" : "0rem",
@@ -74,7 +76,7 @@ const SearchBarContent = () => {
           {showSearch && (
             <button
               onClick={handleClose}
-              className="absolute right-2 text-white"
+              className="absolute right-2 text-brand-text"
             >
               <CloseIcon />
             </button>

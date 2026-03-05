@@ -3,7 +3,13 @@
 import { MovieProps } from "../../lib/types";
 import useWatchlist from "../hooks/useWatchlist";
 import Image from "next/image";
-import { PlayIcon, CheckIcon, DownArrowIcon, PlusIcon } from "../icons/Icons";
+import {
+  PlayIcon,
+  CheckIcon,
+  DownArrowIcon,
+  PlusIcon,
+  CloseIcon,
+} from "../icons/Icons";
 import { usePathname, useRouter } from "next/navigation";
 import Button from "../ui/Button";
 import { useDynamicLayout } from "../contexts/DynamicLayoutContext";
@@ -14,16 +20,25 @@ import Link from "next/link";
 interface MoviePreviewProps {
   movie: MovieProps;
   position: { left: number; top: number };
+  onRemoveContinueWatching?: () => void;
 }
 
-const MoviePreview: React.FC<MoviePreviewProps> = ({ movie, position }) => {
-  const { isInWatchlist, toggleWatchlist } = useWatchlist(String(movie.id));
+const MoviePreview: React.FC<MoviePreviewProps> = ({
+  movie,
+  position,
+  onRemoveContinueWatching,
+}) => {
+  const { isInWatchlist, toggleWatchlist } = useWatchlist(
+    String(movie.id),
+    movie.type
+  );
   const { itemWidth } = useDynamicLayout();
   const [calculatedLeft, setCalculatedLeft] = useState<number>(0);
   const [calculatedTop, setCalculatedTop] = useState<number>(0);
   const router = useRouter();
   const pathname = usePathname();
-  const genreNames = getGenreNames(movie.genres.slice(0, 2) || [], "movie");
+  const genreType = movie.type === "tv" || movie.type === "tvShow" ? "tv" : "movie";
+  const genreNames = getGenreNames(movie.genres.slice(0, 2) || [], genreType);
 
   const handleOpenMovie = () => {
     const jbv = movie.id;
@@ -40,6 +55,11 @@ const MoviePreview: React.FC<MoviePreviewProps> = ({ movie, position }) => {
   const handleToggleWatchlist = (event: React.MouseEvent) => {
     event.stopPropagation();
     toggleWatchlist(movie);
+  };
+
+  const handleRemoveContinueWatching = (event: React.MouseEvent) => {
+    event.stopPropagation();
+    onRemoveContinueWatching?.();
   };
 
   useEffect(() => {
@@ -70,7 +90,7 @@ const MoviePreview: React.FC<MoviePreviewProps> = ({ movie, position }) => {
 
   return (
     <div
-      className="absolute z-20 bg-black text-white rounded-md zoomInOut"
+      className="absolute z-20 bg-brand-surface text-brand-text rounded-md zoomInOut"
       style={{
         left: `${calculatedLeft}px`,
         top: `${calculatedTop}px`,
@@ -109,19 +129,29 @@ const MoviePreview: React.FC<MoviePreviewProps> = ({ movie, position }) => {
                 handleToggleWatchlist(event)
               }
               icon={isInWatchlist ? <CheckIcon /> : <PlusIcon />}
-              className="bg-gray-800 p-1.5"
+              className="bg-brand-elevated p-1.5"
             />
+            {onRemoveContinueWatching && (
+              <Button
+                onClick={(event: React.MouseEvent) =>
+                  handleRemoveContinueWatching(event)
+                }
+                icon={<CloseIcon className="h-4 w-4" />}
+                className="bg-brand-elevated p-1.5"
+                ariaLabel="Remove from continue watching"
+              />
+            )}
           </div>
           <div>
             <Button
               onClick={handleOpenMovie}
               icon={<DownArrowIcon />}
-              className="bg-gray-800"
+              className="bg-brand-elevated"
             />
           </div>
         </div>
         <h3 className="text-lg font-semibold mt-2">{movie.title}</h3>
-        <div className="mt-1 flex items-center text-sm text-gray-400">
+        <div className="mt-1 flex items-center text-sm text-brand-textMuted">
           {genreNames.map((genre, index) => (
             <span key={genre + index} className="flex items-center">
               {index !== 0 && <span className="mx-1">&bull;</span>}

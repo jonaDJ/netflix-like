@@ -24,7 +24,7 @@ const WatchPageContent = () => {
     <button
       aria-label="Go back"
       onClick={() => router.back()}
-      className="absolute left-6 top-6 bg-black bg-opacity-50 text-white p-3 rounded-full hover:bg-opacity-70 transition"
+      className="absolute left-6 top-6 bg-brand-overlaySoft text-brand-text p-3 rounded-full hover:bg-brand-overlaySubtle transition"
     >
       <BackIcon />
     </button>
@@ -55,8 +55,8 @@ const WatchPageContent = () => {
 
   if (loading) {
     return (
-      <div className="relative w-screen h-screen bg-black flex items-center justify-center">
-        <div className="w-full h-full max-w-4xl max-h-[60vh] bg-gray-800 animate-pulse rounded-lg"></div>
+      <div className="relative w-screen h-[100dvh] bg-brand-bg flex items-center justify-center">
+        <div className="w-full h-full max-w-4xl max-h-[60vh] bg-brand-elevated animate-pulse rounded-lg"></div>
         <BackButton />
       </div>
     );
@@ -64,20 +64,24 @@ const WatchPageContent = () => {
 
   if (error) {
     return (
-      <div className="w-screen h-screen bg-black flex flex-col items-center justify-center gap-4">
-        <p className="text-white text-xl">{error}</p>
+      <div className="w-screen h-[100dvh] bg-brand-bg flex flex-col items-center justify-center gap-4">
+        <p className="text-brand-text text-xl">{error}</p>
         <BackButton />
       </div>
     );
   }
 
   return (
-    <div className="relative w-screen h-screen bg-black flex items-center justify-center">
+    <div className="relative w-screen h-[100dvh] bg-brand-bg flex items-center justify-center">
       {movie && movie.trailerUrl ? (
-        <VideoPlayer src={movie.trailerUrl} />
+        <VideoPlayer
+          src={movie.trailerUrl}
+          contentId={String(movie.id)}
+          contentType={movie.type}
+        />
       ) : (
         <div className="flex flex-col items-center justify-center gap-4">
-          <p className="px-[10%] text-red-500 text-xl text-center">
+          <p className="px-[10%] text-brand-error text-xl text-center">
             Sorry, we dont have a video for this movie yet. We are working on
             adding more videos. Please check out another one!
           </p>

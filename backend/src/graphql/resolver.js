@@ -1,6 +1,27 @@
 import tmdbService from "../services/tmdb.js";
 import { genreNameToId } from "../utils/genreMapping.js";
 
+const MAX_LIMIT = 40;
+
+const sanitizePositiveInt = (value, fallback, max = MAX_LIMIT) => {
+  const parsed = Number(value);
+  if (!Number.isFinite(parsed)) return fallback;
+
+  const normalized = Math.floor(parsed);
+  if (normalized < 1) return fallback;
+
+  return Math.min(normalized, max);
+};
+
+const buildPageInfo = (page, limit, totalResults, totalPages) => ({
+  page,
+  limit,
+  totalResults: Math.max(0, totalResults),
+  totalPages: Math.max(0, totalPages),
+  hasNextPage: totalPages > 0 && page < totalPages,
+  hasPreviousPage: totalPages > 0 && page > 1,
+});
+
 export const resolvers = {
   Content: {
     __resolveType(obj) {
@@ -30,7 +51,10 @@ export const resolvers = {
       }
     },
     // Get movies/shows by genre
-    contentByGenre: async (_, { genre, contentType = "all" }) => {
+    contentByGenre: async (_, { genre, contentType = "all", page = 1, limit = 20 }) => {
+      const safePage = sanitizePositiveInt(page, 1);
+      const safeLimit = sanitizePositiveInt(limit, 20);
+
       try {
         const movieGenreId = genreNameToId(genre, "movie");
         const tvShowGenreId = genreNameToId(genre, "tv");
@@ -39,63 +63,162 @@ export const resolvers = {
           throw new Error(`Invalid genre name: ${genre}`);
         }
 
-        let data = [];
-        if (contentType === "movie" || contentType === "all") {
-          if (movieGenreId) {
-            const movies = await tmdbService.getMoviesByGenre(movieGenreId);
-            data = [...data, ...movies];
+        if (contentType === "movie") {
+          if (!movieGenreId) {
+            return {
+              items: [],
+              pageInfo: buildPageInfo(safePage, safeLimit, 0, 0),
+            };
           }
+
+          const moviePage = await tmdbService.getMoviesByGenre(movieGenreId, {
+            page: safePage,
+            includeMeta: true,
+          });
+
+          return {
+            items: moviePage.items.slice(0, safeLimit),
+            pageInfo: buildPageInfo(
+              safePage,
+              safeLimit,
+              moviePage.totalResults,
+              moviePage.totalPages
+            ),
+          };
         }
 
-        if (contentType === "tv" || contentType === "all") {
-          if (tvShowGenreId) {
-            const tvShows = await tmdbService.getShowsByGenre(tvShowGenreId);
-            data = [...data, ...tvShows];
+        if (contentType === "tv") {
+          if (!tvShowGenreId) {
+            return {
+              items: [],
+              pageInfo: buildPageInfo(safePage, safeLimit, 0, 0),
+            };
           }
+
+          const tvPage = await tmdbService.getShowsByGenre(tvShowGenreId, {
+            page: safePage,
+            includeMeta: true,
+          });
+
+          return {
+            items: tvPage.items.slice(0, safeLimit),
+            pageInfo: buildPageInfo(
+              safePage,
+              safeLimit,
+              tvPage.totalResults,
+              tvPage.totalPages
+            ),
+          };
         }
 
-        data.sort((a, b) => b.vote_average - a.vote_average);
+        const [moviesPage, showsPage] = await Promise.all([
+          movieGenreId
+            ? tmdbService.getMoviesByGenre(movieGenreId, {
+                page: safePage,
+                includeMeta: true,
+              })
+            : Promise.resolve({
+                items: [],
+                page: safePage,
+                totalPages: 0,
+                totalResults: 0,
+              }),
+          tvShowGenreId
+            ? tmdbService.getShowsByGenre(tvShowGenreId, {
+                page: safePage,
+                includeMeta: true,
+              })
+            : Promise.resolve({
+                items: [],
+                page: safePage,
+                totalPages: 0,
+                totalResults: 0,
+              }),
+        ]);
 
-        return data.slice(0, 20);
+        const items = [...moviesPage.items, ...showsPage.items].sort(
+          (a, b) =>
+            (b.rating ?? b.vote_average ?? 0) -
+            (a.rating ?? a.vote_average ?? 0)
+        );
+
+        return {
+          items: items.slice(0, safeLimit),
+          pageInfo: buildPageInfo(
+            safePage,
+            safeLimit,
+            moviesPage.totalResults + showsPage.totalResults,
+            Math.max(moviesPage.totalPages, showsPage.totalPages)
+          ),
+        };
       } catch (error) {
         console.error("Error fetching content by genre:", error);
-        return [];
+        return {
+          items: [],
+          pageInfo: buildPageInfo(safePage, safeLimit, 0, 0),
+        };
       }
     },
     // Search for movies/shows
-    search: async (_, { query }) => {
-      try {
-        const movies = await tmdbService.searchMovies(query);
-        const shows = await tmdbService.searchShows(query);
+    search: async (_, { query, page = 1, limit = 20 }) => {
+      const safePage = sanitizePositiveInt(page, 1);
+      const safeLimit = sanitizePositiveInt(limit, 20);
 
-        return [...movies, ...shows];
+      try {
+        const [moviesPage, showsPage] = await Promise.all([
+          tmdbService.searchMovies(query, { page: safePage, includeMeta: true }),
+          tmdbService.searchShows(query, { page: safePage, includeMeta: true }),
+        ]);
+
+        return {
+          items: [...moviesPage.items, ...showsPage.items].slice(0, safeLimit),
+          pageInfo: buildPageInfo(
+            safePage,
+            safeLimit,
+            moviesPage.totalResults + showsPage.totalResults,
+            Math.max(moviesPage.totalPages, showsPage.totalPages)
+          ),
+        };
       } catch (error) {
         console.error("Error searching content:", error);
-        return [];
+        return {
+          items: [],
+          pageInfo: buildPageInfo(safePage, safeLimit, 0, 0),
+        };
       }
     },
     moviesByIds: async (_, { ids }) => {
       try {
-        const movieDetails = await Promise.allSettled(
-          ids.map((id) => tmdbService.getMovieById(id))
+        const contentDetails = await Promise.allSettled(
+          ids.map(async (id) => {
+            const movie = await tmdbService.getMovieById(id);
+            if (movie) return movie;
+
+            return await tmdbService.getTVShowById(id);
+          })
         );
 
-        return movieDetails
-          .filter((result) => result.status === "fulfilled")
+        return contentDetails
+          .filter(
+            (result) =>
+              result.status === "fulfilled" && result.value !== null
+          )
           .map((result) => result.value);
       } catch (error) {
-        console.error("Error fetching movies by IDs:", error);
-        throw new Error("Failed to fetch movies by IDs");
+        console.error("Error fetching content by IDs:", error);
+        throw new Error("Failed to fetch content by IDs");
       }
     },
     contentPreview: async (_, { id, type }) => {
       try {
         if (type === "movie") {
           return await tmdbService.getMovieById(id);
-        } else if (type === "tv") {
+        } else if (type === "tv" || type === "tvShow") {
           return await tmdbService.getTVShowById(id);
         } else {
-          throw new Error("Invalid content type. Use 'movie' or 'tv'.");
+          throw new Error(
+            "Invalid content type. Use 'movie', 'tv', or legacy 'tvShow'."
+          );
         }
       } catch (error) {
         console.error("Error fetching content preview:", error);

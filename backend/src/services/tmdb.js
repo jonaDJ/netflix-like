@@ -18,10 +18,10 @@ class TMDBService {
   }
 
   //trending movie
-  async getTrendingContent() {
+  async getTrendingContent(page = 1) {
     try {
       const res = await this.api.get("/trending/all/day", {
-        params: { page: 1, include_adult: false },
+        params: { page, include_adult: false },
       });
 
       return res.data.results
@@ -45,105 +45,171 @@ class TMDBService {
   }
 
   // Fetch popular movies
-  async getPopularMovies(page = 1, region = "US") {
+  async getPopularMovies(page = 1, region = "US", options = {}) {
+    const { includeMeta = false } = options;
     try {
       const res = await this.api.get("/movie/popular", {
         params: { page, include_adult: false, region },
       });
-      return res.data.results.map(this.transformMovie);
+      const items = res.data.results.map(this.transformMovie);
+
+      if (!includeMeta) return items;
+
+      return {
+        items,
+        page,
+        totalPages: res.data.total_pages ?? 1,
+        totalResults: res.data.total_results ?? items.length,
+      };
     } catch (error) {
       console.error("TMDB Popular Movies Error:", {
         status: error.response?.status,
         data: error.response?.data,
         message: error.message,
       });
-      return [];
+      if (!includeMeta) return [];
+      return { items: [], page, totalPages: 0, totalResults: 0 };
     }
   }
 
   // Fetch popular TV shows
-  async getPopularShows(page = 1, region = "US") {
+  async getPopularShows(page = 1, region = "US", options = {}) {
+    const { includeMeta = false } = options;
     try {
       const res = await this.api.get("/tv/popular", {
         params: { page, include_adult: false, region },
       });
-      return res.data.results.map(this.transformTVShow);
+      const items = res.data.results.map(this.transformTVShow);
+
+      if (!includeMeta) return items;
+
+      return {
+        items,
+        page,
+        totalPages: res.data.total_pages ?? 1,
+        totalResults: res.data.total_results ?? items.length,
+      };
     } catch (error) {
       console.error("TMDB Popular Shows Error:", {
         status: error.response?.status,
         data: error.response?.data,
         message: error.message,
       });
-      return [];
+      if (!includeMeta) return [];
+      return { items: [], page, totalPages: 0, totalResults: 0 };
     }
   }
 
   // Fetch movies by genre
-  async getMoviesByGenre(genreId) {
+  async getMoviesByGenre(genreId, options = {}) {
+    const { page = 1, includeMeta = false } = options;
     try {
       const res = await this.api.get("/discover/movie", {
-        params: { with_genres: genreId, page: 1, include_adult: false },
+        params: { with_genres: genreId, page, include_adult: false },
       });
 
-      return res.data.results.map(this.transformMovie);
+      const items = res.data.results.map(this.transformMovie);
+
+      if (!includeMeta) return items;
+
+      return {
+        items,
+        page,
+        totalPages: res.data.total_pages ?? 1,
+        totalResults: res.data.total_results ?? items.length,
+      };
     } catch (error) {
       console.error("TMDB Movies by Genre Error:", {
         status: error.response?.status,
         data: error.response?.data,
         message: error.message,
       });
-      return [];
+      if (!includeMeta) return [];
+      return { items: [], page, totalPages: 0, totalResults: 0 };
     }
   }
 
   // Fetch TV shows by genre
-  async getShowsByGenre(genreId) {
+  async getShowsByGenre(genreId, options = {}) {
+    const { page = 1, includeMeta = false } = options;
     try {
       const res = await this.api.get("/discover/tv", {
-        params: { with_genres: genreId, page: 1, include_adult: false },
+        params: { with_genres: genreId, page, include_adult: false },
       });
-      return res.data.results.map(this.transformTVShow);
+      const items = res.data.results.map(this.transformTVShow);
+
+      if (!includeMeta) return items;
+
+      return {
+        items,
+        page,
+        totalPages: res.data.total_pages ?? 1,
+        totalResults: res.data.total_results ?? items.length,
+      };
     } catch (error) {
       console.error("TMDB Shows by Genre Error:", {
         status: error.response?.status,
         data: error.response?.data,
         message: error.message,
       });
-      return [];
+      if (!includeMeta) return [];
+      return { items: [], page, totalPages: 0, totalResults: 0 };
     }
   }
 
   // Search for movies
-  async searchMovies(query) {
+  async searchMovies(query, options = {}) {
+    const { page = 1, includeMeta = false } = options;
     try {
       const res = await this.api.get("/search/movie", {
-        params: { query, page: 1, include_adult: false },
+        params: { query, page, include_adult: false },
       });
-      return res.data.results.map(this.transformMovie);
+      const items = res.data.results.map(this.transformMovie);
+
+      if (!includeMeta) return items;
+
+      return {
+        items,
+        page,
+        totalPages: res.data.total_pages ?? 1,
+        totalResults: res.data.total_results ?? items.length,
+      };
     } catch (error) {
       console.error("TMDB Search Movies Error:", {
         status: error.response?.status,
         data: error.response?.data,
         message: error.message,
       });
-      return [];
+      if (!includeMeta) return [];
+      return { items: [], page, totalPages: 0, totalResults: 0 };
     }
   }
 
   // Search for TV shows
-  async searchShows(query) {
+  async searchShows(query, options = {}) {
+    const { page = 1, includeMeta = false } = options;
     try {
       const res = await this.api.get("/search/tv", {
-        params: { query, page: 1, include_adult: false },
+        params: { query, page, include_adult: false },
       });
-      return res.data.results.map(this.transformTVShow);
+      const items = res.data.results.map(this.transformTVShow);
+
+      if (!includeMeta) return items;
+
+      return {
+        items,
+        page,
+        totalPages: res.data.total_pages ?? 1,
+        totalResults: res.data.total_results ?? items.length,
+      };
     } catch (error) {
       console.error("TMDB Search Shows Error:", {
         status: error.response?.status,
         data: error.response?.data,
         message: error.message,
       });
-      return [];
+      if (!includeMeta) return [];
+      return { items: [], page, totalPages: 0, totalResults: 0 };
     }
   }
 
@@ -155,6 +221,9 @@ class TMDBService {
 
       return this.transformMovie(res.data);
     } catch (error) {
+      if (error.response?.status === 404) {
+        return null;
+      }
       console.error(`Error fetching movie ${movieId}:`, {
         status: error.response?.status,
         data: error.response?.data,
@@ -172,6 +241,9 @@ class TMDBService {
 
       return this.transformTVShow(res.data);
     } catch (error) {
+      if (error.response?.status === 404) {
+        return null;
+      }
       console.error(`Error fetching TV show ${tvId}:`, {
         status: error.response?.status,
         data: error.response?.data,
@@ -181,13 +253,13 @@ class TMDBService {
     }
   }
 
-  async getMoviesByReleaseDateRange(startDate, endDate) {
+  async getMoviesByReleaseDateRange(startDate, endDate, page = 1) {
     try {
       const res = await this.api.get("/discover/movie", {
         params: {
           "primary_release_date.gte": startDate,
           "primary_release_date.lte": endDate,
-          page: 1,
+          page,
           include_adult: false,
         },
       });
@@ -203,13 +275,13 @@ class TMDBService {
   }
 
   // Fetch TV shows by release date range
-  async getShowsByReleaseDateRange(startDate, endDate) {
+  async getShowsByReleaseDateRange(startDate, endDate, page = 1) {
     try {
       const res = await this.api.get("/discover/tv", {
         params: {
           "first_air_date.gte": startDate,
           "first_air_date.lte": endDate,
-          page: 1,
+          page,
           include_adult: false,
         },
       });
@@ -267,7 +339,7 @@ class TMDBService {
       id: tmdbShow.id,
       title: tmdbShow.name || "Untitled",
       overview: tmdbShow.overview || "No description available",
-      type: "tvShow",
+      type: "tv",
       releaseDate: tmdbShow.first_air_date || "Unknown",
       rating: tmdbShow.vote_average || 0,
       posterPath: tmdbShow.poster_path

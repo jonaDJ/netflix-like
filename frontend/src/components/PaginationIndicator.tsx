@@ -11,20 +11,36 @@ const PaginationIndicator: React.FC<PaginationIndicatorProps> = ({
   visibleItems,
   currentIdx,
 }) => {
-  const totalPages = Math.ceil(totalItems / visibleItems);
+  const safeVisibleItems = Math.max(1, visibleItems);
+  const totalPages = Math.ceil(totalItems / safeVisibleItems);
+  const maxDots = Math.min(6, totalPages);
 
   const activePage = useMemo(
-    () => Math.min(Math.ceil(currentIdx / visibleItems), totalPages - 1),
-    [currentIdx, visibleItems, totalPages]
+    () => Math.min(Math.floor(currentIdx / safeVisibleItems), totalPages - 1),
+    [currentIdx, safeVisibleItems, totalPages]
+  );
+
+  const dotWindowStart = useMemo(() => {
+    if (totalPages <= maxDots) return 0;
+
+    const centeredStart = activePage - Math.floor(maxDots / 2);
+    return Math.min(Math.max(0, centeredStart), totalPages - maxDots);
+  }, [activePage, maxDots, totalPages]);
+
+  const visiblePages = useMemo(
+    () => Array.from({ length: maxDots }, (_, index) => dotWindowStart + index),
+    [dotWindowStart, maxDots]
   );
 
   return (
     <ul className="flex space-x-1 -top-4 absolute right-[4%]">
-      {Array.from({ length: totalPages }).map((_, index) => (
+      {visiblePages.map((pageIndex) => (
         <li
-          key={index}
+          key={pageIndex}
           className={`h-0.5 w-3  ${
-            activePage === index ? "bg-white" : "bg-gray-700"
+            activePage === pageIndex
+              ? "bg-brand-text"
+              : "bg-brand-indicatorIdle"
           }`}
         ></li>
       ))}

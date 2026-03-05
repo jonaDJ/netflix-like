@@ -52,9 +52,9 @@ const LastestPage = () => {
     fetchData();
   }, []);
 
-  if (loading) return <ShimmerUI />;
+  if (loading) return <ShimmerUI variant="rows" withNavOffset />;
   if (error)
-    return <div className="text-center mt-10 text-red-500">{error}</div>;
+    return <div className="text-center mt-10 text-brand-error">{error}</div>;
 
   return (
     <div className="pt-10">
@@ -80,7 +80,7 @@ const LastestPage = () => {
 
       {top10.length > 10 && (
         <MemoizedContentRow
-          movies={top10.slice(0, 10)}
+          movies={top10.slice(10, 20)}
           title="Top 10 Shows in U.S. Today"
           top10={true}
         />

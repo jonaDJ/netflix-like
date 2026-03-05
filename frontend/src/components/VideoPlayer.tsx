@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import ReactPlayer from "react-player";
 import {
   BackIcon,
@@ -13,6 +13,8 @@ import {
   FullScreenIcon,
 } from "./icons/Icons";
 import { useRouter } from "next/navigation";
+import { useProfile } from "./contexts/ProfileContext";
+import { saveWatchProgress } from "../utils/profileStorage";
 
 interface ButtonProps {
   onClick?: () => void;
@@ -30,21 +32,54 @@ const ButtonController: React.FC<ButtonProps> = ({
   <button
     onClick={onClick}
     aria-label={ariaLabel}
-    className={`text-white p-2 bg-black bg-opacity-50 rounded-full hover:bg-opacity-70 transition ${className}`}
+    className={`text-brand-text p-2 bg-brand-overlaySoft rounded-full hover:bg-brand-overlaySubtle transition ${className}`}
   >
     {children}
   </button>
 );
 
-const VideoPlayer = ({ src }: { src: string }) => {
+const VideoPlayer = ({
+  src,
+  contentId,
+  contentType,
+}: {
+  src: string;
+  contentId: string;
+  contentType: string;
+}) => {
+  const { activeProfile } = useProfile();
   const [isPlaying, setIsPlaying] = useState(true);
   const [volume, setVolume] = useState(0.8);
   const [isMuted, setIsMuted] = useState(false);
   const [played, setPlayed] = useState(0);
-  const [controlsVisible, setControlsVisible] = useState(false);
+  const [controlsVisible, setControlsVisible] = useState(true);
   const [showVolumeInput, setShowVolumeInput] = useState(false);
   const playerRef = useRef<ReactPlayer>(null);
+  const playedRef = useRef(0);
+  const lastPersistedRef = useRef(0);
+  const hideControlsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const router = useRouter();
+
+  const persistProgress = useCallback(
+    (nextPlayed: number, force = false) => {
+      if (!activeProfile || !contentId) return;
+      const duration = playerRef.current?.getDuration() ?? 0;
+
+      if (!force && Math.abs(nextPlayed - lastPersistedRef.current) < 0.03) {
+        return;
+      }
+
+      saveWatchProgress(activeProfile.id, {
+        id: contentId,
+        type: contentType,
+        played: nextPlayed,
+        durationSeconds: duration,
+      });
+
+      lastPersistedRef.current = nextPlayed;
+    },
+    [activeProfile, contentId, contentType]
+  );
 
   const handlePlayPause = () => setIsPlaying(!isPlaying);
 
@@ -62,7 +97,9 @@ const VideoPlayer = ({ src }: { src: string }) => {
   const handleSeekChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newPlayed = parseFloat(e.target.value);
     setPlayed(newPlayed);
+    playedRef.current = newPlayed;
     playerRef.current?.seekTo(newPlayed);
+    persistProgress(newPlayed);
   };
 
   const handleForward = () => {
@@ -89,18 +126,42 @@ const VideoPlayer = ({ src }: { src: string }) => {
     }
   };
 
+  useEffect(() => {
+    if (hideControlsTimeoutRef.current) {
+      clearTimeout(hideControlsTimeoutRef.current);
+      hideControlsTimeoutRef.current = null;
+    }
+
+    if (controlsVisible && isPlaying) {
+      hideControlsTimeoutRef.current = setTimeout(() => {
+        setControlsVisible(false);
+      }, 2500);
+    }
+
+    return () => {
+      if (hideControlsTimeoutRef.current) {
+        clearTimeout(hideControlsTimeoutRef.current);
+      }
+      persistProgress(playedRef.current, true);
+    };
+  }, [persistProgress, controlsVisible, isPlaying]);
+
+  const showControls = () => setControlsVisible(true);
+
   return (
     <div
       className="relative w-full h-full"
-      onMouseEnter={() => setControlsVisible(true)}
+      onMouseEnter={showControls}
+      onMouseMove={showControls}
       onMouseLeave={() => setControlsVisible(false)}
+      onTouchStart={showControls}
     >
       {/* Back Button */}
       {controlsVisible && (
         <button
           aria-label="Go back"
           onClick={() => router.back()}
-          className="absolute top-12 left-4 bg-black bg-opacity-50 text-white p-3 rounded-full hover:bg-opacity-70 transition"
+          className="absolute top-12 left-4 z-30 bg-brand-overlaySoft text-brand-text p-3 rounded-full hover:bg-brand-overlaySubtle transition"
         >
           <BackIcon />
         </button>
@@ -116,7 +177,11 @@ const VideoPlayer = ({ src }: { src: string }) => {
         height="100%"
         muted={isMuted}
         volume={volume}
-        onProgress={({ played }) => setPlayed(played)}
+        onProgress={({ played }) => {
+          setPlayed(played);
+          playedRef.current = played;
+          persistProgress(played);
+        }}
         config={{
           youtube: {
             playerVars: {
@@ -136,16 +201,13 @@ const VideoPlayer = ({ src }: { src: string }) => {
       />
 
       <div
-        className="absolute top-[11rem] left-0 right-0 bottom-[11.25rem]"
-        style={{
-          zIndex: 50,
-        }}
+        className="absolute inset-0 z-10"
         onClick={() => handlePlayPause()}
       />
 
       {/* Controls */}
       {controlsVisible && (
-        <div className="absolute bottom-0 left-0 w-screen bg-black bg-opacity-50 p-3 pb-10 flex flex-col space-y-2">
+        <div className="absolute bottom-0 left-0 z-30 w-full bg-brand-overlaySoft p-3 pb-10 flex flex-col space-y-2">
           <input
             type="range"
             min="0"
@@ -153,11 +215,11 @@ const VideoPlayer = ({ src }: { src: string }) => {
             step="0.01"
             value={played}
             onChange={handleSeekChange}
-            className="w-full h-1 bg-gray-300 rounded-lg cursor-pointer appearance-none accent-red-500"
+            className="w-full h-1 bg-brand-progressTrack rounded-lg cursor-pointer appearance-none accent-brand-progressFill"
             style={{
-              background: `linear-gradient(to right, #ef4444 ${
+              background: `linear-gradient(to right, var(--color-progress-fill) ${
                 played * 100
-              }%, #D1D5DB ${played * 100}%)`,
+              }%, var(--color-progress-track) ${played * 100}%)`,
             }}
           />
 
@@ -198,11 +260,11 @@ const VideoPlayer = ({ src }: { src: string }) => {
                     step="0.01"
                     value={isMuted ? 0 : volume}
                     onChange={handleVolumeChange}
-                    className="w-24 h-1 bg-gray-300 rounded-lg cursor-pointer appearance-none accent-red-500"
+                    className="w-24 h-1 bg-brand-progressTrack rounded-lg cursor-pointer appearance-none accent-brand-progressFill"
                     style={{
-                      background: `linear-gradient(to right, #ef4444 ${
+                      background: `linear-gradient(to right, var(--color-progress-fill) ${
                         volume * 100
-                      }%, #D1D5DB ${volume * 100}%)`,
+                      }%, var(--color-progress-track) ${volume * 100}%)`,
                     }}
                   />
                 )}

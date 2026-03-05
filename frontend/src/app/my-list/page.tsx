@@ -2,27 +2,46 @@
 
 import ShimmerUI from "src/components/layout/ShimmerUI";
 import GridCards from "../../components/ui/GridCards";
-import { MOVIES_BY_IDS_QUERY } from "../../graphql/queries";
+import { CONTENT_PREVIEW_QUERY } from "../../graphql/queries";
 import { MovieProps } from "../../lib/types";
 import { fetchGraphQL } from "../../utils/graphql";
 import React, { useEffect, useState, Suspense } from "react";
+import {
+  WATCHLIST_UPDATED_EVENT,
+  loadWatchlist,
+} from "../../components/hooks/useWatchlist";
 
 const MyListPage: React.FC = () => {
-  const [watchlistIds, setWatchlistIds] = useState<string[]>([]);
   const [watchListMovies, setWatchListMovies] = useState<MovieProps[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [reloadToken, setReloadToken] = useState(0);
 
   useEffect(() => {
-    const savedWatchlist = JSON.parse(
-      localStorage.getItem("watchlist") || "[]"
-    );
-    const idsOnly = savedWatchlist.map((movie: MovieProps) => String(movie.id)); // Extract only IDs
-    setWatchlistIds(idsOnly.reverse());
+    const handleWatchlistUpdated = () => {
+      setReloadToken((prev) => prev + 1);
+    };
+
+    window.addEventListener(WATCHLIST_UPDATED_EVENT, handleWatchlistUpdated);
+
+    return () => {
+      window.removeEventListener(WATCHLIST_UPDATED_EVENT, handleWatchlistUpdated);
+    };
   }, []);
 
   useEffect(() => {
-    if (watchlistIds.length === 0) return;
+    const savedWatchlist = loadWatchlist();
+    if (savedWatchlist.length === 0) {
+      setWatchListMovies([]);
+      return;
+    }
+
+    const orderedItems = [...savedWatchlist]
+      .reverse()
+      .map((movie) => ({
+        id: String(movie.id),
+        type: movie.type,
+      }));
 
     const fetchWatchlistMovies = async () => {
       setLoading(true);
@@ -30,10 +49,24 @@ const MyListPage: React.FC = () => {
       setWatchListMovies([]);
 
       try {
-        const data = await fetchGraphQL(MOVIES_BY_IDS_QUERY, {
-          ids: watchlistIds,
-        });
-        setWatchListMovies(data.moviesByIds);
+        const results = await Promise.all(
+          orderedItems.map(async (item) => {
+            try {
+              const data = await fetchGraphQL(
+                CONTENT_PREVIEW_QUERY(item.id, item.type)
+              );
+              return (data.contentPreview ?? null) as MovieProps | null;
+            } catch {
+              return null;
+            }
+          })
+        );
+
+        const movies = results.filter(
+          (movie): movie is MovieProps => movie !== null
+        );
+
+        setWatchListMovies(movies);
       } catch (err) {
         console.error("Error fetching watchlist movies:", err);
         setError("Failed to fetch watchlist movies. Please try again later.");
@@ -43,15 +76,15 @@ const MyListPage: React.FC = () => {
     };
 
     fetchWatchlistMovies();
-  }, [watchlistIds]);
+  }, [reloadToken]);
 
-  if (loading) return <ShimmerUI />;
+  if (loading) return <ShimmerUI variant="grid" withNavOffset />;
 
-  if (error) return <p className="text-red-500 text-center">{error}</p>;
+  if (error) return <p className="text-brand-error text-center">{error}</p>;
 
   return (
-    <Suspense fallback={<ShimmerUI />}>
-      <div className="pt-[100px] min-h-screen bg-black px-4 md:px-8">
+    <Suspense fallback={<ShimmerUI variant="grid" withNavOffset />}>
+      <div className="pt-[100px] min-h-screen bg-brand-bg px-4 md:px-8">
         <GridCards movies={watchListMovies} />
       </div>
     </Suspense>
@@ -59,3 +92,4 @@ const MyListPage: React.FC = () => {
 };
 
 export default MyListPage;
+

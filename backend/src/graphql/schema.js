@@ -40,13 +40,32 @@ export const typeDefs = gql`
     name: String!
   }
 
+  type PageInfo {
+    page: Int!
+    limit: Int!
+    totalResults: Int!
+    totalPages: Int!
+    hasNextPage: Boolean!
+    hasPreviousPage: Boolean!
+  }
+
+  type PaginatedContent {
+    items: [Content!]!
+    pageInfo: PageInfo!
+  }
+
   union Content = Movie | TVShow
 
   type Query {
     popularContentOfTheDay: Content!
-    contentByGenre(genre: String!, contentType: String): [Content!]!
-    search(query: String!): [Content!]!
-    moviesByIds(ids: [ID!]!): [Movie!]!
+    contentByGenre(
+      genre: String!
+      contentType: String
+      page: Int = 1
+      limit: Int = 20
+    ): PaginatedContent!
+    search(query: String!, page: Int = 1, limit: Int = 20): PaginatedContent!
+    moviesByIds(ids: [ID!]!): [Content!]!
     contentPreview(id: ID!, type: String!): Content!
     top10: [Content!]!
 
